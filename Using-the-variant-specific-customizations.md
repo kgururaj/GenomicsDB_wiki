@@ -17,5 +17,9 @@ Examples are built in variant/example/bin
     #Dummy genotyping operation - median over samples for the PL vector
     ./variant/example/bin/gt_example_query_processor -w <workspace> -A <array> -p <position>
 
+## Merging multiple sorted CSVs into a single CSV file
+Note: if you are using a relatively new version of GNU sort, you can use the 'parallel' command line argument.
+    sort --parallel=8 -T <tmp_dir> -t, -m -k2,2n -k1,1n <list_of_csv_files>  > merged.csv
+
 ## TODO
 * Scan operation not implemented
