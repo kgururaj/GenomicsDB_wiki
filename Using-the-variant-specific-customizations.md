@@ -11,6 +11,7 @@ Get the right branch
 Examples are built in variant/example/bin
 
     ./variant/example/bin/example_libtiledb_variant_driver <workspace> <array> <begin> <end>
+
     #Dummy genotyping operation - median over samples for the PL vector
     ./variant/example/bin/gt_example_query_processor -w <workspace> -A <array> -p <position>
 
