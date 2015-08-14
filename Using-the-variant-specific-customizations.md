@@ -35,6 +35,10 @@ Note: if you are using a relatively new version of GNU sort, you can use the 'pa
     -c 1000 \
     -s 5
 
+## Loading
+
+    tiledb_load_csv -w <workspace> -A <array> -p <merged_sorted_csv_file> -m sorted
+
     
 
 ## TODO
