@@ -1,6 +1,8 @@
 ## Compiling
 
-You need some MPI library on your system and a relatively new version of gcc (C++-11 compatible). I have been testing with gcc-4.9.1.
+Requirements:
+* An MPI library
+* A relatively new version of gcc (C++-11 compatible). I have been testing with gcc-4.9.1.
 
 Get the right branch
 
