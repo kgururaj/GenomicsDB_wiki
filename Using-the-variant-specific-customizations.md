@@ -15,5 +15,5 @@ Examples are built in variant/example/bin
     #Dummy genotyping operation - median over samples for the PL vector
     ./variant/example/bin/gt_example_query_processor -w <workspace> -A <array> -p <position>
 
-
-    
+## TODO
+* Scan operation not implemented
