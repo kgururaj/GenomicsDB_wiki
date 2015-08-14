@@ -14,8 +14,11 @@ Examples are built in variant/example/bin
 
     ./variant/example/bin/example_libtiledb_variant_driver <workspace> <array> <begin> <end>
 
-    #Dummy genotyping operation - median over samples for the PL vector
+    #Dummy genotyping operation - median over samples for the PL vector for a single position
     ./variant/example/bin/gt_example_query_processor -w <workspace> -A <array> -p <position>
+
+    #Dummy genotyping operation - median over samples for the PL vector for a whole list of positions
+    ./variant/example/bin/gt_example_query_processor -w <workspace> -A <array> -P <positions_file>
 
 ## Merging multiple sorted CSVs into a single CSV file
 Note: if you are using a relatively new version of GNU sort, you can use the 'parallel' command line argument. If not, remove the 'parallel' argument.
