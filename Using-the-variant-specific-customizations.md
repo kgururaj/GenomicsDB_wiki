@@ -8,7 +8,10 @@ Get the right branch
 
     git checkout variant_master_merge
     #make sure you have the new gcc version in your PATH
-    make MPIPATH=/usr/lib64/openmpi/bin/  SPEED=1   -j 8
+    #release mode - O3, NDEBUG - assertions disabled
+    make MPIPATH=/usr/lib64/openmpi/bin/  BUILD=release   -j 8
+    #debug mode - assertions enabled, can use gdb for stepping
+    make MPIPATH=/usr/lib64/openmpi/bin/  BUILD=debug   -j 8
 
 Examples are built in variant/example/bin
 
