@@ -35,7 +35,7 @@ Note: if you are using a relatively new version of GNU sort, you can use the 'pa
     -A $array_name \
     -a END,REF,ALT,QUAL,FILTER,BaseQRankSum,ClippingRankSum,MQRankSum,ReadPosRankSum,DP,MQ,MQ0,DP_FORMAT,MIN_DP,GQ,SB,AD,PL,GT \
     -d samples,position \
-    -D 0,$num_samples,0,4000000000 \
+    -D 0,$num_samples-1,0,4000000000 \
     -t int64,char:var,char:var,float,int:var,float,float,float,float,int,float,int,int,int,int,int:4,int:var,int:var,int:var,int64 \
     -o column-major \
     -c 1000 \
