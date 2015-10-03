@@ -6,7 +6,7 @@ Requirements:
 
         git clone https://github.com/miloyip/rapidjson
 
-Get the right branch of the TileDB repo for the TileDB implementation.
+Get the right branch of the TileDB repo for the multi node implementation.
 
     git checkout multi_node_var
     #make sure you have the new gcc version in your PATH
