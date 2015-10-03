@@ -2,7 +2,7 @@ Requirements:
 * An MPI library
 * [Rapidjson library](https://github.com/miloyip/rapidjson): I use this to pass the query configuration in a json file to TileDB. The library is a header-only library - no compilation needed.
 
-    git clone https://github.com/miloyip/rapidjson
+        git clone https://github.com/miloyip/rapidjson
 
 Get the right branch
 
