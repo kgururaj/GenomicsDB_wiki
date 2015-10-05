@@ -29,9 +29,27 @@ Get the right branch of the TileDB repo for the multi node implementation.
 * Multi node, simple interval query:
 
         /opt/openmpi-1.10/bin/mpirun -np 2 -hostfile test_inputs/c10_14 --mca btl_tcp_if_include 192.168.100.0/24 -x LD_LIBRARY_PATH ./variant/example/bin/gt_mpi_gather -w <workspace> -A <array> <begin> <end> -O <output_format>
+
   The arguments to mpirun in this example specify the following:
   * -np 2 : Run 2 MPI processes
   * -hostfile \<file\> : This is a text file containing the list of hosts on which the MPI processes should be launched. See points 19-21 on the [OpenMPI FAQ page](https://www.open-mpi.org/faq/?category=running#mpirun-hostfile) for more information.
   * --mca btl_tcp_if_include 192.168.100.0/24 : Some machines may have multiple network interfaces. This option specifies that when using the TCP/IP interface, MPI should use the network interface with the IP address in the range 192.168.100.1-254. This is highly specific to the network and will likely not work on other clusters. If your cluster has InfiniBand (IB), consider using the IB interface for higher bandwidth. See the OpenMPI page for information.
   * -x LD_LIBRARY_PATH : This ensures that the env variable LD_LIBRARY_PATH is the same across all nodes (propagated from the node where mpirun is executed). This is needed if your libraries are in a non-standard location (for example, if you have a custom gcc version).
-    
+  
+  Note that all the nodes MUST have identical array names and schemas as well as identical locations for the workspace.
+
+* Configurable queries: Query information is passed to the MPI program using a JSON file.
+
+        {
+          "workspace" :  [ "../configs/ws", "/mnt/app_hdd/scratch/karthikg/VCFs/tiledb_csv/v1/arrays/" ],
+          "array" : [ "t0_1_2_GT", "GT10" ],
+          "query_column_ranges" : [ [ [12000, 13000 ]  ], [ [0, 10000000] ] ],
+          "query_attributes" : [ "REF", "ALT", "BaseQRankSum", "AD", "PL" ]
+        }
+
+  * "workspace" (mandatory): List of strings, specifying the locations of the workspace directory for each MPI process launched. The length of this list MUST be equal to the number of MPI processes launched. Alternately, this parameter can be a string (not a list), which implies that all MPI processes access the workspace at the same directory location.
+  * "array" (mandatory) : Similar to the workspace parameter.
+  * "query_column_ranges" (mandatory): Each MPI process can query a list of column ranges. For example, the list \[ \[ 0, 100 \], 500 \] specifies that the MPI process should query column interval \[0-100\] and the single position 500. The parameter "query_column_ranges" is a list of such lists. The length of the outer list MUST be EITHER equal to the number of MPI processes launched OR just 1 (implying that all MPI processes query the same column ranges).
+  * "query_row_ranges" (optional): Same as columns, but for rows. Can be omitted, in which case all rows of the array will be queried.
+  * "query_attributes" (mandatory): List of strings specifying attributes to be fetched.
+
