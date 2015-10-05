@@ -11,8 +11,9 @@ Get the right branch of the TileDB repo for the multi node implementation.
     git checkout multi_node_var
     #make sure you have the new gcc version in your PATH
     #release mode - O3, NDEBUG - assertions disabled
-    make MPIPATH=/usr/lib64/openmpi/bin/  BUILD=release RAPIDJSONDIR=<rapidjson_dir>  -j 8
+    make MPIPATH=/usr/lib64/openmpi/bin/  BUILD=release RAPIDJSON_INCLUDE_DIR=<rapidjson_dir>/include  -j 8
     #debug mode - assertions enabled, can use gdb for stepping
-    make MPIPATH=/usr/lib64/openmpi/bin/  BUILD=release RAPIDJSONDIR=<rapidjson_dir>  -j 8
+    make MPIPATH=/usr/lib64/openmpi/bin/ BUILD=release RAPIDJSON_INCLUDE_DIR=<rapidjson_dir>/include  -j 8
+    #Verbose output, with profiling enabled
+    make MPIPATH=/usr/lib64/openmpi/bin/ RAPIDJSON_INCLUDE_DIR=<rapidjson_dir>/include -j 8 BUILD=release VERBOSE=1 DO_PROFILING=1
 
-make MPIPATH=/opt/openmpi-1.10/bin/  RAPIDJSON_INCLUDE_DIR=/home/karthikg/softwares/setup_files/rapidjson/include/ DO_PROFILING=1 USE_BIGMPI=/home/karthikg/broad/non_variant_db/variantDB/BigMPI/ -j 8 BUILD=release VERBOSE=1
