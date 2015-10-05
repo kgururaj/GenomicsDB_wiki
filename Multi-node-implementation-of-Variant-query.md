@@ -33,5 +33,5 @@ Get the right branch of the TileDB repo for the multi node implementation.
   * -np 2 : Run 2 MPI processes
   * -hostfile \<file\> : This is a text file containing the list of hosts on which the MPI processes should be launched. See points 19-21 on the [OpenMPI FAQ page](https://www.open-mpi.org/faq/?category=running#mpirun-hostfile) for more information.
   * --mca btl_tcp_if_include 192.168.100.0/24 : Some machines may have multiple network interfaces. This option specifies that when using the TCP/IP interface, MPI should use the network interface with the IP address in the range 192.168.100.1-254. This is highly specific to the network and will likely not work on other clusters. If your cluster has InfiniBand (IB), consider using the IB interface for higher bandwidth. See the OpenMPI page for information.
-  * -x LD_LILBRARY_PATH : This ensures that the env variable LD_LIBRARY_PATH is the same across all nodes (propagated from the node where mpirun is executed). This is needed if your libraries are in a non-standard location (for example, if you have a custom gcc version).
+  * -x LD_LIBRARY_PATH : This ensures that the env variable LD_LIBRARY_PATH is the same across all nodes (propagated from the node where mpirun is executed). This is needed if your libraries are in a non-standard location (for example, if you have a custom gcc version).
     
