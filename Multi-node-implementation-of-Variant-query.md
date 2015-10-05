@@ -44,7 +44,8 @@ Get the right branch of the TileDB repo for the multi node implementation.
   Note that all the nodes MUST have identical array names and schemas as well as identical locations for the workspace.
 * Use the command line argument "--skip-query-on-root" in setups where the TileDB array data is located on data nodes, but the results must be gathered at a non-data root node. However, the array schema (but not the data) MUST be available on the root node.
 * Configurable queries: Query information is passed to the MPI program using a JSON file.
-
+         
+        ./variant/example/bin/gt_mpi_gather -j <json_file> -O <output_format>
         {
           "workspace" :  [ "../configs/ws", "/mnt/app_hdd/scratch/karthikg/VCFs/tiledb_csv/v1/arrays/" ],
           "array" : [ "t0_1_2_GT", "GT10" ],
