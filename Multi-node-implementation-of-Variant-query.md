@@ -29,6 +29,7 @@ Get the right branch of the TileDB repo for the multi node implementation.
 
   * Currently, \<output_format\> can only be _Cotton-JSON_ (case sensitive).
   * The following attributes will be queried: \[ "REF", "ALT", "BaseQRankSum", "AD", "PL" \] \(hard-coded\).
+  * The data is output to stdout and informational messages are sent to stderr.
 * Multi node, simple interval query:
 
         /opt/openmpi-1.10/bin/mpirun -np 2 -hostfile test_inputs/c10_14 --mca btl_tcp_if_include 192.168.100.0/24 -x LD_LIBRARY_PATH ./variant/example/bin/gt_mpi_gather -w <workspace> -A <array> <begin> <end> -O <output_format>
