@@ -31,7 +31,6 @@ Get the right branch of the TileDB repo for the multi node implementation.
 
   * Currently, \<output_format\> can only be _Cotton-JSON_ (case sensitive).
   * The following attributes will be queried: \[ "REF", "ALT", "BaseQRankSum", "AD", "PL" \] \(hard-coded\).
-* Use the command line argument "--skip-query-on-root" in setups where the TileDB array data is located on data nodes, but the results must be gathered at a non-data root node. However, the array schema (but not the data) MUST be available on the root node.
 * Multi node, simple interval query:
 
         /opt/openmpi-1.10/bin/mpirun -np 2 -hostfile test_inputs/c10_14 --mca btl_tcp_if_include 192.168.100.0/24 -x LD_LIBRARY_PATH ./variant/example/bin/gt_mpi_gather -w <workspace> -A <array> <begin> <end> -O <output_format>
@@ -43,6 +42,7 @@ Get the right branch of the TileDB repo for the multi node implementation.
   * -x LD_LIBRARY_PATH : This ensures that the env variable LD_LIBRARY_PATH is the same across all nodes (propagated from the node where mpirun is executed). This is needed if your libraries are in a non-standard location (for example, if you have a custom gcc version).
   
   Note that all the nodes MUST have identical array names and schemas as well as identical locations for the workspace.
+* Use the command line argument "--skip-query-on-root" in setups where the TileDB array data is located on data nodes, but the results must be gathered at a non-data root node. However, the array schema (but not the data) MUST be available on the root node.
 * Configurable queries: Query information is passed to the MPI program using a JSON file.
 
         {
