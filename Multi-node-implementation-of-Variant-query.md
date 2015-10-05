@@ -25,6 +25,6 @@ Get the right branch of the TileDB repo for the multi node implementation.
         ./variant/example/bin/gt_mpi_gather -w  <workspace> -A <array> <begin> <end> -O <output_format>
 
   * Currently, \<output_format\> can only be _Cotton-JSON_ (case sensitive).
-  * The following attributes will be queried: [ "REF", "ALT", "BaseQRankSum", "AD", "PL" ] (hard-coded).
+  * The following attributes will be queried: \[ "REF", "ALT", "BaseQRankSum", "AD", "PL" \] \(hard-coded\).
 * Multi node, simple interval query
     
