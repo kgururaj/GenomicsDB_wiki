@@ -53,3 +53,4 @@ Get the right branch of the TileDB repo for the multi node implementation.
   * "query_row_ranges" (optional): Same as columns, but for rows. Can be omitted, in which case all rows of the array will be queried.
   * "query_attributes" (mandatory): List of strings specifying attributes to be fetched.
 
+  NOTE: In general, the JSON library is not good at flagging syntax errors in the JSON file. I generally run the command "json_verify \< \<json_file\>" to check the syntax first.
