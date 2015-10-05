@@ -1,5 +1,8 @@
 Read [this page](https://github.com/Intel-HSS/TileDB/wiki/Using-the-variant-specific-customizations) for instructions on how to compile and run the single node version of the variant library first.
 
+## Known issues:
+* The MPI standard uses 32-bit ints for counts, displacements etc. This implies that messages larger than INT32_MAX cannot be gathered using MPI primitives. The current implementation will check if the message size is larger than INT32_MAX and exit with an error message.
+
 ## Requirements:
 * An MPI library
 * [Rapidjson library](https://github.com/miloyip/rapidjson): I use this library to pass the query configuration in a json file to TileDB. The library is a header-only library - no compilation needed.
