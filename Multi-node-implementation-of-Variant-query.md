@@ -57,7 +57,7 @@ Get the right branch of the TileDB repo for the multi node implementation.
   * "workspace" (mandatory): List of strings, specifying the locations of the workspace directory for each MPI process launched. The length of this list MUST be equal to the number of MPI processes launched. Alternately, this parameter can be a string (not a list), which implies that all MPI processes access the workspace at the same directory location.
   * "array" (mandatory) : Similar to the workspace parameter. Note that the arrays MUST have exactly identical schemas.
   * "query_column_ranges" (mandatory): Each MPI process can query a list of column ranges. For example, the list \[ \[ 0, 100 \], 500 \] specifies that the MPI process should query column interval \[0-100\] and the single position 500. The parameter "query_column_ranges" is a list of such lists. The length of the outer list MUST be EITHER equal to the number of MPI processes launched OR just 1 (implying that all MPI processes query the same column ranges).
-  * "query_row_ranges" (optional): Same as columns, but for rows. Can be omitted, in which case all rows of the array will be queried.
+  * "query_row_ranges" (optional): Same format as "query_column_ranges", but for rows. Can be omitted, in which case all rows of the array will be queried.
   * "query_attributes" (mandatory): List of strings specifying attributes to be fetched.
 
   NOTE: The RapidJSON library doesn't clearly flag syntax errors. I generally run the command "json_verify \< \<json_file\>" to check the syntax first.
