@@ -50,6 +50,7 @@ Get the right branch of the TileDB repo for the multi node implementation.
           "workspace" :  [ "../configs/ws", "/mnt/app_hdd/scratch/karthikg/VCFs/tiledb_csv/v1/arrays/" ],
           "array" : [ "t0_1_2_GT", "GT10" ],
           "query_column_ranges" : [ [ [12000, 13000 ]  ], [ [0, 10000000] ] ],
+          "query_row_ranges" : [ [ [100, 3000 ]  ], [ [4000, 10000] ] ],
           "query_attributes" : [ "REF", "ALT", "BaseQRankSum", "AD", "PL" ]
         }
 
