@@ -33,7 +33,7 @@ Get the right branch of the TileDB repo for the multi node implementation.
   * The following attributes will be queried: \[ "REF", "ALT", "BaseQRankSum", "AD", "PL" \] \(hard-coded\).
 * Multi node, simple interval query:
 
-        /opt/openmpi-1.10/bin/mpirun -np 2 -hostfile test_inputs/c10_14 --mca btl_tcp_if_include 192.168.100.0/24 -x LD_LIBRARY_PATH ./variant/example/bin/gt_mpi_gather -w <workspace> -A <array> <begin> <end> -O <output_format>
+        /usr/lib64/openmpi/bin/mpirun -np 2 -hostfile test_inputs/c10_14 --mca btl_tcp_if_include 192.168.100.0/24 -x LD_LIBRARY_PATH ./variant/example/bin/gt_mpi_gather -w <workspace> -A <array> <begin> <end> -O <output_format>
 
   The arguments to mpirun in this example specify the following:
   * -np 2 : Run 2 MPI processes
