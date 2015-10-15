@@ -28,7 +28,10 @@ Other compilation options include DO_PROFILING=1, VERBOSE=1
 * Currently, the program has been tested on a single node only without MPI.
 * Configurable queries: Query information is passed to the program using a JSON file. 
          
-        ./variant/example/bin/gt_mpi_gather -j <json_file> -O <output_format>
+        ./variant/example/bin/gt_mpi_gather -j <json_file> --produce-Broad-GVCF -O <output_format>
+
+  Output format can be one of the following strings: "z" (compressed VCF),"b" (compressed BCF) or "bu" (uncompressed BCF). If nothing is specified, the default is uncompressed VCF.
+
         {
           "workspace" :  [ "../configs/ws", "/mnt/app_hdd/scratch/karthikg/VCFs/tiledb_csv/v1/arrays/" ],
           "array" : [ "t0_1_2_GT", "GT10" ],
