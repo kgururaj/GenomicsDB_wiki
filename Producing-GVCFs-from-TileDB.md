@@ -2,9 +2,8 @@ Read [this page](https://github.com/Intel-HSS/TileDB/wiki/Using-the-variant-spec
 
 ## Requirements
 * You need htslib to output VCF/BCF records
-* You need bcftools (latest version) to read information about samples and contigs from SQLite.
-* Install bcftools and htslib as described in [this Wiki page](https://github.com/kgururaj/bcftools/wiki/Using-bcftools-for-TileDB)
-* You need to have the SQLite tables populated correctly.
+* You need the latest version of bcftools to read information about samples and contigs from SQLite. Install bcftools and htslib as described in [this Wiki page](https://github.com/kgururaj/bcftools/wiki/Using-bcftools-for-TileDB)
+* You need to have the SQLite tables populated correctly with sample, contig and fields mapping.
 * An MPI library
 * [Rapidjson library](https://github.com/miloyip/rapidjson): I use this library to pass the query configuration in a json file to TileDB. The library is a header-only library - no compilation needed.
 
@@ -15,14 +14,13 @@ Read [this page](https://github.com/Intel-HSS/TileDB/wiki/Using-the-variant-spec
 Get the right branch of the TileDB repo.
 
     git checkout broad_gvcf
-    #make sure you have the new gcc version in your PATH
+    #make sure you have the right gcc version in your PATH
     #release mode - O3, NDEBUG - assertions disabled
     make MPIPATH=/opt/mvapich2-2.2a/bin/ BCFTOOLSDIR=<bcftools_dir> HTSDIR=<htslib_dir> RAPIDJSON_INCLUDE_DIR=<rapidjson_dir>/include/ BUILD=release -j 8
     #debug mode - assertions enabled, can use gdb for stepping
     make MPIPATH=/opt/mvapich2-2.2a/bin/ BCFTOOLSDIR=<bcftools_dir> HTSDIR=<htslib_dir> RAPIDJSON_INCLUDE_DIR=<rapidjson_dir>/include/ BUILD=debug -j 8
     
 Other compilation options include DO_PROFILING=1, VERBOSE=1
-
 
 ## Running the program
 * Currently, the program has been tested on a single node only without MPI.
