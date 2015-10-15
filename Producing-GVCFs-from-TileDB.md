@@ -46,7 +46,10 @@ Other compilation options include DO_PROFILING=1, VERBOSE=1
   * "query_column_ranges" (mandatory): Each MPI process can query a list of column ranges. For example, the list \[ \[ 0, 100 \], 500 \] specifies that the MPI process should query column interval \[0-100\] and the single position 500. The parameter "query_column_ranges" is a list of such lists. The length of the outer list MUST be EITHER equal to the number of MPI processes launched OR just 1 (implying that all MPI processes query the same column ranges).
   * "query_row_ranges" (optional): Same format as "query_column_ranges", but for rows. Can be omitted, in which case all rows of the array will be queried.
   * "query_attributes" (mandatory): List of strings specifying attributes to be fetched. Note for producing the GVCF as required by Broad, the attributes listed above MUST be used.
-  * 
+  * "sqlite" (mandatory) : Path to SQLite file containing contig, sample name and fields mapping. Can be a single string or a list of strings (same semantics as workspace/array fields).
+  * "vcf_header_filename" (mandatory) : Path to template VCF header file - contains only fields and contigs in the header. Can be a single string or a list of strings (same semantics as workspace/array fields).
+  * "vcf_output_filename" (optional) : Output VCF/BCF file path. Can be a single string or a list of strings (same semantics as workspace/array fields). If not specified, the program will print the VCF/BCF records to stdout.
+  * "reference_genome" (mandatory) : Path to reference genome (fasta file) that was used to obtain the input variants in TileDB. Can be a single string or a list of strings (same semantics as workspace/array fields).
 
   NOTE: The RapidJSON library doesn't clearly flag syntax errors. I generally run the command "json_verify \< \<json_file\>" to check the syntax first.
 
