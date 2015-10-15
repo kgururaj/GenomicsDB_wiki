@@ -11,9 +11,9 @@ Read [this page](https://github.com/Intel-HSS/TileDB/wiki/Using-the-variant-spec
 
 ## Compiling
 
-Get the right branch of the TileDB repo for the multi node implementation.
+Get the right branch of the TileDB repo.
 
-    git checkout multi_node_var
+    git checkout variant_master_merge
     #make sure you have the new gcc version in your PATH
     #release mode - O3, NDEBUG - assertions disabled
     make MPIPATH=/usr/lib64/openmpi/bin/  BUILD=release RAPIDJSON_INCLUDE_DIR=<rapidjson_dir>/include  -j 8
