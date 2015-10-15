@@ -1,0 +1,52 @@
+Read [this page](https://github.com/Intel-HSS/TileDB/wiki/Using-the-variant-specific-customizations) for instructions on how to compile and run the single node version of the variant library first.
+
+## Requirements
+* You need htslib to output VCF/BCF records
+* You need bcftools (latest version) to read information about samples and contigs from SQLite.
+* Install bcftools and htslib as described in [this Wiki page](https://github.com/kgururaj/bcftools/wiki/Using-bcftools-for-TileDB)
+* You need to have the SQLite tables populated correctly.
+* An MPI library
+* [Rapidjson library](https://github.com/miloyip/rapidjson): I use this library to pass the query configuration in a json file to TileDB. The library is a header-only library - no compilation needed.
+
+        git clone https://github.com/miloyip/rapidjson
+
+## Compiling
+
+Get the right branch of the TileDB repo.
+
+    git checkout broad_gvcf
+    #make sure you have the new gcc version in your PATH
+    #release mode - O3, NDEBUG - assertions disabled
+    make MPIPATH=/opt/mvapich2-2.2a/bin/ BCFTOOLSDIR=<bcftools_dir> HTSDIR=<htslib_dir> RAPIDJSON_INCLUDE_DIR=<rapidjson_dir>/include/ BUILD=release -j 8
+    #debug mode - assertions enabled, can use gdb for stepping
+    make MPIPATH=/opt/mvapich2-2.2a/bin/ BCFTOOLSDIR=<bcftools_dir> HTSDIR=<htslib_dir> RAPIDJSON_INCLUDE_DIR=<rapidjson_dir>/include/ BUILD=debug -j 8
+    
+Other compilation options include DO_PROFILING=1, VERBOSE=1
+
+
+## Running the program
+* Currently, the program has been tested on a single node only without MPI.
+* Configurable queries: Query information is passed to the program using a JSON file. 
+         
+        ./variant/example/bin/gt_mpi_gather -j <json_file> -O <output_format>
+        {
+          "workspace" :  [ "../configs/ws", "/mnt/app_hdd/scratch/karthikg/VCFs/tiledb_csv/v1/arrays/" ],
+          "array" : [ "t0_1_2_GT", "GT10" ],
+          "query_column_ranges" : [ [ [12000, 13000 ]  ], [ [0, 10000000] ] ],
+          "query_row_ranges" : [ [ [100, 3000 ]  ], [ [4000, 10000] ] ],
+          "query_attributes" : [ "REF", "ALT", "BaseQRankSum", "MQ", "MQ0", "ClippingRankSum", "MQRankSum", "ReadPosRankSum", "DP", "GT", "GQ", "SB", "AD", "PL", "DP_FORMAT", "MIN_DP" ],
+          "sqlite" : "/mnt/app_hdd/scratch/karthikg/VCFs/samples_and_fields.sqlite",
+          "vcf_header_filename" : "test_inputs/template_vcf_header.vcf",
+          "vcf_output_filename" : "/home/output.vcf",
+          "reference_genome" : "/data/broad/samples/joint_variant_calling/broad_reference/Homo_sapiens_assembly19.fasta"
+        }
+
+  * "workspace" (mandatory): List of strings, specifying the locations of the workspace directory for each MPI process launched. The length of this list MUST be equal to the number of MPI processes launched. Alternately, this parameter can be a string (not a list), which implies that all MPI processes access the workspace at the same directory location.
+  * "array" (mandatory) : Similar to the workspace parameter. Note that the arrays MUST have exactly identical schemas.
+  * "query_column_ranges" (mandatory): Each MPI process can query a list of column ranges. For example, the list \[ \[ 0, 100 \], 500 \] specifies that the MPI process should query column interval \[0-100\] and the single position 500. The parameter "query_column_ranges" is a list of such lists. The length of the outer list MUST be EITHER equal to the number of MPI processes launched OR just 1 (implying that all MPI processes query the same column ranges).
+  * "query_row_ranges" (optional): Same format as "query_column_ranges", but for rows. Can be omitted, in which case all rows of the array will be queried.
+  * "query_attributes" (mandatory): List of strings specifying attributes to be fetched. Note for producing the GVCF as required by Broad, the attributes listed above MUST be used.
+  * 
+
+  NOTE: The RapidJSON library doesn't clearly flag syntax errors. I generally run the command "json_verify \< \<json_file\>" to check the syntax first.
+
