@@ -13,7 +13,7 @@ Read [this page](https://github.com/Intel-HSS/TileDB/wiki/Using-the-variant-spec
 
 Get the right branch of the TileDB repo.
 
-    git checkout broad_gvcf
+    git checkout variant_master_merge
     #make sure you have the right gcc version in your PATH
     #release mode - O3, NDEBUG - assertions disabled
     make MPIPATH=/opt/mvapich2-2.2a/bin/ BCFTOOLSDIR=<bcftools_dir> HTSDIR=<htslib_dir> RAPIDJSON_INCLUDE_DIR=<rapidjson_dir>/include/ BUILD=release -j 8
