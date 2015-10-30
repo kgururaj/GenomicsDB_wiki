@@ -3,7 +3,7 @@ Read [this page](https://github.com/Intel-HSS/TileDB/wiki/Using-the-variant-spec
 ## Requirements
 * You need htslib to output VCF/BCF records
 * You need the latest version of bcftools to read information about samples and contigs from SQLite. Install bcftools and htslib as described in [this Wiki page](https://github.com/kgururaj/bcftools/wiki/Using-bcftools-for-TileDB).
-* For Broad, you must produce CSV files where deletions are treated as intervals. This can be done by running bcftools with the following arguments:
+* For handling spanning deletions, you must produce CSV files where deletions are treated as intervals. This can be done by running bcftools with the following arguments:
        
         ./bcftools view -O t --sqlite=<sqlite_file> \
              --tiledb-treat-deletions-as-intervals  --tiledb-output-format=csv_v1  \
