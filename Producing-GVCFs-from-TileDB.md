@@ -1,5 +1,9 @@
 Read [this page](https://github.com/Intel-HSS/TileDB/wiki/Using-the-variant-specific-customizations) for instructions on how to compile and run the single node version of the variant library first.
 
+To handle spanning deletions (Broad's CombineGVCFs uses spanning deletions), we modify the CSV files and treat deletions as intervals. This keeps the left sweep operation within TileDB clean.
+
+Note that treating deletions as intervals leads to overlapping intervals for a given row in TileDB - the same issue exists for VCF files also. Doesn't affect results of the left sweep. This is a limitation in the way variants are currently thought of currently and will not be solved until the graph model becomes widespread.
+
 ## Requirements
 * You need htslib to output VCF/BCF records
 * You need the latest version of bcftools to read information about samples and contigs from SQLite. Install bcftools and htslib as described in [this Wiki page](https://github.com/kgururaj/bcftools/wiki/Using-bcftools-for-TileDB).
