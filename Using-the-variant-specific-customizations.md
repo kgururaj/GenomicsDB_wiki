@@ -41,6 +41,10 @@ Note: if you are using a relatively new version of GNU sort, you can use the 'pa
     -c 1000 \
     -s 5
 
+  * _ws_: Directory (preferably on the local disk) where the array data will be stored
+  * _array_name_ : Arbitrary string, TileDB creates a directory $ws/$array_name and stores data inside the directory
+  * _num_samples_ : Number of samples being imported (must be exact)
+
 ## Loading
 
     tiledb_load_csv -w <workspace> -A <array> -p <merged_sorted_csv_file> -m sorted
