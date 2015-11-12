@@ -53,6 +53,10 @@ Command to run if you have a merged, sorted CSV file:
 
     tiledb_load_csv -w <workspace> -A <array> -p <merged_sorted_csv_file> -m sorted
 
-Command to run if you have multiple, sorted CSV files    
+Command to run if you have multiple, sorted CSV files
+
+    tiledb_load_csv -w <workspace> -A <array> -m sorted -p <directory_containing_csv_files>
+
+If you are not sure whether your CSV file is sorted, simply omit the "-m sorted" argument
 
     tiledb_load_csv -w <workspace> -A <array> -m sorted -p <directory_containing_csv_files>
