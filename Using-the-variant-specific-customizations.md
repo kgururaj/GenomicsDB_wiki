@@ -29,6 +29,8 @@ Note: if you are using a relatively new version of GNU sort, you can use the 'pa
     sort --parallel=8 -T <tmp_dir> -t, -m -k2,2n -k1,1n <list_of_csv_files>  > merged.csv
 
 ## Defining the array
+All binaries in the directory: tiledb_cmd/bin/release/
+Manpages: man manpages/man/tiledb_load_csv.1 
 
     tiledb_define_array \
     -w $ws \
