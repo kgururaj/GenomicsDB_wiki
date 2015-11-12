@@ -36,3 +36,10 @@ Once new mappings are created, CSV files can be produced in parallel for differe
         ./bcftools view -O t --sqlite=samples_and_fields.sqlite --tiledb-output-format=csv_v1  --header-only --tiledb-override-sample-name=HG01530 test_inputs/t0.vcf
 
 * The above commands will create all the mappings in the SQLite DB in the file samples_and_fields.sqlite.
+
+# Creating CSV files
+[Details here](https://github.com/kgururaj/bcftools/wiki/Using-bcftools-for-TileDB#running)
+
+Quick command:
+
+    ./bcftools view -O t --sqlite=samples_and_fields.sqlite --tiledb-output-format=csv_v1  --tiledb-treat-deletions-as-intervals --tiledb-override-sample-name=HG01530 test_inputs/t0.vcf -o output.csv
