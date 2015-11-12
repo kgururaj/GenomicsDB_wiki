@@ -49,10 +49,10 @@ Note: if you are using a relatively new version of GNU sort, you can use the 'pa
   * _num_samples_ : Number of samples being imported (must be exact)
 
 ## Loading
+Command to run if you have a merged, sorted CSV file:
 
     tiledb_load_csv -w <workspace> -A <array> -p <merged_sorted_csv_file> -m sorted
 
-    
+Command to run if you have multiple, sorted CSV files    
 
-## TODO
-* Scan operation not implemented
+    tiledb_load_csv -w <workspace> -A <array> -m sorted -p <directory_containing_csv_files>
