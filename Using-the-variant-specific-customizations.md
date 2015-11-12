@@ -59,4 +59,4 @@ Command to run if you have multiple, sorted CSV files
 
 If you are not sure whether your CSV file is sorted, simply omit the "-m sorted" argument
 
-    tiledb_load_csv -w <workspace> -A <array> -m sorted -p <directory_containing_csv_files>
+    tiledb_load_csv -w <workspace> -A <array> -p <directory_containing_csv_files>
