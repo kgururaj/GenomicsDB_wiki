@@ -30,25 +30,27 @@ Note: if you are using a relatively new version of GNU sort, you can use the 'pa
 
 ## Defining the array
 * All binaries in the directory: tiledb_cmd/bin/release/
-* Manpages: man manpages/man/tiledb_load_csv.1 
+* Manpages: man manpages/man/tiledb_define_array.1 
 
-
-        tiledb_define_array \
-        -w $ws \
-        -A $array_name \
-        -a END,REF,ALT,QUAL,FILTER,BaseQRankSum,ClippingRankSum,MQRankSum,ReadPosRankSum,DP,MQ,MQ0,DP_FORMAT,MIN_DP,GQ,SB,AD,PL,GT \
-        -d samples,position \
-        -D 0,$num_samples-1,0,4000000000 \
-        -t int64,char:var,char:var,float,int:var,float,float,float,float,int,float,int,int,int,int,int:4,int:var,int:var,int:var,int64 \
-        -o column-major \
-        -c 1000 \
-        -s 5
-
-  * _ws_: Directory (preferably on the local disk) where the array data will be stored
-  * _array_name_ : Arbitrary string, TileDB creates a directory $ws/$array_name and stores data inside the directory
-  * _num_samples_ : Number of samples being imported (must be exact)
+         tiledb_define_array \
+         -w <workspace> \
+         -A <array_name> \
+         -a END,REF,ALT,QUAL,FILTER,BaseQRankSum,ClippingRankSum,MQRankSum,ReadPosRankSum,DP,MQ,MQ0,DP_FORMAT,MIN_DP,GQ,SB,AD,PL,GT \
+         -d samples,position \
+         -D 0,<num_samples>-1,0,4000000000 \
+         -t int64,char:var,char:var,float,int:var,float,float,float,float,int,float,int,int,int,int,int:4,int:var,int:var,int:var,int64 \
+         -o column-major \
+         -c 1000 \
+         -s 5 \
+         -z GZIP,GZIP,GZIP,GZIP,GZIP,GZIP,GZIP,GZIP,GZIP,GZIP,GZIP,GZIP,GZIP,GZIP,GZIP,GZIP,GZIP,GZIP,GZIP,GZIP 
+         
+  * _\<workspace\>_: Directory (preferably on the local disk) where the array data will be stored
+  * _\<array_name\>_ : Arbitrary string, TileDB creates a directory _\<workspace\>/StorageManager/\<array_name\>_ and stores data inside the directory
+  * _\<num_samples\>_ : Number of samples being imported (must be exact)
 
 ## Loading
+Manpages: man manpages/man/tiledb_load_csv.1 
+
 Command to run if you have a merged, sorted CSV file:
 
     tiledb_load_csv -w <workspace> -A <array> -p <merged_sorted_csv_file> -m sorted
