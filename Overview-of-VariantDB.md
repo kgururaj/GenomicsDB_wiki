@@ -43,3 +43,13 @@ Once new mappings are created, CSV files can be produced in parallel for differe
 Quick command:
 
     ./bcftools view -O t --sqlite=samples_and_fields.sqlite --tiledb-output-format=csv_v1  --tiledb-treat-deletions-as-intervals --tiledb-override-sample-name=HG01530 test_inputs/t0.vcf -o output.csv
+
+# Obtaining and compiling TileDB
+[Detailed description](https://github.com/Intel-HSS/TileDB/wiki/Producing-GVCFs-from-TileDB
+)
+
+# Defining and creating a new array
+[Detailed description](https://github.com/Intel-HSS/TileDB/wiki/Using-the-variant-specific-customizations#defining-the-array)
+
+# Importing the created CSV files into TileDB
+[Detailed description](https://github.com/Intel-HSS/TileDB/wiki/Using-the-variant-specific-customizations#loading)
