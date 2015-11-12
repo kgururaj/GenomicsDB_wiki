@@ -33,7 +33,7 @@ Get the right branch of the TileDB repo.
 Other compilation options include DO_PROFILING=1, VERBOSE=1
 
 ## Running the program
-* Currently, the program has been tested on a single node only without MPI.
+* Currently, the program has been tested on a single node.
 * Configurable queries: Query information is passed to the program using a JSON file. 
          
         ./variant/example/bin/gt_mpi_gather -j <json_file> --produce-Broad-GVCF -O <output_format>
@@ -61,6 +61,19 @@ Other compilation options include DO_PROFILING=1, VERBOSE=1
   * "vcf_header_filename" (mandatory) : Path to template VCF header file - contains only fields and contigs in the header. Can be a single string or a list of strings (same semantics as workspace/array fields). Use this [template header file] (https://github.com/Intel-HSS/TileDB/files/14269/template_vcf_header.txt) for producing GVCFs for Broad.
   * "vcf_output_filename" (optional) : Output VCF/BCF file path. Can be a single string or a list of strings (same semantics as workspace/array fields). If not specified, the program will print the VCF/BCF records to stdout.
   * "reference_genome" (mandatory) : Path to reference genome (fasta file) that was used to obtain the input variants in TileDB. Can be a single string or a list of strings (same semantics as workspace/array fields).
+
+* A simple JSON that should be sufficient in most cases:
+
+        {
+          "workspace" :  "/workspace",
+          "array" : "GT65K",
+          "query_column_ranges" : [ [ [0, 4000000000] ] ],
+          "query_attributes" : [ "REF", "ALT", "BaseQRankSum", "MQ", "MQ0", "ClippingRankSum", "MQRankSum", "ReadPosRankSum", "DP", "GT", "GQ", "SB", "AD", "PL", "DP_FORMAT", "MIN_DP" ],
+          "sqlite" : "/mnt/app_hdd/scratch/karthikg/VCFs/samples_and_fields.sqlite",
+          "vcf_header_filename" : "test_inputs/template_vcf_header.vcf",
+          "vcf_output_filename" : "/home/output.vcf",
+          "reference_genome" : "/data/broad/samples/joint_variant_calling/broad_reference/Homo_sapiens_assembly19.fasta"
+        }
 
   NOTE: The RapidJSON library doesn't clearly flag syntax errors. I generally run the command "json_verify \< \<json_file\>" to check the syntax first.
 
