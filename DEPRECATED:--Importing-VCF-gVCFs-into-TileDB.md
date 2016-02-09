@@ -1,4 +1,4 @@
-This page contains outdated information - see [[this page|Importing-VCF-gVCF-data-into-TileDB]] for the current methodology.
+*This page contains outdated information - see [[this page|Importing-VCF-gVCF-data-into-TileDB]] for the current methodology.*
 
 # Creating mappings from samples/contigs to row ids/column intervals
 
