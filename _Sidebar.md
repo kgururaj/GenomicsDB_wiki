@@ -5,3 +5,4 @@
 * [[Miscellaneous utilities|Miscellaneous-utilities]]
 * Archive - deprecated
     * [[Importing data from VCFs/gVCFs into TileDB| DEPRECATED:--Importing-VCF-gVCFs-into-TileDB]]
+    * [[Producing gVCFs from TileDB|DEPRECATED:--Producing-GVCFs-from-TileDB]]
