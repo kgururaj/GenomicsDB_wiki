@@ -1,5 +1,6 @@
 # Introduction
-VariantDB is built on top of [TileDB](https://github.com/stavrospapadopoulos/TileDB) is a system for efficiently storing, querying and accessing sparse matrix/array data. TileDB is being developed by researchers at the [Intel Science and Technology Center for Big Data] (http://istc-bigdata.org/#&panel1-1). Variant data is sparse by nature (relative to the whole genome).
+[TileDB](https://github.com/stavrospapadopoulos/TileDB) is a system for efficiently storing, querying and accessing sparse matrix/array data. TileDB is being developed by researchers at the [Intel Science and Technology Center for Big Data] (http://istc-bigdata.org/#&panel1-1).
+VariantDB is built on top of the TileDB system. Variant data is sparse by nature (sparse relative to the whole genome).
 
 We store variant data in a 2D TileDB array where:
 * Each column corresponds to a genomic position (chromosome + position)
