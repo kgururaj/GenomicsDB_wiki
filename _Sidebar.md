@@ -2,5 +2,6 @@
 * [[Compiling VariantDB|Compiling-VariantDB]]
 * Importing variant data into TileDB
     * [[Importing data from VCFs/gVCFs into TileDB| Importing-VCF-gVCF-data-into-TileDB]]
+* [[Miscellaneous utilities|Miscellaneous-utilities]]
 * Archive - deprecated
     * [[Importing data from VCFs/gVCFs into TileDB| DEPRECATED:--Importing-VCF-gVCFs-into-TileDB]]
