@@ -1,3 +1,5 @@
+**_This page contains outdated information._**
+
 Read [this page](https://github.com/Intel-HSS/TileDB/wiki/Using-the-variant-specific-customizations) for instructions on how to compile and run the single node version of the variant library first.
 
 To handle spanning deletions (Broad's CombineGVCFs uses spanning deletions), we modify the CSV files and treat deletions as intervals. This keeps the left sweep operation within TileDB clean.
