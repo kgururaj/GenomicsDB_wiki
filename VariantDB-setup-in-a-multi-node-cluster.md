@@ -10,15 +10,19 @@ Which partitioning scheme is better to use is dependent on the queries/analysis 
     * Row-based partitioning
 
     _Rationale_
-        * For single position queries (or small intervals), partitioning the data by rows would likely provide higher performance. By accessing data across multiple nodes in parallel, the system will be able to utilize higher aggregate disk and memory bandwidth. In a column based partitioning, only a single node would service the request.
-        * Simple data import step if the original data is organized as a file per sample/CallSet (for example VCFs). Just transfer the required subset of files to the correct machine and import into TileDB.
-        * Con: A final aggregator may be needed since the data for a given position is scattered across machines. Some of the query tools we provide use MPI to collect the final output into a single node.
+    * For single position queries (or small intervals), partitioning the data by rows would likely provide higher performance. By accessing data across multiple nodes in parallel, the system will be able to utilize higher aggregate disk and memory bandwidth. In a column based partitioning, only a single node would service the request.
+    * Simple data import step if the original data is organized as a file per sample/CallSet (for example VCFs). Just transfer the required subset of files to the correct machine and import into TileDB.
+
+    _Con(s)_
+    * A final aggregator may be needed since the data for a given position is scattered across machines. Some of the query tools we provide use MPI to collect the final output into a single node.
 
 * Query: run analysis tool _T_ on all variants (grouped by column position) found in a large column interval \[Z1-Z2\] (or scan across the whole array).
     * Column-based partitioning
 
     _Rationale_
-        * The user is running a query/analysis for every position in the queried interval. Hence, for each position, the system must fetch data from all samples/CallSets and run _T_. Partitioning by column reduces/eliminates any communication between nodes. For a sufficiently large query interval, the aggregate disk and memory bandwidth across multiple nodes can still be utilized.
-        * No/minimal data aggregation step as all the data for a given column is located within a single node.
-    * Con: Importing data into TileDB may become complex, especially if the initial data is organized as a file per sample/CallSet.
+    * The user is running a query/analysis for every position in the queried interval. Hence, for each position, the system must fetch data from all samples/CallSets and run _T_. Partitioning by column reduces/eliminates any communication between nodes. For a sufficiently large query interval, the aggregate disk and memory bandwidth across multiple nodes can still be utilized.
+    * No/minimal data aggregation step as all the data for a given column is located within a single node.
+
+    _Con(s)_
+    * Importing data into TileDB may become complex, especially if the initial data is organized as a file per sample/CallSet.
     
