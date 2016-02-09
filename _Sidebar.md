@@ -1,4 +1,5 @@
 * **[[Overview of VariantTB|Home]]**
+    * [[VariantDB setup in a multi-node cluster|]]
 * **[[Compiling VariantDB|Compiling-VariantDB]]**
 * **Importing variant data into TileDB**
     * [[Importing data from VCFs/gVCFs into TileDB| Importing-VCF-data-into-TileDB]]
