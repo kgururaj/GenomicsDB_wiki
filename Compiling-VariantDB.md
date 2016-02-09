@@ -1,7 +1,7 @@
 ## Requirements:
 * An MPI compiler, library and runtime (we have tested with reasonably new versions of OpenMPI and MVAPICH2).
 * A relatively new version of gcc (C++-11 compatible). I have been testing with gcc-4.9.1.
-* [Rapidjson library](https://github.com/miloyip/rapidjson): Parameters are passed to TileDB tools/examples through a JSON file - Rapidjson is . The library is a header-only library - no compilation needed.
+* [Rapidjson library](https://github.com/miloyip/rapidjson): Parameters are passed to TileDB tools/examples through a JSON file - Rapidjson is used to parse this JSON file. The library is a header-only library - no compilation needed.
 
         git clone https://github.com/miloyip/rapidjson
 
