@@ -1,3 +1,5 @@
+The import program can handle block compressed and indexed VCFs, gVCFs, BCFs and gBCFs. For brevity, we will only use the term VCF.
+
 ## Preliminaries
 * Use the branch _multi_node_loader_.
 * You need htslib while [[compiling|Compiling-VariantDB]].
