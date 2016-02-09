@@ -1,4 +1,4 @@
-**_This page contains outdated information._**
+**_This page contains outdated information. See [[this page|Importing-VCF-gVCF-data-into-TileDB]] for up to date information._**
 
 Read [this page](https://github.com/Intel-HSS/TileDB/wiki/Using-the-variant-specific-customizations) for instructions on how to compile and run the single node version of the variant library first.
 
