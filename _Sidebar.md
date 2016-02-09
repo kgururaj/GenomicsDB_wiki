@@ -1,1 +1,1 @@
-[[Overview of VariantTB|Overview-of-VariantDB]]
+[[Overview of VariantTB|Home]]
