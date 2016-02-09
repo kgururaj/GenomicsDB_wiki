@@ -10,6 +10,6 @@ The import program can handle block compressed and indexed VCFs, gVCFs, BCFs and
     * How to [[partition your data in TileDB|VariantDB-setup-in-a-multi-node-cluster]].
     * How your VCF files are accessed by the import program:
         * On a shared filesystem (NFS, Lustre etc) accessible from all nodes.
-        * On a local filesystem accessible only by the node on which the filesystem is mounted.
+        * Scattered across local filesystems on multiple machines, each accessible only by the node on which the filesystem is mounted.
 
 
