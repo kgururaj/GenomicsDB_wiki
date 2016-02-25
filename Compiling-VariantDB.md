@@ -20,7 +20,7 @@
         #release mode - O3, NDEBUG - assertions disabled, OpenMP enabled
         make MPIPATH=<mpi_package_dir>/bin/ RAPIDJSON_INCLUDE_DIR=<rapidjson_dir>/include BUILD=release OPENMP=1 -j 8
 
-* If you have the MPI compilers in your PATH, you can drop the MPIPATH argument
+* If you have the MPI compilers (mpicc, mpicxx) in your PATH, you can drop the MPIPATH argument
 
         #release mode
         make RAPIDJSON_INCLUDE_DIR=<rapidjson_dir>/include BUILD=release OPENMP=1 -j 8
