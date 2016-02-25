@@ -121,8 +121,8 @@ The import program needs additional parameters that control how the program runs
             {"begin": 0, "workspace":"/tmp/ws", "array": "test0" },
             {"begin": 200, "workspace":"/tmp/ws", "array": "test1" }
         ],
-        "callset_mapping_file" : "test_inputs/callsets/t6_7_8.json",
         "vid_mapping_file" : "test_inputs/broad_vid.json",
+        "callset_mapping_file" : "test_inputs/callsets/t6_7_8.json",
         "size_per_column_partition": 3000,
         "treat_deletions_as_intervals" : true,
         "vcf_header_filename": "test_inputs/template_vcf_header.vcf",
