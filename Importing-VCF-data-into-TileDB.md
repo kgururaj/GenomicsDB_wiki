@@ -14,7 +14,7 @@ The import program can handle block compressed and indexed VCFs, gVCFs, BCFs and
 
 ## Import information
 There are 3 pieces of information that the import program needs:
-* Mapping contigs to disjoint column intervals: By assigning disjoint column intervals to each contig in the VCF, we are creating a "flattened" genomic co-ordinate space. Each position in a contig will correspond to a particular column value in TileDB. TileDB columns are 0-based.
+* Mapping contigs to disjoint column intervals: By assigning disjoint column intervals to each contig in the VCF, we are creating a "flattened" genomic co-ordinate space. Each position in a contig will correspond to a particular column value in TileDB. TileDB column ids are 0-based. Reminder: the position information displayed in a VCF (but not a BCF) is 1-based.
 * Mapping row id to samples/CallSets: Each sample/CallSet name must be assigned a unique row id in a TileDB array
 * Fields information: The user must pass information about the fields that are required to be imported into TileDB from the VCF.
 
