@@ -1,4 +1,5 @@
 * **[[Overview of VariantTB|Home]]**
+    * [[Basic TileDB terminology | Basic-TileDB-terminology ]]
     * [[VariantDB setup in a multi-node cluster|VariantDB-setup-in-a-multi-node-cluster]]
 * **[[Compiling VariantDB|Compiling-VariantDB]]**
 * **Importing variant data into TileDB**
