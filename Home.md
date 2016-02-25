@@ -17,3 +17,9 @@ We store variant data in a 2D TileDB array where:
 * Define TileDB array schema with all the fields/attributes you wish to store in TileDB.
 * Produce a CSV file with a list of cells and attributes for each sample/CallSet
 * Import CSV files into TileDB
+
+# Basic TileDB terminology
+
+* _Workspace_: A directory in the machine under which multiple TileDB arrays can be stored.
+* _Array_: Name of the TileDB array
+* Given a _workspace_ and _array_ name, the TileDB framework will store its data in the directory _\<workspace\>_/StorageManager/_\<array\>_.
