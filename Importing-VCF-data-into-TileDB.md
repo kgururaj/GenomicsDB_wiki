@@ -12,13 +12,13 @@ The import program can handle block compressed and indexed VCFs, gVCFs, BCFs and
         * On a shared filesystem (NFS, Lustre etc) accessible from all nodes.
         * If you are partitioning data by rows, your files can be scattered across local filesystems on multiple machines; each filesystem accessible only by the node on which it is mounted. Currently, such a distribution isn't supported for column partitioning.
 
-## Import information
+## Information about VCFs for the import program
 There are 3 pieces of information that the import program needs:
 * Mapping contigs to disjoint column intervals: By assigning disjoint column intervals to each contig in the VCF, we are creating a "flattened" genomic co-ordinate space. Each position in a contig will correspond to a particular column value in TileDB. TileDB column ids are 0-based. Reminder: the position information displayed in a VCF (but not a BCF) is 1-based.
 * Mapping row id to samples/CallSets: Each sample/CallSet name must be assigned a unique row id in a TileDB array
 * Fields information: The user must pass information about the fields that are required to be imported into TileDB from the VCF.
 
-The three pieces of information listed above are passed to the import tool through a JSON file. A sample JSON file is shown:
+The three pieces of information listed above are passed to the import tool through a JSON file which we refer to as the **_vid_mapping_file_**. A sample JSON file is shown:
 
     {
         "contigs": {
@@ -105,3 +105,43 @@ An example callset mapping file is shown below:
             Hence, the parameter _idx_in_file_ takes values 0, 1 and 2 for samples HG00141, HG01530 and HG01958 respectively.
             
             The default value is 0 because the program assumes that the VCF has a single sample/CallSet. Again, it's the user's responsibility to ensure this parameter is correct.
+
+## Execution parameters for the import program
+The import program needs additional parameters that control how the program runs and are independent of the input VCF files. Such parameters are passed through another JSON file which we refer to as the **_loader_config_file_**. An example loader JSON file is shown below:
+
+    {
+        "row_based_partitioning" : false,
+        "produce_combined_vcf": true,
+        "produce_tiledb_array" : true,
+        "column_partitions" : [
+            {"begin": 0, "workspace":"/tmp/ws", "array": "test0", "vcf_output_filename":"/tmp/test0.vcf.gz" }
+            {"begin": 1000, "workspace":"/tmp/ws", "array": "test1", "vcf_output_filename":"/tmp/test1.vcf.gz" }
+        ],
+        "row_partitions" : [
+            {"begin": 0, "workspace":"/tmp/ws", "array": "test0" },
+            {"begin": 200, "workspace":"/tmp/ws", "array": "test1" }
+        ],
+        "callset_mapping_file" : "test_inputs/callsets/t6_7_8.json",
+        "vid_mapping_file" : "test_inputs/broad_vid.json",
+        "size_per_column_partition": 3000,
+        "treat_deletions_as_intervals" : true,
+        "vcf_header_filename": "test_inputs/template_vcf_header.vcf",
+        "reference_genome" : "/data/broad/samples/joint_variant_calling/broad_reference/Homo_sapiens_assembly19.fasta",
+        "num_parallel_vcf_files" : 1,
+        "do_ping_pong_buffering" : true,
+        "offload_vcf_output_processing" : true,
+        "discard_vcf_index": true,
+        "delete_and_create_tiledb_array" : true
+    }
+
+* _row_based_partitioning_ (optional, type: boolean, default value: _false_): Controls how your variant data is partitioned across multiple nodes/TileDB instances - see [[this wiki page for more information first|VariantDB-setup-in-a-multi-node-cluster]]. The default value is _false_, which implies your data is partitioned by columns.
+* _produce_combined_vcf_ (optional, type: boolean, default value: _false_): The import program can produced a combined VCF identical to that produced by the [GATK CombineGVCF tool](https://www.broadinstitute.org/gatk/guide/tooldocs/org_broadinstitute_gatk_tools_walkers_variantutils_CombineGVCFs.php) if this parameter is set to _true_.
+* _produce_tiledb_array_ (optional, type: boolean,, default value _false_): The import program will produce the TileDB array if this parameter is set to _true_.
+* _column_partitions_ (mandatory if _row_based_partitioning_=False, else optional): This field is a list/array of dictionaries. Each dictionary describes the column partition.
+    * _begin_ (mandatory, type: integer): Describes the column id at which the current partition begins
+    * _end_ (optional, type: integer): Describes the column id at which the current partition ends (inclusive)
+    * _workspace, array_ (optional, type: strings): If creating a TileDB array, these parameters [[specify the directories where the TileDB array data will be stored|Basic-TileDB-terminology]].
+    * _vcf_output_filename_ (optional, type:string): If producing a combined GVCF, then this parameter specifies the path at which the output VCF will be created. If this parameter is omitted but _produce_combined_vcf_ is _true_, then the output VCF is printed on stdout.
+
+    In the above example,  
+
