@@ -135,13 +135,20 @@ The import program needs additional parameters that control how the program runs
     }
 
 * _row_based_partitioning_ (optional, type: boolean, default value: _false_): Controls how your variant data is partitioned across multiple nodes/TileDB instances - see [[this wiki page for more information first|VariantDB-setup-in-a-multi-node-cluster]]. The default value is _false_, which implies your data is partitioned by columns.
-* _produce_combined_vcf_ (optional, type: boolean, default value: _false_): The import program can produced a combined VCF identical to that produced by the [GATK CombineGVCF tool](https://www.broadinstitute.org/gatk/guide/tooldocs/org_broadinstitute_gatk_tools_walkers_variantutils_CombineGVCFs.php) if this parameter is set to _true_.
+* _produce_combined_vcf_ (optional, type: boolean, default value: _false_): The import program can produced a combined VCF identical to that produced by the [GATK CombineGVCF tool](https://www.broadinstitute.org/gatk/guide/tooldocs/org_broadinstitute_gatk_tools_walkers_variantutils_CombineGVCFs.php) if this parameter is set to _true_. Note that if you partition your array by rows, then you cannot produce a combined GVCF - it works only when the array is partitioned by columns.
 * _produce_tiledb_array_ (optional, type: boolean,, default value _false_): The import program will produce the TileDB array if this parameter is set to _true_.
-* _column_partitions_ (mandatory if _row_based_partitioning_=False, else optional): This field is a list/array of dictionaries. Each dictionary describes the column partition.
+* _column_partitions_ (mandatory if _row_based_partitioning_=_false_, else optional): This field is a list/array of dictionaries. Each dictionary describes the column partition.
     * _begin_ (mandatory, type: integer): Describes the column id at which the current partition begins
     * _end_ (optional, type: integer): Describes the column id at which the current partition ends (inclusive)
     * _workspace, array_ (optional, type: strings): If creating a TileDB array, these parameters [[specify the directories where the TileDB array data will be stored|Basic-TileDB-terminology]].
     * _vcf_output_filename_ (optional, type:string): If producing a combined GVCF, then this parameter specifies the path at which the output VCF will be created. If this parameter is omitted but _produce_combined_vcf_ is _true_, then the output VCF is printed on stdout.
 
-    In the above example,  
+    The program sorts column partitions (in increasing order) and determines the end values (if not specified). For the last partition, if the end is not specified, then it's assumed to be INT64_MAX. In the above example, the column partitions are [0:999] and [1000:INT64_MAX] respectively.
+* _row_partitions_ (mandatory if _row_based_partitioning_=_true_, else optional): This field is similar to _column_partitions_ but for rows. The field _vcf_output_filename_ is not meaningful for row partitioned arrays.
+* _vid_mapping_file_ (mandatory, type:string): The vid mapping file [[described above|Importing-VCF-data-into-TileDB#information-about-vcfs-for-the-import-program]].
+* _callset_mapping_file_ (optional, type:string): Same as the callset mapping file [[described above|Importing-VCF-data-into-TileDB#samplescallsets]]. This field value gets higher preference if the _vid_mapping_file_ also contains a field called _callset_mapping_file_. The idea is that the user can use a fixed _vid_mapping_file_ and work with many different sets of samples/CallSets by changing the _callset_mapping_file_ in this loader JSON config.
+* _size_per_column_partition_ (mandatory, type: int): The program reads small chunks of each input VCF file into a buffer in memory. Let's denote this chunk size as _X_. Note that _X_ must be large enough to hold at least 1 VCF line;i.e. _X_ must be bigger than the largest VCF line among all the input VCF files.
 
+    To produce a column major array, the program allocates one buffer for every input sample/CallSet. Hence, the total size of all buffers put together is _\#samples * X_. The parameter _size_per_column_partition_ must be set to this value.
+
+    Unfortunately, there is no good way to figure out what this parameter value should be. For WGS gVCFs, a value of 30KB for _X_ seems to be sufficient (but a value of 1KB wasn't adequate). The program will fail with an exception if it encounters a line whose length is \> _X_; however, this could be deep into the program's execution. Setting large values would increase memory consumption.
