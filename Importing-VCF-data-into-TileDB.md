@@ -125,13 +125,13 @@ The import program needs additional parameters that control how the program runs
         "callset_mapping_file" : "test_inputs/callsets/t6_7_8.json",
         "size_per_column_partition": 3000,
         "treat_deletions_as_intervals" : true,
+        "num_parallel_vcf_files" : 1,
+        "delete_and_create_tiledb_array" : false
         "vcf_header_filename": "test_inputs/template_vcf_header.vcf",
         "reference_genome" : "/data/broad/samples/joint_variant_calling/broad_reference/Homo_sapiens_assembly19.fasta",
-        "num_parallel_vcf_files" : 1,
         "do_ping_pong_buffering" : true,
         "offload_vcf_output_processing" : true,
         "discard_vcf_index": true,
-        "delete_and_create_tiledb_array" : true
     }
 
 * _row_based_partitioning_ (optional, type: boolean, default value: _false_): Controls how your variant data is partitioned across multiple nodes/TileDB instances - see [[this wiki page for more information first|VariantDB-setup-in-a-multi-node-cluster]]. The default value is _false_, which implies your data is partitioned by columns.
@@ -145,10 +145,34 @@ The import program needs additional parameters that control how the program runs
 
     The program sorts column partitions (in increasing order) and determines the end values (if not specified). For the last partition, if the end is not specified, then it's assumed to be INT64_MAX. In the above example, the column partitions are [0:999] and [1000:INT64_MAX] respectively.
 * _row_partitions_ (mandatory if _row_based_partitioning_=_true_, else optional): This field is similar to _column_partitions_ but for rows. The field _vcf_output_filename_ is not meaningful for row partitioned arrays.
+
+    You should not have _row_partitions_ and _column_partitions_ simultaneously in one loader JSON config file.
 * _vid_mapping_file_ (mandatory, type:string): The vid mapping file [[described above|Importing-VCF-data-into-TileDB#information-about-vcfs-for-the-import-program]].
 * _callset_mapping_file_ (optional, type:string): Same as the callset mapping file [[described above|Importing-VCF-data-into-TileDB#samplescallsets]]. This field value gets higher preference if the _vid_mapping_file_ also contains a field called _callset_mapping_file_. The idea is that the user can use a fixed _vid_mapping_file_ and work with many different sets of samples/CallSets by changing the _callset_mapping_file_ in this loader JSON config file.
-* _size_per_column_partition_ (mandatory, type: int): The program reads small chunks of each input VCF file into a buffer in memory. Let's denote this chunk size as _X_. Note that _X_ must be large enough to hold at least 1 VCF line;i.e. _X_ must be bigger than the largest VCF line among all the input VCF files.
+* _size_per_column_partition_ (mandatory, type: int): During the loading process, the program reads small chunks from each input VCF file into a buffer in memory. Let's denote this chunk size as _X_. Note that _X_ must be large enough to hold at least 1 VCF line;i.e. _X_ must be bigger than the largest VCF line among all the input VCF files.
 
     To produce a column major array, the program allocates one buffer for every input sample/CallSet. Hence, the total size of all buffers put together is _\#samples * X_. The parameter _size_per_column_partition_ must be set to this value.
 
     Unfortunately, there is no good way to figure out what this parameter value should be. In our tests with the WGS gVCFs accessible to us, a value of 10KB for _X_ seemed to be sufficient (but a value of 1KB wasn't adequate). The program will fail with an exception if it encounters a line whose length is \> _X_; however, this could be deep into the program's execution. Setting large values would increase memory consumption, but if your sample count is 'small' enough (and your machine memory large enough), setting larger values should not be an issue.
+* _treat_deletions_as_intervals_ (type: boolean, optional, default: _false_): Consider the following lines in a VCF:
+
+        #CHR	POS	REF	ALT
+        1	100	GATC	GC
+        1	500	T	C
+
+    In an indexed VCF, querying for position 101 would return the deletion allele since it overlaps the queried position (even though, by the VCF convention, it begins at location 100). Hence, we can think of a deletion as an interval and any query within that interval should return the deletion. By setting this flag to _true_, all deletions are treated as intervals. Without this flag, a VariantDB query for position 101 would *NOT* return the deletion.
+* _num_parallel_vcf_files_ (type:integer, optional, default: 1): This parameter controls the number of VCF files that are opened and read in parallel by the loader program. Increasing this number could improve (decrease) loading time.
+* _delete_and_create_tiledb_array_ (type: boolean, optional, default: _false_): If set to _true_, the program will delete existing data in the array referred to by the _workspace_ and _array_ fields. By default, the loader program will only update/add to the existing array and not delete previous data.
+
+The following options are required only when producing a combined VCF.
+* _vcf_header_filename_ (type:string, mandatory): Path to a template VCF header file. All lines in this template will be present in the header of the combined VCF(s). This template should **NOT** contain sample/callset names (i.e. the line starting with #CHR). Contigs present in the _vid_mapping_filename_ file will be added to the combined GVCF, if not present in the template header.
+* _reference_genome_ : (type:string, mandatory): Path to reference genome (indexed FASTA file).
+
+The following options are for developers/tuners.
+* _do_ping_pong_buffering_ (type: boolean, optional, default: _false_): Enabling this option runs the multiple stages in the loader in parallel using [OpenMP's sections directive](https://computing.llnl.gov/tutorials/openMP/#SECTIONS) (software pipelining).
+* _offload_vcf_output_processing_ (type: boolean, optional, default: _false_): When producing a combined gVCF, enabling this option offloads the processing associated with serializing the VCF record into  a character buffer, compression and writing to disk to another thread. This reduces the burden on the critical thread in the combined GVCF process.
+* _discard_vcf_index_ (type: boolean, optional, default: _true_): The loader program traverses each VCF in column order. This is done by sorting contigs in increasing order of their offsets (as described in the _vid_mapping_file_) and then using the indexed VCF reader from [htslib](https://github.com/samtools/htslib) to traverse the VCF in the sorted contig order. The program by default uses the input VCF's index only when switching from one contig to another since records belonging to a single contig are contiguous and in non-decreasing order in the VCF. When a new contig is seen, the index is re-loaded into memory (from disk) and moves to the next contig (in the sorted contig order). Once the file pointer moves to the next contig, the index structures are dropped from memory.
+
+    Indexes are not stored in memory for the duration of the program to save memory. In our tests, for WES gVCFs, each index structure consumed about 6 MB of memory. For WGS gVCFs, each index consumed around 40 MB of memory. When loading data from 1
+
+    The 
