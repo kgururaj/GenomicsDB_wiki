@@ -173,6 +173,9 @@ The following options are for developers/tuners.
 * _offload_vcf_output_processing_ (type: boolean, optional, default: _false_): When producing a combined gVCF, enabling this option offloads the processing associated with serializing the VCF record into  a character buffer, compression and writing to disk to another thread. This reduces the burden on the critical thread in the combined GVCF process.
 * _discard_vcf_index_ (type: boolean, optional, default: _true_): The loader program traverses each VCF in column order. This is done by sorting contigs in increasing order of their offsets (as described in the _vid_mapping_file_) and then using the indexed VCF reader from [htslib](https://github.com/samtools/htslib) to traverse the VCF in the sorted contig order. The program by default uses the input VCF's index only when switching from one contig to another since records belonging to a single contig are contiguous and in non-decreasing order in the VCF. When a new contig is seen, the index is re-loaded into memory (from disk) and moves to the next contig (in the sorted contig order). Once the file pointer moves to the next contig, the index structures are dropped from memory.
 
-    Indexes are not stored in memory for the duration of the program to save memory. In our tests, for WES gVCFs, each index structure consumed about 6 MB of memory. For WGS gVCFs, each index consumed around 40 MB of memory. When loading data from 1
+    Indexes are not stored in memory for the duration of the program to ensure that the loader program is tractable when dealing with a large number of inputs. In our tests, for WES gVCFs, each index structure consumed about 6 MB of memory. For WGS gVCFs, each index consumed around 40 MB of memory. This becomes an issue when dealing with \>= 1000 files.
 
-    The 
+## Running the program
+Once you have all the required files and parameter values, run:
+
+    ./variant/example/bin/vcf2tiledb <loader_json>
