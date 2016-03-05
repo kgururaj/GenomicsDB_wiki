@@ -164,7 +164,7 @@ The import program needs additional parameters that control how the program runs
 * _num_parallel_vcf_files_ (type:integer, optional, default: 1): This parameter controls the number of VCF files that are opened and read in parallel by the loader program. Increasing this number could improve (decrease) loading time.
 * _delete_and_create_tiledb_array_ (type: boolean, optional, default: _false_): If set to _true_, the program will delete existing data in the array referred to by the _workspace_ and _array_ fields. By default, the loader program will only update/add to the existing array and not delete previous data.
 
-The following options are required only when producing a combined VCF.
+The following options are required only when producing a combined VCF (not mandatory if combined VCF is not being produced).
 * _vcf_header_filename_ (type:string, mandatory): Path to a template VCF header file. All lines in this template will be present in the header of the combined VCF(s). This template should **NOT** contain sample/callset names (i.e. the line starting with #CHR). Contigs present in the _vid_mapping_filename_ file will be added to the combined GVCF, if not present in the template header.
 * _reference_genome_ : (type:string, mandatory): Path to reference genome (indexed FASTA file).
 
