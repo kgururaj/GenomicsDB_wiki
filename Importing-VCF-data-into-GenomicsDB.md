@@ -1,16 +1,15 @@
 The import program can handle block compressed and indexed VCFs, gVCFs, BCFs and gBCFs. For brevity, we will only use the term VCF.
 
 ## Preliminaries
-* Use the branch _multi_node_loader_.
-* You need htslib while [[compiling|Compiling-VariantDB]].
+* You need htslib while [[compiling|Compiling-GenomicsDB]].
 
 ## Organizing your data
 * All your VCFs must be block compressed and indexed. [Bcftools](https://github.com/samtools/bcftools) is one good option for compressing and indexing.
 * In a multi-node environment, you must decide:
-    * How to [[partition your data in TileDB|VariantDB-setup-in-a-multi-node-cluster]].
+    * How to [[partition your data in TileDB|GenomicsDB-setup-in-a-multi-node-cluster]].
     * How your VCF files are accessed by the import program:
         * On a shared filesystem (NFS, Lustre etc) accessible from all nodes.
-        * If you are partitioning data by rows, your files can be scattered across local filesystems on multiple machines; each filesystem accessible only by the node on which it is mounted. Currently, such a distribution isn't supported for column partitioning.
+        * If you are partitioning data by rows, your files can be scattered across local filesystems on multiple machines; each filesystem accessible only by the node on which it is mounted. Currently, such a setup isn't supported for column partitioning.
 
 ## Information about VCFs for the import program
 There are 3 pieces of information that the import program needs:
@@ -134,7 +133,7 @@ The import program needs additional parameters that control how the program runs
         "discard_vcf_index": true,
     }
 
-* _row_based_partitioning_ (optional, type: boolean, default value: _false_): Controls how your variant data is partitioned across multiple nodes/TileDB instances - see [[this wiki page for more information first|VariantDB-setup-in-a-multi-node-cluster]]. The default value is _false_, which implies your data is partitioned by columns.
+* _row_based_partitioning_ (optional, type: boolean, default value: _false_): Controls how your variant data is partitioned across multiple nodes/TileDB instances - see [[this wiki page for more information first|GenomicsDB-setup-in-a-multi-node-cluster]]. The default value is _false_, which implies your data is partitioned by columns.
 * _produce_combined_vcf_ (optional, type: boolean, default value: _false_): The import program can produced a combined VCF identical to that produced by the [GATK CombineGVCF tool](https://www.broadinstitute.org/gatk/guide/tooldocs/org_broadinstitute_gatk_tools_walkers_variantutils_CombineGVCFs.php) if this parameter is set to _true_. Note that if you partition your array by rows, then you cannot produce a combined GVCF - it works only when the array is partitioned by columns.
 * _produce_tiledb_array_ (optional, type: boolean,, default value _false_): The import program will produce the TileDB array if this parameter is set to _true_.
 * _column_partitions_ (mandatory if _row_based_partitioning_=_false_, else optional): This field is a list/array of dictionaries. Each dictionary describes the column partition.
@@ -160,7 +159,7 @@ The import program needs additional parameters that control how the program runs
         1	100	GATC	GC
         1	500	T	C
 
-    In an indexed VCF, querying for position 101 would return the deletion allele since it overlaps the queried position (even though, by the VCF convention, it begins at location 100). Hence, we can think of a deletion as an interval and any query within that interval should return the deletion. By setting this flag to _true_, all deletions are treated as intervals. Without this flag, a VariantDB query for position 101 would *NOT* return the deletion.
+    In an indexed VCF, querying for position 101 would return the deletion allele since it overlaps the queried position (even though, by the VCF convention, it begins at location 100). Hence, we can think of a deletion as an interval and any query within that interval should return the deletion. By setting this flag to _true_, all deletions are treated as intervals. Without this flag, a GenomicsDB query for position 101 would *NOT* return the deletion.
 * _num_parallel_vcf_files_ (type:integer, optional, default: 1): This parameter controls the number of VCF files that are opened and read in parallel by the loader program. Increasing this number could improve (decrease) loading time.
 * _delete_and_create_tiledb_array_ (type: boolean, optional, default: _false_): If set to _true_, the program will delete existing data in the array referred to by the _workspace_ and _array_ fields. By default, the loader program will only update/add to the existing array and not delete previous data.
 
@@ -178,4 +177,4 @@ The following options are for developers/tuners.
 ## Running the program
 Once you have all the required files and parameter values, run:
 
-    ./variant/example/bin/vcf2tiledb <loader_json>
+    ./bin/vcf2tiledb <loader_json>

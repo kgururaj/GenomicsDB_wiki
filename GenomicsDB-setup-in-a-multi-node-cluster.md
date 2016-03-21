@@ -1,4 +1,4 @@
-VariantDB can be setup to store variant data across multiple nodes in a cluster. The user must decide how to partition data across multiple nodes. Currently, two primary modes of partitioning are supported by various import/query tools.
+GenomicsDB can be setup to store variant data across multiple nodes in a cluster. The user must decide how to partition data across multiple nodes. Currently, two primary modes of partitioning are supported by various import/query tools.
 
 * Row partitioning: In this mode, for a given sample/CallSet (row), all the variant data resides in a single node. Data belonging to different samples/CallSets may be scattered across different machines.
 
