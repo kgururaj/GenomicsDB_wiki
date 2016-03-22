@@ -10,10 +10,10 @@ The GenomicsDB stores variant data in a 2D TileDB array where:
 * Variant interval/gVCF interval data is stored in a cell at the start of the interval. The END is stored as a cell attribute. When queried for a given genomic position, the query library performs an efficient left sweep to determine all intervals that intersect with the queried position.
 * Cells are stored in column major order - this makes accessing cells with the same column index (i.e. data for a given genomic position over all samples) fast.
 
-#Typical methodology for importing variant data into TileDB
+#Typical methodology for importing variant data into GenomicsDB 
 
 * Assign unique row ids to each sample/CallSet. Sample/CallSet names must be unique
-* Assign unique column ranges to each chromosome/contig in the “flattened” column space of TileDB array. Also, all chromosomes must be from the same reference genome - we have no idea what will happen if you mix and match.
-* Define TileDB array schema with all the fields/attributes you wish to store in TileDB.
+* Assign unique column ranges to each chromosome/contig in the “flattened” column space of TileDB array. Also, all chromosomes must be from the same reference genome - results are undefined if you mix and match chromosomes from different reference genomes.
+* Define a list of fields/attributes you wish to store in GenomicsDB.
 * Produce a CSV file with a list of cells and attributes for each sample/CallSet
 * Import CSV files into TileDB

@@ -5,6 +5,10 @@
     * Zlib headers and libraries
     * OpenSSL headers and libraries
 * *NOTE*: We use git submodules to pull in the remaining dependencies - you can skip directly to the [[building|Compiling-GenomicsDB#Building]] section if you do not wish to manually fetch and build the following dependencies.
+* TileDB
+
+        git clone https://github.com/Intel-HSS/TileDB.git
+
 * [Rapidjson library](https://github.com/miloyip/rapidjson): Parameters are passed to TileDB tools/examples through a JSON file - Rapidjson is used to parse this JSON file. The library is a header-only library - no compilation needed.
 
         git clone https://github.com/miloyip/rapidjson
@@ -43,18 +47,18 @@ If you have downloaded and compiled the dependencies manually, use the following
 * Compiling in release mode
 
         #release mode - O3, NDEBUG - assertions disabled, OpenMP enabled
-        make MPIPATH=<mpi_package_dir>/bin/ RAPIDJSON_INCLUDE_DIR=<rapidjson_dir>/include BUILD=release OPENMP=1 -j 8
+        make MPIPATH=<mpi_package_dir>/bin/ TILEDB_DIR=<TileDB_dir> RAPIDJSON_INCLUDE_DIR=<rapidjson_dir>/include BUILD=release OPENMP=1 -j 8
 
 * If you have the MPI compilers (mpicc, mpicxx) in your PATH, you can drop the MPIPATH argument
 
         #release mode
-        make RAPIDJSON_INCLUDE_DIR=<rapidjson_dir>/include BUILD=release OPENMP=1 -j 8
+        make TILEDB_DIR=<TileDB_dir> RAPIDJSON_INCLUDE_DIR=<rapidjson_dir>/include BUILD=release OPENMP=1 -j 8
 
 * Compiling in debug mode (for developers)
 
         #debug mode - assertions enabled, can use gdb for stepping, no OPENMP (can enable with the OPENMP=1 flag)
-        make MPIPATH=<mpi_package_dir>/bin/ RAPIDJSON_INCLUDE_DIR=<rapidjson_dir>/include BUILD=debug -j 8
+        make MPIPATH=<mpi_package_dir>/bin/ TILEDB_DIR=<TileDB_dir> RAPIDJSON_INCLUDE_DIR=<rapidjson_dir>/include BUILD=debug -j 8
 
 * Compiling with support for parsing/creating a gVCF/VCF/BCF: compile htslib as described above.
 
-        make MPIPATH=<mpi_package_dir>/bin/ HTSDIR=<htslib_directory> RAPIDJSON_INCLUDE_DIR=<rapidjson_dir>/include BUILD=release OPENMP=1 -j 8
+        make MPIPATH=<mpi_package_dir>/bin/ TILEDB_DIR=<TileDB_dir> HTSDIR=<htslib_directory> RAPIDJSON_INCLUDE_DIR=<rapidjson_dir>/include BUILD=release OPENMP=1 -j 8

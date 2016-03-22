@@ -175,6 +175,13 @@ The following options are for developers/tuners.
     Indexes are not stored in memory for the duration of the program to ensure that the loader program is tractable when dealing with a large number of inputs. In our tests, for WES gVCFs, each index structure consumed about 6 MB of memory. For WGS gVCFs, each index consumed around 40 MB of memory. This becomes an issue when dealing with \>= 1000 files.
 
 ## Running the program
-Once you have all the required files and parameter values, run:
+* If you have a single partition (in _column_partitions_ or _row_partitions_) in your loader JSON configuration file, 
+simply run:
 
-    ./bin/vcf2tiledb <loader_json>
+        ./bin/vcf2tiledb <loader_json>
+
+* If you have multiple partitions, you can use MPI to create the partitions in parallel. For more information on how to 
+use MPI in the context of GenomicsDB, see [[this page|MPI-with-GenomicsDB]].
+
+        mpirun -np <num_partitions> [-hostfile <hostfile>] ./bin/vcf2tiledb <loader_json>
+
