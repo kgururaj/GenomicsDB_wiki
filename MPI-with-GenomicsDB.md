@@ -67,12 +67,12 @@ GenomicsDB with the following _query_column_ranges_ setting:
 
           "query_column_ranges" : [ [ [0, 100 ], 500  ], [ [0, 10000000] ] ],
 
-The above example specifies that _query_column_ranges_ is a list of size 2. Each element of the outermost list is also a 
+    The above example specifies that _query_column_ranges_ is a list of size 2. Each element of the outermost list is also a 
 list and specifies the column ranges that the corresponding MPI process will query. In the above example, the MPI 
 process with rank 0 will query the column range \[0-100\] and the single position 500. MPI process 1 will query the 
 column range \[0-10000000\].
 
-The length of the outermost list MUST be EITHER equal to the number of MPI processes launched or just 1 (implying that 
+    The length of the outermost list MUST be EITHER equal to the number of MPI processes launched or just 1 (implying that 
 all MPI processes query the same list of column ranges).
 *_query_row_ranges_:  Same format as _query_column_ranges_, but for rows.
 
@@ -83,38 +83,36 @@ MPI is a standard and there are multiple implementations of the standard. We hav
 imlpementations is beyond the scope of this wiki. We provide sample commands that worked for us:
 
 * OpenMPI:
-** Sample command on Ethernet based clusters:
+    * Sample command on Ethernet based clusters:
 
-             mpirun --mca btl_tcp_if_include <network> -n <num_processes> -hostsfile <hostsfile> -x LD_LIBRARY_PATH -x PATH --bind-to none <genomicsdb_program> <args>
+            mpirun --mca btl_tcp_if_include <network> -n <num_processes> -hostsfile <hostsfile> -x LD_LIBRARY_PATH -x PATH --bind-to none <genomicsdb_program> <args>
 
-The _\<network\>_ arguments specifies a subnet such as 192.168.1.0/24.
-** Sample hostsfile. The number after _max_slots_ represents the number of processes to run in that machine. If left 
+    The _\<network\>_ arguments specifies a subnet such as 192.168.1.0/24.
+    * Sample hostsfile. The number after _max_slots_ represents the number of processes to run in that machine. If left 
 empty, the MPI implementation generally sets it to the number of cores in that machine.
 
-             host0.cluster.org max_slots=2
-             host1.cluster.org max_slots=6
+            host0.cluster.org max_slots=2
+            host1.cluster.org max_slots=6
 
 * MPICH:
-** Sample command:
+    * Sample command:
 
-             mpirun -n <num_processes> -f <hostsfile> -genvlist PATH,LD_LIBRARY_PATH <genomicsdb_program> <args>
+            mpirun -n <num_processes> -f <hostsfile> -genvlist PATH,LD_LIBRARY_PATH <genomicsdb_program> <args>
 
-The network must specify a subnet such as 192.168.1.0/24.
-** Sample hostsfile
+    * Sample hostsfile
 
-             host0.cluster.org:2
-             host1.cluster.org:6
+            host0.cluster.org:2
+            host1.cluster.org:6
 
 * MVAPICH2:
-** Sample command:
+    * Sample command:
 
-             mpirun_rsh -n <num_processes> -hostsfile <hostsfile> LD_LIBRARY_PATH=$LD_LIBRARY_PATH PATH=$PATH <genomicsdb_program> <args>
+            mpirun_rsh -n <num_processes> -hostsfile <hostsfile> LD_LIBRARY_PATH=$LD_LIBRARY_PATH PATH=$PATH <genomicsdb_program> <args>
 
-The network must specify a subnet such as 192.168.1.0/24.
-** Sample hostsfile
+    * Sample hostsfile
 
-             host0.cluster.org:2
-             host1.cluster.org:6
+            host0.cluster.org:2
+            host1.cluster.org:6
 
 ## Common pitfalls
 * The JSON configuration files passed as command line arguments to the GenomicsDB programs should be accessible on all 
