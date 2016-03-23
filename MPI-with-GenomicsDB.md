@@ -57,8 +57,8 @@ and "/share/vcf2" respectively since the field _"vcf_output_filename"_ is a list
 
 ### Special fields during the loading process
 * _column_partitions_: When using multiple MPI processes to load data into multiple column partitions, the user must 
-specify the partitioning information as a list of dictionaries as described in the [[loading page | 
-Importing-VCF-data-into-GenomicsDB#execution-parameters-for-the-import-program]]. The length of the list must match the 
+specify the partitioning information as a list of dictionaries as described in the [[ loading page | 
+Importing-VCF-data-into-GenomicsDB#execution-parameters-for-the-import-program ]]. The length of the list must match the 
 number of MPI processes which must be equal to the number of partitions that the user wishes to create.
 * _row_partitions_: Same as _column_partitions_.
 
