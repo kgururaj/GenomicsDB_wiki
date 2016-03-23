@@ -131,7 +131,7 @@ on stdout.
  
 
 
-        ./bin/gt_mpi_gather -j <query.json> -l <loader.json> --produce-Broad-GVCF [-O <output_format>]
+    ./bin/gt_mpi_gather -j <query.json> -l <loader.json> --produce-Broad-GVCF [-O <output_format>]
 
 Output format can be one of the following strings: "z" (compressed VCF),"b" (compressed BCF) or "bu" (uncompressed BCF). 
 If nothing is specified, the default is uncompressed VCF.
