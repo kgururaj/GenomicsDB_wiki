@@ -128,6 +128,7 @@ to the combined GVCF, if not present in the template header. The template header
 * _vcf_output_filename_ (optional, type:string or list of strings): If producing a combined GVCF, then this parameter 
 specifies the path at which the output VCF will be created. If this parameter is omitted, then the output VCF is printed 
 on stdout.
+ 
 
 
         ./bin/gt_mpi_gather -j <query.json> -l <loader.json> --produce-Broad-GVCF [-O <output_format>]
