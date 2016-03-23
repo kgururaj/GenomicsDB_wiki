@@ -16,7 +16,7 @@ In GenomicsDB, we use MPI for the following purposes:
 * The MPI standard uses 32-bit ints for counts, displacements etc. This implies that messages larger than INT32_MAX cannot be gathered using MPI primitives. The current implementation will check if the message size is larger than INT32_MAX and exit with an error message.
 
 ## Fields in JSON configuration files for MPI programs
-In a multi-node cluster, the user is free to set the location of an array on each machine independently.  Thus, all 
+In a multi-node cluster, the user is free to set the location of an array partition on each machine independently.  Thus, all 
 machines may host their array partitions at the same path on their private filesystems or at different paths.  
 Additionally, during querying, the user may wish to launch multiple MPI processes to process data from a single array 
 partition for performance reasons (for example, a given array could have 1 TB of data and the user might wish to divide 
