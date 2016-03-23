@@ -85,7 +85,7 @@ MPI process. Each member list contains the column ranges that are to be queried 
 inner list can be a single integer, representing the single column position that needs to be queried or a list of size 2 
 representing the column range that needs to be queried.
 
-In the above example, the process will query column range [0, 100] (inclusive) and the position 500 and return all 
+In the above example, the process will query column range \[0-100\] (inclusive) and the position 500 and return all 
 _VariantCall_ intersecting with these query ranges/positions.
 
 For a more detailed explanation as to why this field is a list of lists (and other fields are lists of strings), we 
@@ -100,8 +100,8 @@ to be included in the query.
 
     ./bin/gt_mpi_gather -j <query.json> -l <loader.json> --print-calls
 
-The \<loader.json\> file is the [[configuration file used to import data into the GenomicsDB 
-array|Importing-VCF-data-into-GenomicsDB]].
+The \<loader.json\> file is the 
+[[configuration file used to import data into the GenomicsDB array|Importing-VCF-data-into-GenomicsDB]].
 
 Output data is sent to stdout and informational messages are sent to stderr.
 
@@ -129,6 +129,7 @@ to the combined GVCF, if not present in the template header. The template header
 specifies the path at which the output VCF will be created. If this parameter is omitted, then the output VCF is printed 
 on stdout.
 
+
     ./bin/gt_mpi_gather -j <query.json> -l <loader.json> --produce-Broad-GVCF [-O <output_format>]
 
 Output format can be one of the following strings: "z" (compressed VCF),"b" (compressed BCF) or "bu" (uncompressed BCF). 
@@ -140,5 +141,5 @@ first. Once you setup your JSON configuration files and MPI hostfiles correctly:
     
     mpirun -n <num_processes> -hostfile <hostfile> ./bin/gt_mpi_gather -j <query.json> -l <loader.json> [<other_args>]
 
-* Note that to produce a combined GVCF with MPI your TileDB array partitions must be partitioned by column. Each MPI 
+To produce a combined GVCF with MPI your TileDB array partitions must be partitioned by column. Each MPI 
 process will produce a separate combined VCF file corresponding to the query column range assigned to it.

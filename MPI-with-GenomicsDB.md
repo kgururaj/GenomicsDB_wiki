@@ -6,7 +6,7 @@ languages such as Fortran, C, C++ and Java." MPI libraries allow parallel progra
 multiple machines over a wide variety of network fabrics (such as Ethernet, Infiniband etc).
 
 A comprehensive discussion of MPI is beyond the scope of this wiki - we refer the reader to online tutorials such as the 
-one provided by [LLNL](https://computing.llnl.gov/tutorials/mpi/).
+[one provided by LLNL](https://computing.llnl.gov/tutorials/mpi/).
 
 In GenomicsDB, we use MPI for the following purposes:
 * Loading data into multiple TileDB partitions that may be scattered across multiple machines
@@ -87,7 +87,7 @@ imlpementations is beyond the scope of this wiki. We provide sample commands tha
 
             mpirun --mca btl_tcp_if_include <network> -n <num_processes> -hostsfile <hostsfile> -x LD_LIBRARY_PATH -x PATH --bind-to none <genomicsdb_program> <args>
 
-    The _\<network\>_ arguments specifies a subnet such as 192.168.1.0/24.
+        The _\<network\>_ arguments specifies a subnet such as 192.168.1.0/24.
     * Sample hostsfile. The number after _max_slots_ represents the number of processes to run in that machine. If left 
 empty, the MPI implementation generally sets it to the number of cores in that machine.
 
