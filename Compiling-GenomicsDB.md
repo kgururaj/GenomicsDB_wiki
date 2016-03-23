@@ -13,7 +13,7 @@
 
         git clone https://github.com/miloyip/rapidjson
 
-* If you wish to use any functionality in GenomicsDB that will require parsing/creating a VCF/gVCF/BCF, then you need [htslib](https://github.com/samtools/htslib). We maintain a [fork of htslib](https://github.com/Intel-HSS/htslib) with some modifications that are needed for use with GenomicsDB.
+* [Htslib](https://github.com/samtools/htslib) for parsing and exporting VCFs. We maintain a [fork of htslib](https://github.com/Intel-HSS/htslib) with some modifications that are needed for use with GenomicsDB.
 
         git clone https://github.com/Intel-HSS/htslib
         cd htslib
@@ -22,12 +22,12 @@
 
 ## Building
 * Get the right branch based on what you wish to do - see the other pages for which branch to get. If you do not know which branch to use, the *master* branch is your best bet.
-* To get dependencies, using git submodule:
+* To get dependencies using git submodule, run:
 
-        git clone --recursive <GenomicsDB_url> 
+        git clone --recursive https://github.com/Intel-HSS/GenomicsDB.git
 
 * Make sure you have your new gcc version in your PATH.
-* Assuming you want to use the dependencies pulled in by git and you have mpicxx in your PATH
+* Assuming you want to use the dependencies pulled in by git and you have the MPI compiler (mpicxx) in your PATH
         
         #release mode - O3, NDEBUG - assertions disabled, OpenMP enabled
         make BUILD=release OPENMP=1 -j 8

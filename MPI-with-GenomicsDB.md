@@ -12,6 +12,9 @@ In GenomicsDB, we use MPI for the following purposes:
 * Loading data into multiple TileDB partitions that may be scattered across multiple machines
 * Querying multiple TileDB partitions that may be scattered across multiple machines
 
+## Known issues:
+* The MPI standard uses 32-bit ints for counts, displacements etc. This implies that messages larger than INT32_MAX cannot be gathered using MPI primitives. The current implementation will check if the message size is larger than INT32_MAX and exit with an error message.
+
 ## Fields in JSON configuration files for MPI programs
 In a multi-node cluster, the user is free to set the location of an array on each machine independently.  Thus, all 
 machines may host their array partitions at the same path on their private filesystems or at different paths.  
