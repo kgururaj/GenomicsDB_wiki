@@ -50,7 +50,6 @@ A sample _Variant_ formatted as a JSON is shown below:
             {
                 "row": 2,
                 "interval": [ 17384, 17384 ],
-
                 "fields": {
                     "REF": "G",
                     "ALT": [ "A","<NON_REF>" ],
@@ -110,9 +109,10 @@ Output data is sent to stdout and informational messages are sent to stderr.
     ./bin/gt_mpi_gather -j <query.json> -l <loader.json>
 
 ## Producing combined gVCF
-We provide a mechanism to export the data in GenomicsDB into a VCF/BCF similar to that produced by the [GATK CombineGVCF 
+We provide a mechanism to export the data in GenomicsDB into a combined VCF/BCF similar to that produced by the [GATK 
+CombineGVCF 
 tool](https://www.broadinstitute.org/gatk/guide/tooldocs/org_broadinstitute_gatk_tools_walkers_variantutils_CombineGVCFs.php).  
-Some extra fields are needed in the query JSON file:
+Additional fields are needed in the query JSON file to produce a combined VCF:
 
     "vcf_header_filename": "/share/template_vcf_header.vcf",
     "reference_genome" : "/opt/Homo_sapiens_assembly19.fasta",
@@ -137,7 +137,7 @@ If nothing is specified, the default is uncompressed VCF.
 Please take a look at the [[wiki page explaining how we use MPI in the context of GenomicsDB|MPI-with-GenomicsDB]] 
 first. Once you setup your JSON configuration files and MPI hostfiles correctly:
     
-    mpirun -n <num_processes> -hostfile <hostfile> ./bin/gt_mpi_gather -j <query.json> -l <loader.json>
+    mpirun -n <num_processes> -hostfile <hostfile> ./bin/gt_mpi_gather -j <query.json> -l <loader.json> [<other_args>]
 
 * Note that to produce a combined GVCF with MPI your TileDB array partitions must be partitioned by column. Each MPI 
 process will produce a separate combined VCF file corresponding to the query column range assigned to it.

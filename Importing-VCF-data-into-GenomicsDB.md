@@ -131,6 +131,9 @@ The import program needs additional parameters that control how the program runs
         "do_ping_pong_buffering" : true,
         "offload_vcf_output_processing" : true,
         "discard_vcf_index": true,
+        "compress_tiledb_array" : true,
+        "segment_size" : 1048576,
+        "num_cells_per_tile" : 1000
     }
 
 * _row_based_partitioning_ (optional, type: boolean, default value: _false_): Controls how your variant data is partitioned across multiple nodes/TileDB instances - see [[this wiki page for more information first|GenomicsDB-setup-in-a-multi-node-cluster]]. The default value is _false_, which implies your data is partitioned by columns.
@@ -164,15 +167,29 @@ The import program needs additional parameters that control how the program runs
 * _delete_and_create_tiledb_array_ (type: boolean, optional, default: _false_): If set to _true_, the program will delete existing data in the array referred to by the _workspace_ and _array_ fields. By default, the loader program will only update/add to the existing array and not delete previous data.
 
 The following options are required only when producing a combined VCF (not mandatory if combined VCF is not being produced).
-* _vcf_header_filename_ (type:string, mandatory): Path to a template VCF header file. All lines in this template will be present in the header of the combined VCF(s). This template should **NOT** contain sample/callset names (i.e. the line starting with #CHR). Contigs present in the _vid_mapping_filename_ file will be added to the combined GVCF, if not present in the template header.
+* _vcf_header_filename_ (type:string, mandatory): Path to a template VCF header file. All lines in this template will be present in the header of the combined VCF(s). This template should **NOT** contain sample/callset names (i.e. the line starting with #CHR). Contigs present in the _vid_mapping_filename_ file will be added to the combined GVCF, if not present in the template header. The template header should contain information about fields (INFO, FILTER, FORMAT).
 * _reference_genome_ : (type:string, mandatory): Path to reference genome (indexed FASTA file).
 
 The following options are for developers/tuners.
 * _do_ping_pong_buffering_ (type: boolean, optional, default: _false_): Enabling this option runs the multiple stages in the loader in parallel using [OpenMP's sections directive](https://computing.llnl.gov/tutorials/openMP/#SECTIONS) (software pipelining).
 * _offload_vcf_output_processing_ (type: boolean, optional, default: _false_): When producing a combined gVCF, enabling this option offloads the processing associated with serializing the VCF record into  a character buffer, compression and writing to disk to another thread. This reduces the burden on the critical thread in the combined GVCF process.
-* _discard_vcf_index_ (type: boolean, optional, default: _true_): The loader program traverses each VCF in column order. This is done by sorting contigs in increasing order of their offsets (as described in the _vid_mapping_file_) and then using the indexed VCF reader from [htslib](https://github.com/samtools/htslib) to traverse the VCF in the sorted contig order. The program by default uses the input VCF's index only when switching from one contig to another since records belonging to a single contig are contiguous and in non-decreasing order in the VCF. When a new contig is seen, the index is re-loaded into memory (from disk) and moves to the next contig (in the sorted contig order). Once the file pointer moves to the next contig, the index structures are dropped from memory.
-
-    Indexes are not stored in memory for the duration of the program to ensure that the loader program is tractable when dealing with a large number of inputs. In our tests, for WES gVCFs, each index structure consumed about 6 MB of memory. For WGS gVCFs, each index consumed around 40 MB of memory. This becomes an issue when dealing with \>= 1000 files.
+* _discard_vcf_index_ (type: boolean, optional, default: _true_): The loader program traverses each VCF in column order. 
+This is done by sorting contigs in increasing order of their offsets (as described in the _vid_mapping_file_) and then 
+using the indexed VCF reader from [htslib](https://github.com/samtools/htslib) to traverse the VCF in the sorted contig 
+order. The program by default uses the input VCF's index only when switching from one contig to another since records 
+belonging to a single contig are contiguous and in non-decreasing order in the VCF. When a new contig is seen, the index 
+is re-loaded into memory (from disk) and the program moves to the next contig (in the sorted contig order). Once the 
+file pointer moves to the next contig, the index structures are dropped from memory.
+    Indexes are not stored in memory for the duration of the program to ensure that the loader program is tractable when 
+dealing with a large number of inputs. In our tests, for WES gVCFs, each index structure consumed about 6 MB of memory.  
+For WGS gVCFs, each index consumed around 40 MB of memory. This becomes an issue when dealing with \>= 1000 files.
+* _compress_tiledb_array_ (type: boolean, optional, default: _true_): Determines whether the files storing TileDB data 
+on disk are compressed.
+* _segment_size_ (type: int64_t, optional, default: 10MB): Buffer size in bytes allocated for TileDB attributes during 
+the loading process. Should be large enough to hold one cell worth of data. Small buffer sizes (< 4KB) may lead to low
+performance since data is flushed to disk each time the buffer is full.
+* _num_cells_per_tile_ (type: int64_t, optional, default: 1000): Controls number of cells per tile. Very small values 
+can lead to low performance during loading and querying (since a tile is a unit of indexing in TileDB)
 
 ## Running the program
 * If you have a single partition (in _column_partitions_ or _row_partitions_) in your loader JSON configuration file, 
