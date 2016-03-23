@@ -25,9 +25,10 @@ field is self explanatory.
 _Variant_ is in some ways similar to [GAVariant as defined by 
 GA4GH](http://ga4gh.org/ga4gh_api.html#/schema/org.ga4gh.GAVariant). In the GenomicsDB implementation, a _Variant_ is a 
 set of _VariantCalls_ which meet the following properties:
-1 All _VariantCalls_ span the exact same column interval
-1 All _VariantCalls_ have the same value of REF
-1 All _VariantCalls_ have the same value of ALT
+
+1. All _VariantCalls_ span the exact same column interval
+1. All _VariantCalls_ have the same value of REF
+1. All _VariantCalls_ have the same value of ALT
 
 A sample _Variant_ formatted as a JSON is shown below:
 
