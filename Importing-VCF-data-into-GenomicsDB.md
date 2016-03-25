@@ -6,7 +6,7 @@ The import program can handle block compressed and indexed VCFs, gVCFs, BCFs and
 ## Organizing your data
 * All your VCFs must be block compressed and indexed. [Bcftools](https://github.com/samtools/bcftools) is one good option for compressing and indexing.
 * The VCF format allows you to have multiple lines with the same position (identical chromosome+pos). The import program 
-can *NOT* handles such VCFs. Make sure you use tools like [bcftools](https://github.com/samtools/bcftools) to collapse 
+can *NOT* handle such VCFs. Make sure you use tools like [bcftools](https://github.com/samtools/bcftools) to collapse 
 multiple lines with the same position into a single line.
 * In a multi-node environment, you must decide:
     * How to [[partition your data in TileDB|GenomicsDB-setup-in-a-multi-node-cluster]].
