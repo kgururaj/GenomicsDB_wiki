@@ -175,7 +175,7 @@ The following options are required only when producing a combined VCF (not manda
 
 The following options are for developers/tuners.
 * _do_ping_pong_buffering_ (type: boolean, optional, default: _false_): Enabling this option runs the multiple stages in the loader in parallel using [OpenMP's sections directive](https://computing.llnl.gov/tutorials/openMP/#SECTIONS) (software pipelining).
-* _offload_vcf_output_processing_ (type: boolean, optional, default: _false_): When producing a combined gVCF, enabling this option offloads the processing associated with serializing the VCF record into  a character buffer, compression and writing to disk to another thread. This reduces the burden on the critical thread in the combined GVCF process.
+* _offload_vcf_output_processing_ (type: boolean, optional, default: _false_): When producing a combined gVCF, enabling this option offloads the processing associated with serializing the VCF record into  a character buffer, compression and writing to disk to another thread. This reduces the burden on the critical thread in the combine GVCF process.
 * _discard_vcf_index_ (type: boolean, optional, default: _true_): The loader program traverses each VCF in column order. 
 This is done by sorting contigs in increasing order of their offsets (as described in the _vid_mapping_file_) and then 
 using the indexed VCF reader from [htslib](https://github.com/samtools/htslib) to traverse the VCF in the sorted contig 
@@ -183,6 +183,7 @@ order. The program by default uses the input VCF's index only when switching fro
 belonging to a single contig are contiguous and in non-decreasing order in the VCF. When a new contig is seen, the index 
 is re-loaded into memory (from disk) and the program moves to the next contig (in the sorted contig order). Once the 
 file pointer moves to the next contig, the index structures are dropped from memory.
+
     Indexes are not stored in memory for the duration of the program to ensure that the loader program is tractable when 
 dealing with a large number of inputs. In our tests, for WES gVCFs, each index structure consumed about 6 MB of memory.  
 For WGS gVCFs, each index consumed around 40 MB of memory. This becomes an issue when dealing with \>= 1000 files.
@@ -203,5 +204,5 @@ simply run:
 * If you have multiple partitions, you can use MPI to create the partitions in parallel. For more information on how to 
 use MPI in the context of GenomicsDB, see [[this page|MPI-with-GenomicsDB]].
 
-        mpirun -np <num_partitions> [-hostfile <hostfile>] ./bin/vcf2tiledb <loader_json>
+        mpirun -n <num_partitions> [-hostfile <hostfile>] ./bin/vcf2tiledb <loader_json>
 
