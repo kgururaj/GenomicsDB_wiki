@@ -185,7 +185,7 @@ is re-loaded into memory (from disk) and the program moves to the next contig (i
 file pointer moves to the next contig, the index structures are dropped from memory.
 
     Indexes are not stored in memory for the duration of the program to ensure that the loader program is tractable when 
-dealing with a large number of inputs. In our tests, for WES gVCFs, each index structure consumed about 6 MB of memory.  
+dealing with a large number of inputs. In our tests, for WES gVCFs, each index structure consumed about 6 MB of memory. 
 For WGS gVCFs, each index consumed around 40 MB of memory. This becomes an issue when dealing with \>= 1000 files.
 * _compress_tiledb_array_ (type: boolean, optional, default: _true_): Determines whether the files storing TileDB data 
 on disk are compressed.
