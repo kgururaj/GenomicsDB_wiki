@@ -1,6 +1,6 @@
 **_This page contains outdated information. See [[this page|Importing-VCF-gVCF-data-into-TileDB]] for up to date information._**
 
-Read [this page](https://github.com/Intel-HSS/TileDB/wiki/Using-the-variant-specific-customizations) for instructions on how to compile and run the single node version of the variant library first.
+Read [this page](https://github.com/Intel-HLS/TileDB/wiki/Using-the-variant-specific-customizations) for instructions on how to compile and run the single node version of the variant library first.
 
 To handle spanning deletions (Broad's CombineGVCFs uses spanning deletions), we modify the CSV files and treat deletions as intervals. This keeps the left sweep operation within TileDB clean.
 
@@ -60,7 +60,7 @@ Other compilation options include DO_PROFILING=1, VERBOSE=1
   * "query_row_ranges" (optional): Same format as "query_column_ranges", but for rows. Can be omitted, in which case all rows of the array will be queried.
   * "query_attributes" (mandatory): List of strings specifying attributes to be fetched. Note for producing the GVCF as required by Broad, the attributes listed above MUST be used.
   * "sqlite" (mandatory) : Path to SQLite file containing contig, sample name and fields mapping. Can be a single string or a list of strings (same semantics as workspace/array fields).
-  * "vcf_header_filename" (mandatory) : Path to template VCF header file - contains only fields and contigs in the header. Can be a single string or a list of strings (same semantics as workspace/array fields). Use this [template header file] (https://github.com/Intel-HSS/TileDB/files/14269/template_vcf_header.txt) for producing GVCFs for Broad.
+  * "vcf_header_filename" (mandatory) : Path to template VCF header file - contains only fields and contigs in the header. Can be a single string or a list of strings (same semantics as workspace/array fields). Use this [template header file] (https://github.com/Intel-HLS/TileDB/files/14269/template_vcf_header.txt) for producing GVCFs for Broad.
   * "vcf_output_filename" (optional) : Output VCF/BCF file path. Can be a single string or a list of strings (same semantics as workspace/array fields). If not specified, the program will print the VCF/BCF records to stdout.
   * "reference_genome" (mandatory) : Path to reference genome (fasta file) that was used to obtain the input variants in TileDB. Can be a single string or a list of strings (same semantics as workspace/array fields).
 

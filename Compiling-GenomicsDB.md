@@ -7,15 +7,15 @@
 * *NOTE*: We use git submodules to pull in the remaining dependencies - you can skip directly to the [[building|Compiling-GenomicsDB#Building]] section if you do not wish to manually fetch and build the following dependencies.
 * TileDB
 
-        git clone https://github.com/Intel-HSS/TileDB.git
+        git clone https://github.com/Intel-HLS/TileDB.git
 
 * [Rapidjson library](https://github.com/miloyip/rapidjson): Parameters are passed to TileDB tools/examples through a JSON file - Rapidjson is used to parse this JSON file. The library is a header-only library - no compilation needed.
 
         git clone https://github.com/miloyip/rapidjson
 
-* [Htslib](https://github.com/samtools/htslib) for parsing and exporting VCFs. We maintain a [fork of htslib](https://github.com/Intel-HSS/htslib) with some modifications that are needed for use with GenomicsDB.
+* [Htslib](https://github.com/samtools/htslib) for parsing and exporting VCFs. We maintain a [fork of htslib](https://github.com/Intel-HLS/htslib) with some modifications that are needed for use with GenomicsDB.
 
-        git clone https://github.com/Intel-HSS/htslib
+        git clone https://github.com/Intel-HLS/htslib
         cd htslib
         git checkout intel_mods
         make -j 8
@@ -24,7 +24,7 @@
 * Get the right branch based on what you wish to do - see the other pages for which branch to get. If you do not know which branch to use, the *master* branch is your best bet.
 * To get dependencies using git submodule, run:
 
-        git clone --recursive https://github.com/Intel-HSS/GenomicsDB.git
+        git clone --recursive https://github.com/Intel-HLS/GenomicsDB.git
 
 * Make sure you have your new gcc version in your PATH.
 * Assuming you want to use the dependencies pulled in by git and you have the MPI compiler (mpicxx) in your PATH
