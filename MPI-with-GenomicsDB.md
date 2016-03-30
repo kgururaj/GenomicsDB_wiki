@@ -80,7 +80,7 @@ all MPI processes query the same list of column ranges).
 MPI is a standard and there are multiple implementations of the standard. We have used 3 implementations on GNU/Linux: 
 [OpenMPI](https://www.open-mpi.org/), [MPICH](https://www.mpich.org/) and 
 [MVAPICH2](http://mvapich.cse.ohio-state.edu/). A comprehensive discussion of the various parameters in the different 
-imlpementations is beyond the scope of this wiki. We provide sample commands that worked for us:
+implementations is beyond the scope of this wiki. We provide sample commands that worked for us:
 
 * OpenMPI:
     * Sample command on Ethernet based clusters:
