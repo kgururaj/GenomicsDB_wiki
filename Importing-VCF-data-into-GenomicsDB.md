@@ -128,7 +128,7 @@ The import program needs additional parameters that control how the program runs
         "size_per_column_partition": 3000,
         "treat_deletions_as_intervals" : true,
         "num_parallel_vcf_files" : 1,
-        "delete_and_create_tiledb_array" : false
+        "delete_and_create_tiledb_array" : false,
         "vcf_header_filename": "test_inputs/template_vcf_header.vcf",
         "reference_genome" : "/data/broad/samples/joint_variant_calling/broad_reference/Homo_sapiens_assembly19.fasta",
         "do_ping_pong_buffering" : true,
