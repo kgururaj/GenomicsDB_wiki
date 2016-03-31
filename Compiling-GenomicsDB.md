@@ -2,7 +2,11 @@
 * An MPI compiler, library and runtime (we have tested with reasonably new versions of OpenMPI, MPICH and MVAPICH2).
 * A relatively new version of gcc (C++-11 and OpenMP compatible). I have been testing with gcc-4.9.1.
   
-    Note that we use directives from OpenMP specification v4. This is supported on gcc versions >= 4.9.0.
+    Note that we use directives from OpenMP specification v4. This is supported on gcc versions >= 4.9.0. Without a new enough compiler, you will see compilation errors around the line listed below:
+
+        #pragma omp parallel for default(shared) num_threads(m_num_parallel_vcf_files) reduction(l0_sum_up : combined_histogram)
+
+    Alternately, you can disable using OpenMP by omitting the flag OPENMP=1 during compilation (see below). You may lose some performance during loading without OpenMP
 * Dependencies from TileDB
     * Zlib headers and libraries
     * OpenSSL headers and libraries
