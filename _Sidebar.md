@@ -7,7 +7,3 @@
 * **[[Querying GenomicsDB|Querying-GenomicsDB]]**
 * **[[MPI with GenomicsDB|MPI-with-GenomicsDB]]**
 * **[[GenomicsDB utilities|GenomicsDB-utilities]]**
-* **DEPRECATED INFORMATION ARCHIVE**
-    * [[Importing data from VCFs/gVCFs into TileDB| DEPRECATED:--Importing-VCF-gVCFs-into-TileDB]]
-    * [[Querying|DEPRECATED:--Multi-node-implementation-of-Variant-query]]
-    * [[Producing gVCFs from TileDB|DEPRECATED:--Producing-GVCFs-from-TileDB]]
