@@ -1,6 +1,6 @@
 ## Requirements:
 * An MPI compiler, library and runtime (we have tested with reasonably new versions of OpenMPI, MPICH and MVAPICH2).
-* A relatively new version of gcc (C++-11 and OpenMP compatible). I have been testing with gcc-4.9.1.
+*  gcc version >= 4.9.0 (C++-11 and OpenMP compatible), we have been testing with gcc-4.9.1.
   
     Note that we use directives from OpenMP specification v4. This is supported on gcc versions >= 4.9.0. Without a new enough compiler, you will see compilation errors around the line listed below:
 
