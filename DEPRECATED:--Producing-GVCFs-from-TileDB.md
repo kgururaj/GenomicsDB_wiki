@@ -43,12 +43,12 @@ Other compilation options include DO_PROFILING=1, VERBOSE=1
   Output format can be one of the following strings: "z" (compressed VCF),"b" (compressed BCF) or "bu" (uncompressed BCF). If nothing is specified, the default is uncompressed VCF.
 
         {
-          "workspace" :  [ "../configs/ws", "/mnt/app_hdd/scratch/karthikg/VCFs/tiledb_csv/v1/arrays/" ],
+          "workspace" :  [ "../configs/ws", "/VCFs/tiledb_csv/v1/arrays/" ],
           "array" : [ "t0_1_2_GT", "GT10" ],
           "query_column_ranges" : [ [ [12000, 13000 ]  ], [ [0, 10000000] ] ],
           "query_row_ranges" : [ [ [100, 3000 ]  ], [ [4000, 10000] ] ],
           "query_attributes" : [ "REF", "ALT", "BaseQRankSum", "MQ", "MQ0", "ClippingRankSum", "MQRankSum", "ReadPosRankSum", "DP", "GT", "GQ", "SB", "AD", "PL", "DP_FORMAT", "MIN_DP" ],
-          "sqlite" : "/mnt/app_hdd/scratch/karthikg/VCFs/samples_and_fields.sqlite",
+          "sqlite" : "/VCFs/samples_and_fields.sqlite",
           "vcf_header_filename" : "test_inputs/template_vcf_header.vcf",
           "vcf_output_filename" : "/home/output.vcf",
           "reference_genome" : "/data/broad/samples/joint_variant_calling/broad_reference/Homo_sapiens_assembly19.fasta"
@@ -71,7 +71,7 @@ Other compilation options include DO_PROFILING=1, VERBOSE=1
           "array" : "GT65K",
           "query_column_ranges" : [ [ [0, 4000000000] ] ],
           "query_attributes" : [ "REF", "ALT", "BaseQRankSum", "MQ", "MQ0", "ClippingRankSum", "MQRankSum", "ReadPosRankSum", "DP", "GT", "GQ", "SB", "AD", "PL", "DP_FORMAT", "MIN_DP" ],
-          "sqlite" : "/mnt/app_hdd/scratch/karthikg/VCFs/samples_and_fields.sqlite",
+          "sqlite" : "/VCFs/samples_and_fields.sqlite",
           "vcf_header_filename" : "test_inputs/template_vcf_header.vcf",
           "vcf_output_filename" : "/home/output.vcf",
           "reference_genome" : "/data/broad/samples/joint_variant_calling/broad_reference/Homo_sapiens_assembly19.fasta"

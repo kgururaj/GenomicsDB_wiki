@@ -25,7 +25,7 @@
          
         ./variant/example/bin/gt_mpi_gather -j <json_file> -O <output_format>
         {
-          "workspace" :  [ "../configs/ws", "/mnt/app_hdd/scratch/karthikg/VCFs/tiledb_csv/v1/arrays/" ],
+          "workspace" :  [ "../configs/ws", "tiledb_csv/v1/arrays/" ],
           "array" : [ "t0_1_2_GT", "GT10" ],
           "query_column_ranges" : [ [ [12000, 13000 ]  ], [ [0, 10000000] ] ],
           "query_row_ranges" : [ [ [100, 3000 ]  ], [ [4000, 10000] ] ],

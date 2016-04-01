@@ -78,17 +78,17 @@ An example callset mapping file is shown below:
             "HG00141" : {
                 "row_idx" : 0,
                 "idx_in_file": 0,
-                "filename": "/home/karthikg/broad/non_variant_db/bcftools/test_outputs/merged_java_alt3.list.vcf.gz"
+                "filename": "test_outputs/merged_java_alt3.list.vcf.gz"
             },
             "HG01530" : {
                 "row_idx" : 1,
                 "idx_in_file": 1,
-                "filename": "/home/karthikg/broad/non_variant_db/bcftools/test_outputs/merged_java_alt3.list.vcf.gz"
+                "filename": "test_outputs/merged_java_alt3.list.vcf.gz"
             },
             "HG01958" : {
                 "row_idx" : 2,
                 "idx_in_file": 2,
-                "filename": "/home/karthikg/broad/non_variant_db/bcftools/test_outputs/merged_java_alt3.list.vcf.gz"
+                "filename": "test_outputs/merged_java_alt3.list.vcf.gz"
             }
         }
     }
