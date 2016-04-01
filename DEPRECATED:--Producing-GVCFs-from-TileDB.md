@@ -17,7 +17,7 @@ Note that treating deletions as intervals leads to overlapping intervals for a g
       
 * You need to have the SQLite tables populated correctly with sample, contig and fields mapping.
 * An MPI library
-* [Rapidjson library](https://github.com/miloyip/rapidjson): I use this library to pass the query configuration in a json file to TileDB. The library is a header-only library - no compilation needed.
+* [Rapidjson library](https://github.com/miloyip/rapidjson): Used to pass the query configuration in a json file to TileDB. The library is a header-only library - no compilation needed.
 
         git clone https://github.com/miloyip/rapidjson
 
@@ -77,5 +77,5 @@ Other compilation options include DO_PROFILING=1, VERBOSE=1
           "reference_genome" : "/data/broad/samples/joint_variant_calling/broad_reference/Homo_sapiens_assembly19.fasta"
         }
 
-  NOTE: The RapidJSON library doesn't clearly flag syntax errors. I generally run the command "json_verify \< \<json_file\>" to check the syntax first.
+  NOTE: The RapidJSON library doesn't clearly flag syntax errors, run the command "json_verify \< \<json_file\>" to check the syntax first.
 
