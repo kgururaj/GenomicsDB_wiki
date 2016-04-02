@@ -84,7 +84,7 @@ inner list can be a single integer, representing the single column position that
 representing the column range that needs to be queried.
 
 In the above example, the process will query column range \[0-100\] (inclusive) and the position 500 and return all 
-_VariantCall_ intersecting with these query ranges/positions.
+_VariantCalls_ intersecting with these query ranges/positions.
 
 For a more detailed explanation as to why this field is a list of lists (and other fields are lists of strings), we 
 refer the reader to the [[wiki page explaining how we use MPI in the context of GenomicsDB|MPI-with-GenomicsDB]].
@@ -98,7 +98,7 @@ to be included in the query.
 
     ./bin/gt_mpi_gather -j <query.json> -l <loader.json> --print-calls
 
-The \<loader.json\> file is the 
+The _\<loader.json\>_ file is the 
 [[configuration file used to import data into the GenomicsDB array|Importing-VCF-data-into-GenomicsDB]].
 
 Output data is sent to stdout and informational messages are sent to stderr.
