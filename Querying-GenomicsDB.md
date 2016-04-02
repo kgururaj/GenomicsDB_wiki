@@ -71,9 +71,7 @@ A sample JSON query is shown below:
         "array" : "t0_1_2",
         "query_column_ranges" : [ [ [0, 100 ], 500 ] ],
         "query_row_ranges" : [ [ [0, 2 ] ] ],
-        "query_attributes" : [ "REF", "ALT", "BaseQRankSum", "MQ", "MQ0", "ClippingRankSum", "MQRankSum", "ReadPosRankSum", "DP", "GT", "GQ", "SB", "AD", "PL", "DP_FORMAT", "MIN_DP" ],
-        "vcf_header_filename" : ["test_inputs/template_vcf_header.vcf"],
-        "reference_genome" : "/opt/Homo_sapiens_assembly19.fasta"
+        "query_attributes" : [ "REF", "ALT", "BaseQRankSum", "MQ", "MQ0", "ClippingRankSum", "MQRankSum", "ReadPosRankSum", "DP", "GT", "GQ", "SB", "AD", "PL", "DP_FORMAT", "MIN_DP" ]
     }
 
 Most of the fields are self-explanatory (take a look at the [[terminology section|Basic-TileDB-GenomicsDB-terminology]]).
