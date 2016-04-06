@@ -29,10 +29,10 @@ is empty.
 
 Additional fields can be optionally specified
 * _\<other_fields_specification\>_: The format depends on the type of field:
-    * String type fields (fixed or variable length strings): The field should contain the string - an empty field 
+    * String type fields (fixed or variable length strings): The field should contain the string - an empty token 
 indicates that the field is missing.
     * Fixed length field (int or float): The field should contain exactly _N_ elements where _N_ is the length of the field 
-(fixed constant). One or more elements may be left empty to indicate that those elements are missing.
+(fixed constant). One or more tokens may be left empty to indicate that those elements are missing.
     * Variable length field (int or float): The first element of this field should be an integer denoting the number 
 of elements in the field for this call. It should then be followed by the elements of this field. An empty or missing 
 field can be specified by setting the first element (field length) to 0 - no other elements should follow an empty field.
@@ -46,7 +46,7 @@ The following line contains 2 fields in addition to the fixed fields:
 
 The line specifies the variant call for row id 2, beginning at column 1857210 and ending at 1857210. The _REF_ 
 allele is 'G' and the call has 2 alternate alleles 'A' and 'T' (SNVs). The _QUAL_ value is 894.77 and there are no 
-_FILTERs_ specified (hence FILTER field length = 0). The _SB_ field is missing - denoted by the 4 empty fields. The _PL_ 
+_FILTERs_ specified (hence _FILTER_ field length = 0). The _SB_ field is missing - denoted by the 4 empty tokens. The _PL_ 
 field consists of 6 integers - the length appears first (since _PL_ is a variable length field) followed by the elements 
 \[923,0,599,996,701,1697\].
 
