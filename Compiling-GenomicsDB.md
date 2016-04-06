@@ -1,6 +1,6 @@
 ## Requirements:
 * An MPI compiler, library and runtime (we have tested with reasonably new versions of OpenMPI, MPICH and MVAPICH2).
-*  gcc version >= 4.9.0 (C++-11 and OpenMP compatible), we have been testing with gcc-4.9.1.
+*  gcc version >= 4.9.0 (C++-11 and OpenMP v4 compatible), we have been testing with gcc-4.9.1.
   
     Note that we use directives from OpenMP specification v4. This is supported on gcc versions >= 4.9.0. Without a new enough compiler, you will see compilation errors around the line listed below:
 
@@ -10,6 +10,15 @@
 * Dependencies from TileDB
     * Zlib headers and libraries
     * OpenSSL headers and libraries
+* If you wish to import [[CSV data into TileDB|Importing-CSV-into-GenomicsDB]], then you need 
+[libcsv](https://sourceforge.net/projects/libcsv/). You also need to pass special flags while invoking make (see below).
+
+    On RedHat based systems, if you have the [EPEL repo](https://fedoraproject.org/wiki/EPEL) installed and enabled, you 
+can install the libcsv packages using yum:
+
+         #As root
+         yum -y install libcsv libcsv-devel
+
 * *NOTE*: We use git submodules to pull in the remaining dependencies - you can skip directly to the [[building|Compiling-GenomicsDB#Building]] section if you do not wish to manually fetch and build the following dependencies.
 * TileDB
 
@@ -47,6 +56,22 @@
         
         #release mode - O3, NDEBUG - assertions disabled, OpenMP enabled
         make MPIPATH=<mpi_package_dir>/bin/ BUILD=release OPENMP=1 -j 8
+
+* If you wish to import CSV data and libcsv is installed at a location where the compiler can find the header file and 
+library (for example under /usr), then enable libcsv usage
+
+        #release mode - O3, NDEBUG - assertions disabled, OpenMP enabled
+        make MPIPATH=<mpi_package_dir>/bin/ BUILD=release USE_LIBCSV=1 OPENMP=1 -j 8
+
+    If you have downloaded libcsv [from sourceforge](https://sourceforge.net/projects/libcsv/) and compiled it at a 
+custom location, then pass the directory to the make command
+
+
+        #release mode - O3, NDEBUG - assertions disabled, OpenMP enabled
+        make MPIPATH=<mpi_package_dir>/bin/ BUILD=release LIBCSV_DIR=<libcsv_directory> OPENMP=1 -j 8
+
+    The build process assumes that the library file is located in <libcsv_directory>/.libs (the default location in the 
+build process of libcsv).
 
 If you have downloaded and compiled the dependencies manually, use the following commands:
 
