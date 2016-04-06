@@ -57,7 +57,7 @@ of the sample/CallSet and must be specified in the CSV line (since _GT_ is treat
 
 ## Organizing your data
 * All CSV files imported into a TileDB array must respect the number and order of fields as defined in the 
-[[_vid_mapping_file_|Importing-VCF-data-into-GenomicsDB#fields-information]].
+_[[vid_mapping_file|Importing-VCF-data-into-GenomicsDB#fields-information]]_.
 * The import program cannot handle CSV files where 2 lines have the same value of _row_ and _begin_column_ - this 
 restriction is similar to that imposed on [[loading VCFs|Importing-VCF-data-into-GenomicsDB#organizing-your-data]].
 * The import program cannot handle CSV files where 2 lines have overlapping column intervals for the same row id.
@@ -66,7 +66,7 @@ restriction is similar to that imposed on [[loading VCFs|Importing-VCF-data-into
 ## Information about CSVs for the import program
 Information is passed to the import program through JSON files that are largely identical to
 [[those described for VCF import|Importing-VCF-data-into-GenomicsDB#information-about-vcfs-for-the-import-program]]. The 
-only difference is in the [[_callset_mapping_file_|Importing-VCF-data-into-GenomicsDB#samplescallsets]]. 
+only addition is in the _[[callset_mapping_file_|Importing-VCF-data-into-GenomicsDB#samplescallsets]]_. 
 
     {
         "callsets" : { 
@@ -94,15 +94,15 @@ only difference is in the [[_callset_mapping_file_|Importing-VCF-data-into-Genom
         ]
     }
 
-By default, the import program assumes all input files are VCFs. The files (file paths) listed under the fields  
+By default, the import program assumes all input files are VCFs. The files (file paths) listed under the fields
 _sorted_csv_files_ and _unsorted_csv_files_  are marked as CSV files. Sorted CSV files are assumed to be sorted in 
 [[column-major order|Basic-TileDB-GenomicsDB-terminology]].
 
 Unsorted CSV files are first sorted by invoking the
 [GNU sort](https://www.gnu.org/software/coreutils/manual/html_node/sort-invocation.html) command internally. To import 
-unsorted CSV files, you must have GNU coreutils installed in your system and the command sort in your PATH. The sorted 
-CSV file is stored in a temporary directory - generally /tmp but can be set while running the import program. The 
-temporary directory must be large enough to store all the sorted CSV files and the user must have write permission to 
+unsorted CSV files, you must have GNU coreutils installed in your system and the command _sort_ in your PATH. The sorted 
+CSV file is stored in a temporary directory - generally _/tmp_ but can be set to a different location when launching the import program.
+The temporary directory must be large enough to store all the sorted CSV files and the user must have write permission to 
 the directory.
 
 ## Running the program
