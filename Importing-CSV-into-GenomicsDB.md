@@ -38,7 +38,7 @@ of elements in the field for this call. It should then be followed by the elemen
 field can be specified by setting the first element (field length) to 0 - no other elements should follow an empty field.
 
 ### Example
-The following line contains 2 optional fields:
+The following line contains 2 fields in addition to the fixed fields:
 * _SB_: Fixed length field of 4 integers
 * _PL_: Variable length field of integers
 
@@ -60,6 +60,7 @@ of the sample/CallSet and must be specified in the CSV line (since _GT_ is treat
 [[_vid_mapping_file_|Importing-VCF-data-into-GenomicsDB#fields-information]].
 * The import program cannot handle CSV files where 2 lines have the same value of _row_ and _begin_column_ - this 
 restriction is similar to that imposed on [[loading VCFs|Importing-VCF-data-into-GenomicsDB#organizing-your-data]].
+* The import program cannot handle CSV files where 2 lines have overlapping column intervals for the same row id.
 * Other requirements are the same as described in the wiki page for [[importing VCF data|Importing-VCF-data-into-GenomicsDB#organizing-your-data]].
 
 ## Information about CSVs for the import program
