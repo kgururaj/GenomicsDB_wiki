@@ -100,7 +100,8 @@ _sorted_csv_files_ and _unsorted_csv_files_  are marked as CSV files. Sorted CSV
 
 Unsorted CSV files are first sorted by invoking the
 [GNU sort](https://www.gnu.org/software/coreutils/manual/html_node/sort-invocation.html) command internally. To import 
-unsorted CSV files, you must have GNU coreutils installed in your system and the command _sort_ in your PATH. The sorted 
+unsorted CSV files, you must have [GNU coreutils](http://www.gnu.org/software/coreutils/coreutils.html)
+ installed in your system and the command _sort_ in your PATH. The sorted 
 CSV file is stored in a temporary directory - generally _/tmp_ but can be set to a different location when launching the import program.
 The temporary directory must be large enough to store all the sorted CSV files and the user must have write permission to 
 the directory.
