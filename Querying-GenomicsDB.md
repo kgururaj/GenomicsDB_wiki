@@ -103,6 +103,13 @@ The _\<loader.json\>_ file is the
 
 Output data is sent to stdout and informational messages are sent to stderr.
 
+## Producing CSV
+
+    ./bin/gt_mpi_gather -j <query.json> -l <loader.json> --print-csv
+
+The CSV produced is identical to that [[required by a loader|Importing-CSV-into-GenomicsDB]] - the fields and the order 
+in which they are printed in the CSV lines are determined by the value of _query_attributes_ in \<query.json\>.
+
 ## Producing _Variants_
 
     ./bin/gt_mpi_gather -j <query.json> -l <loader.json>
