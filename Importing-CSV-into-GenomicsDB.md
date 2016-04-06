@@ -105,6 +105,9 @@ CSV file is stored in a temporary directory - generally _/tmp_ but can be set to
 The temporary directory must be large enough to store all the sorted CSV files and the user must have write permission to 
 the directory.
 
+You can import a combination of CSVs and VCFs together as long as you list the CSVs correctly under _sorted_csv_files_ and
+_unsorted_csv_files_.
+
 ## Running the program
 
         ./bin/vcf2tiledb <loader_json>
@@ -113,3 +116,4 @@ Specifying a temporary directory to store sorted CSV files:
 
         ./bin/vcf2tiledb -T <tmp_directory> <loader_json>
 
+You can use MPI to [[import data in parallel across nodes|Importing-VCF-data-into-GenomicsDB#running-the-program]].
