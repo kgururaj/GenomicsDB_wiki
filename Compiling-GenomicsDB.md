@@ -10,7 +10,7 @@
 * Dependencies from TileDB
     * Zlib headers and libraries
     * OpenSSL headers and libraries
-* If you wish to import [[CSV data into TileDB|Importing-CSV-into-GenomicsDB]], then you need 
+* If you wish to import [[CSV data into TileDB|Importing-CSVs-into-GenomicsDB]], then you need 
 [libcsv](https://sourceforge.net/projects/libcsv/). You also need to pass special flags while invoking make (see below).
 
     On RedHat based systems, if you have the [EPEL repo](https://fedoraproject.org/wiki/EPEL) installed and enabled, you 
