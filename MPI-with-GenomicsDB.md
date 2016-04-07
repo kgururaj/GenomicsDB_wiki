@@ -56,6 +56,9 @@ _"reference_genome"_ are identical for both processes. The 2 processes produce d
 and "/share/vcf2" respectively since the field _"vcf_output_filename"_ is a list of strings.
 
 ### Special fields during the loading process
+We recommend running [[creating the TileDB workspace on each node|GenomicsDB-utilities#creating-a-workspace]] _before_ 
+running any MPI processes to import data.  This ensures that the workspace directory gets created in a consistent manner 
+before any data gets imported into TileDB arrays.
 * _column_partitions_: When using multiple MPI processes to load data into multiple column partitions, the user must 
 specify the partitioning information as a list of dictionaries as described in the [[loading page|Importing-VCF-data-into-GenomicsDB#execution-parameters-for-the-import-program]]. The length of the list must match the 
 number of MPI processes which must be equal to the number of partitions that the user wishes to create.
