@@ -37,15 +37,15 @@ produced. The first parameter determines the maximum value in the histogram - if
 above this value, the program will exit with an exception. The second parameter controls the number of bins in the 
 produced histogram - each bin's size will be _max_histogram_range_/_num_bins_.
 
-    The program's output consists of lines that looks like this:
+The program's output consists of lines that looks like this:
 
-        Histogram: [
-        0,399999,104
-        400000,799999,42
-        800000,1199999,5270
-        ]
+    Histogram: [
+    0,399999,104
+    400000,799999,42
+    800000,1199999,5270
+    ]
 
-    Each line represents one bin in the histogram - the first bin is the column interval \[0-399999\] (inclusive) and it 
+Each line represents one bin in the histogram - the first bin is the column interval \[0-399999\] (inclusive) and it 
 contains 104 calls across all samples.
 
 
