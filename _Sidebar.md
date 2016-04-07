@@ -8,4 +8,5 @@
 * **[[Querying GenomicsDB|Querying-GenomicsDB]]**
 * **[[MPI with GenomicsDB|MPI-with-GenomicsDB]]**
 * **[[GenomicsDB utilities|GenomicsDB-utilities]]**
+    * [[Useful external tools|Useful-tools]]
 * **[[Common issues|Common-issues]]**

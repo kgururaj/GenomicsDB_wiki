@@ -1,0 +1,27 @@
+## Useful [bcftools](https://github.com/samtools/bcftools) commands
+### Collapse multiple lines with the same genomic position into a single line
+
+    bcftools norm -m +any [-O <output_format> -o <output>] <input_file>
+
+Output format can be one of the following strings: "z" (compressed VCF),"b" (compressed BCF) or "bu" (uncompressed BCF).  
+If nothing is specified, the default is uncompressed VCF. If the _-o_ parameter is not used, the output is printed to 
+stdout.
+### Producing block compressed VCFs/BCFs
+
+    bcftools view [-O <output_format> -o <output>] <input_file>
+
+The output file name should ideally end with the suffix ".\[vcf\|bcf\].gz".
+### Generating the index for a block compressed VCF/BCF file
+
+    bcftools index [-f] <file>
+
+The above command will create a CSI index. To produce a tabix index:
+
+    bcftools index [-f] -m0 <file>
+
+The _-f_ parameter will cause bcftools to overwrite an existing index file.
+
+## Sorting [[CSV files before an import|Importing-CSVs-into-GenomicsDB]]
+You must have [GNU coreutils](http://www.gnu.org/software/coreutils/coreutils.html) installed in your system.
+
+    sort [-T <tmp_directory>] -t, -k2,2n -k1,1n -o <sorted_output.csv> <input.csv>
