@@ -37,7 +37,7 @@ produced. The first parameter determines the maximum value in the histogram - if
 above this value, the program will exit with an exception. The second parameter controls the number of bins in the 
 produced histogram - each bin's size will be _max_histogram_range_/_num_bins_.
 
-The _[[callset_mapping_file_|Importing-VCF-data-into-GenomicsDB#samplescallsets]] needs one extra parameter to work correctly:
+The _[[callset_mapping_file_|Importing-VCF-data-into-GenomicsDB#samplescallsets]]_ needs one extra parameter to work correctly:
 
     {
         "callsets" : {
