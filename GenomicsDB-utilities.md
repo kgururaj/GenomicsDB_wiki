@@ -14,8 +14,8 @@ Given a list of VCF/CSV files, the following command will output a histogram sho
 column interval across all files. Such a histogram can be used to partition data in a balanced manner across TileDB 
 array instances (possibly scattered across nodes).
 
-The histogram program takes as input a configuration JSON file similar to that used by [[the import 
-program|Importing-VCF-data-into-GenomicsDB#execution-parameters-for-the-import-program]]. An example file is shown 
+The histogram program takes as input a configuration JSON file similar to that used by
+[[the import program|Importing-VCF-data-into-GenomicsDB#execution-parameters-for-the-import-program]]. An example file is shown 
 below:
 
     {   "column_partitions" : [ {"begin": 0 }  ],
