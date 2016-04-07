@@ -3,7 +3,7 @@
 
     bcftools norm -m +any [-O <output_format> -o <output>] <input_file>
 
-Output format can be one of the following strings: "z" (compressed VCF),"b" (compressed BCF) or "bu" (uncompressed BCF).  
+Output format can be one of the following strings: "z" (compressed VCF),"b" (compressed BCF) or "bu" (uncompressed BCF). 
 If nothing is specified, the default is uncompressed VCF. If the _-o_ parameter is not used, the output is printed to 
 stdout.
 ### Producing block compressed VCFs/BCFs
