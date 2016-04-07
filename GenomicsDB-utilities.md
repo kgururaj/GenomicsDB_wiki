@@ -104,5 +104,5 @@ test VCF has been produced.
     A user may have partitioned his/her TileDB array into multiple instances and may produce a combined VCF for each 
 instance separately. To compare each instance of the VCF with a golden VCF that may span the whole genome, the user can 
 pass the import configuration and the specific column partition index for which the comparison has to be performed. For 
-example, if the data is partitioned into two column ranges \[0-1.5B\] and \[1.5B+1-4B\] during the import process, then 
-passing value 0 for the parameter _-p_ in vcfdiff will compare only those lines in the range \[0-1.5B\].
+example, if the data is partitioned into two column ranges \[0-1.49B\] and \[1.5B-4B\] during the import process, then 
+passing value 0 for the parameter _-p_ in vcfdiff will compare only those lines in the range \[0-1.49B\].
