@@ -37,7 +37,7 @@ produced. The first parameter determines the maximum value in the histogram - if
 above this value, the program will exit with an exception. The second parameter controls the number of bins in the 
 produced histogram - each bin's size will be _max_histogram_range_/_num_bins_.
 
-The _[[callset_mapping_file_|Importing-VCF-data-into-GenomicsDB#samplescallsets]]_ needs one extra parameter to work correctly:
+The _[[callset_mapping_file|Importing-VCF-data-into-GenomicsDB#samplescallsets]]_ needs one extra parameter to work correctly:
 
     {
         "callsets" : {
@@ -69,6 +69,10 @@ The _[[callset_mapping_file_|Importing-VCF-data-into-GenomicsDB#samplescallsets]
 * _file_division_ (mandatory, type: list of list of strings): This parameter should be a list containing a single entry. 
 The single entry should be a list of all the files over which the histogram should be constructed.
 
+Running the tool:
+
+    ./bin/vcf_histogram <histogram_json>
+
 The program's output consists of lines that look like this:
 
     Histogram: [
@@ -80,4 +84,25 @@ The program's output consists of lines that look like this:
 Each line represents one bin in the histogram - the first bin is the column interval \[0-399999\] (inclusive) and it 
 contains 104 calls across all samples.
 
+## Doing a diff between VCFs
+To validate the output VCF produced by a program, we use the vcfdiff tool. This tool is able to take into account 
+re-ordered samples, re-ordered alleles and non-intersecting reference intervals. Note that the input VCFs must be block 
+compressed and indexed.
 
+    ./bin/vcfdiff [-t <tolerance>] [-l <loader.json>] [-p <column_partition_idx>] gold.vcf.gz test.vcf.gz
+
+Without any of the optional parameters, the program compares gold and test and prints lines in which the two differ 
+(including missing and extra lines).
+* _-t_ (optional, type: float, default:10<sup>-5</sup>): Sets the threshold when comparing floating point values. Two 
+floating point values are considered close enough if either the absolute difference or the relative difference between 
+them is less than the threshold.
+* _-l_ (optional, type: string): Specifies the path to the JSON file used by the
+[[the import program|Importing-VCF-data-into-GenomicsDB#execution-parameters-for-the-import-program]].
+* _-p_ (optional, type: int): Specifies the index of the column partition in the _\<loader.json\>_ file for which the 
+test VCF has been produced.
+
+    A user may have partitioned his/her TileDB array into multiple instances and may produce a combined VCF for each 
+instance separately. To compare each instance of the VCF with a golden VCF that may span the whole genome, the user can 
+pass the import configuration and the specific column partition index for which the comparison has to be performed. For 
+example, if the data is partitioned into two column ranges \[0-1.5B\] and \[1.5B+1-4B\] during the import process, then 
+passing value 0 for the parameter _-p_ in vcfdiff will compare only those lines in the range \[0-1.5B\].
