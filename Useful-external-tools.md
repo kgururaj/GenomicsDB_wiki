@@ -25,3 +25,8 @@ The _-f_ parameter will cause bcftools to overwrite an existing index file.
 You must have [GNU coreutils](http://www.gnu.org/software/coreutils/coreutils.html) installed in your system.
 
     sort [-T <tmp_directory>] -t, -k2,2n -k1,1n -o <sorted_output.csv> <input.csv>
+
+If you a list of sorted CSV files and wish to merge them into a single sorted CSV file
+
+    sort [-T <tmp_directory>] -m -t, -k2,2n -k1,1n -o <sorted_output.csv> <input_csv_list>
+
