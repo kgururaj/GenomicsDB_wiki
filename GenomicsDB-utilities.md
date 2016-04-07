@@ -10,7 +10,7 @@ ensures that the workspace directory gets created in a consistent manner before 
 arrays.
 
 ## Creating a histogram
-Given a list of VCF/CSV files, the following command will output a histogram showing the number of variant calls per 
+Given a list of VCF/CSV files, the following command will output a uniform histogram showing the number of variant calls per 
 column interval across all files. Such a histogram can be used to partition data in a balanced manner across TileDB 
 array instances (possibly scattered across nodes).
 
