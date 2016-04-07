@@ -37,6 +37,38 @@ produced. The first parameter determines the maximum value in the histogram - if
 above this value, the program will exit with an exception. The second parameter controls the number of bins in the 
 produced histogram - each bin's size will be _max_histogram_range_/_num_bins_.
 
+The _callset_mapping_file_ needs one extra parameter to work correctly:
+
+    {
+        "callsets" : {
+            "HG00141" : {
+                "row_idx" : 0,
+                "idx_in_file": 0,
+                "filename": "/home/karthikg/broad/non_variant_db/bcftools/test_inputs/t0.vcf.gz"
+            },
+            "HG01958" : {
+                "row_idx" : 1,
+                "idx_in_file": 0,
+                "filename": "/home/karthikg/broad/non_variant_db/bcftools/test_inputs/t1.vcf.gz"
+            },
+            "HG01530" : {
+                "row_idx" : 2,
+                "idx_in_file": 0,
+                "filename": "/home/karthikg/broad/non_variant_db/bcftools/test_inputs/t2.vcf.gz"
+            }
+        },
+        "file_division" : [
+            [
+                "/home/karthikg/broad/non_variant_db/bcftools/test_inputs/t0.vcf.gz",
+                "/home/karthikg/broad/non_variant_db/bcftools/test_inputs/t1.vcf.gz",
+                "/home/karthikg/broad/non_variant_db/bcftools/test_inputs/t2.vcf.gz"
+                ]
+        ]
+    }
+
+*_file_division_ (mandatory, type: list of list of strings): This parameter should be a list containing a single entry.  
+The single entry should be a list of all the files over which the histogram should be constructed.
+
 The program's output consists of lines that looks like this:
 
     Histogram: [
