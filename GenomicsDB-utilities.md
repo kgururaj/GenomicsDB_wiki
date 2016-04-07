@@ -66,7 +66,7 @@ The _callset_mapping_file_ needs one extra parameter to work correctly:
         ]
     }
 
-*_file_division_ (mandatory, type: list of list of strings): This parameter should be a list containing a single entry.  
+* _file_division_ (mandatory, type: list of list of strings): This parameter should be a list containing a single entry. 
 The single entry should be a list of all the files over which the histogram should be constructed.
 
 The program's output consists of lines that looks like this:
