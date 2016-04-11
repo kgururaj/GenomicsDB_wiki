@@ -66,7 +66,7 @@ restriction is similar to that imposed on [[loading VCFs|Importing-VCF-data-into
 ## Information about CSVs for the import program
 Information is passed to the import program through JSON files that are largely identical to
 [[those described for VCF import|Importing-VCF-data-into-GenomicsDB#information-about-vcfs-for-the-import-program]]. The 
-only addition is in the _[[callset_mapping_file_|Importing-VCF-data-into-GenomicsDB#samplescallsets]]_. 
+only addition is in the _[[callset_mapping_file|Importing-VCF-data-into-GenomicsDB#samplescallsets]]_. 
 
     {
         "callsets" : { 
