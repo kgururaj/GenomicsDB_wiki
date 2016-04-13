@@ -51,12 +51,12 @@ takes as input the following JSON configuration file (same file for both process
 
 The above configuration implies that MPI process 0 will access the workspace located at _"/tmp/ws"_ while process 1 will 
 access the workspace at _"/mnt/ws"_. Both processes access the same array named _"t0_1_2"_ located within their 
-respective workspaces. The paths for _"callset_mapping_file"_, _"vid_mapping_file"_,  _"vcf_header_filename" and
+respective workspaces. The paths for _"callset_mapping_file"_, _"vid_mapping_file"_,  _"vcf_header_filename"_ and
 _"reference_genome"_ are identical for both processes. The 2 processes produce distinct output files at "/share/vcf1" 
 and "/share/vcf2" respectively since the field _"vcf_output_filename"_ is a list of strings.
 
 ### Special fields during the loading process
-We recommend running [[creating the TileDB workspace on each node|GenomicsDB-utilities#creating-a-workspace]] _before_ 
+We recommend [[creating the TileDB workspace on each node|GenomicsDB-utilities#creating-a-workspace]] _before_ 
 running any MPI processes to import data.  This ensures that the workspace directory gets created in a consistent manner 
 before any data gets imported into TileDB arrays.
 * _column_partitions_: When using multiple MPI processes to load data into multiple column partitions, the user must 
@@ -123,6 +123,6 @@ machines at the exact same path. If you are on a shared filesystem, keep the con
 files). Else you need to copy the files to the same location on all machines.
 * MPI not installed at the same location in all machines
 * Different versions of MPI installed.
-* Missing environment variables: The launched MPI programs will *NOT* see the environment from which mpirun is invoked.  
+* Missing environment variables: The launched MPI programs will *NOT* see the environment from which mpirun is invoked.
 You need to explicitly set/pass the required environment variables (see sample commands listed above for passing PATH 
 and LD_LIBRARY_PATH variables).
