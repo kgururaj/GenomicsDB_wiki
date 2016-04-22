@@ -1,8 +1,11 @@
-**NOTE: The CSV import functionality is still being tested internally - the public repo does not yet have the 
-functionality to import CSVs. We will push this functionality shortly.**
-
 ## Preliminaries
 * You need libcsv while [[compiling|Compiling-GenomicsDB]].
+* License terms: We use [libcsv](https://sourceforge.net/projects/libcsv/) to parse CSV files. libcsv
+is licensed under the GNU Library or Lesser General Public License version 2.0 (LGPLv2).
+So, if you are re-distributing binaries or object files, they may be subject to LGPLv2 terms.
+Please ensure that any binaries/object files you distribute are compliant with LGPLv2.
+You can disable libcsv usage by not setting the USE_LIBCSV and LIBCSV_DIR flags during compilation.
+However, your binaries/executables will not be able to import CSV files into TileDB.
 
 ## CSV format
 Given a variant call at a specific position in the genome for a particular CallSet/sample, the CSV file format supported 
