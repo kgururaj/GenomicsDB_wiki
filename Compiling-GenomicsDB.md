@@ -70,7 +70,7 @@ custom location, then pass the directory to the make command
         #release mode - O3, NDEBUG - assertions disabled, OpenMP enabled
         make MPIPATH=<mpi_package_dir>/bin/ BUILD=release LIBCSV_DIR=<libcsv_directory> OPENMP=1 -j 8
 
-    The build process assumes that the library file is located in <libcsv_directory>/.libs (the default location in the 
+    The build process assumes that the library file is located in \<libcsv_directory\>/.libs (the default location in the 
 build process of libcsv).
 
 If you have downloaded and compiled the dependencies manually, use the following commands:
