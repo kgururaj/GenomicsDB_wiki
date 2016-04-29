@@ -1,8 +1,8 @@
 See [[the terminology page|Basic-TileDB-GenomicsDB-terminology]] for definitions of bulk import and incremental import.
 
 The _vcf2tiledb_ program supports incremental imports by appending new rows to an existing TileDB array. By default, the 
-program will import all the callsets specified in the 
-_[[callset_mapping_file|Importing-VCF-data-into-GenomicsDB#samplescallSets]]_, appending rows to an existing TileDB 
+program will import all the samples/CallSets specified in the 
+_[[callset_mapping_file|Importing-VCF-data-into-GenomicsDB#samplescallsets]]_, appending rows to an existing TileDB 
 array if needed.
 
 If the _callset_mapping_file_ contains samples/CallSets corresponding to existing rows in the array (same row index 
