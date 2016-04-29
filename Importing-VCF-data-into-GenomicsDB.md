@@ -125,6 +125,7 @@ The import program needs additional parameters that control how the program runs
         ],
         "vid_mapping_file" : "test_inputs/broad_vid.json",
         "callset_mapping_file" : "test_inputs/callsets/t6_7_8.json",
+        "max_num_rows_in_array" : 100,
         "size_per_column_partition": 3000,
         "treat_deletions_as_intervals" : true,
         "num_parallel_vcf_files" : 1,
@@ -154,7 +155,12 @@ The import program needs additional parameters that control how the program runs
     You should not have _row_partitions_ and _column_partitions_ simultaneously in one loader JSON config file.
 * _vid_mapping_file_ (mandatory, type:string): The vid mapping file [[described above|Importing-VCF-data-into-GenomicsDB#information-about-vcfs-for-the-import-program]].
 * _callset_mapping_file_ (optional, type:string): Same as the callset mapping file [[described above|Importing-VCF-data-into-GenomicsDB#samplescallsets]]. This field value gets higher preference if the _vid_mapping_file_ also contains a field called _callset_mapping_file_. The idea is that the user can use a fixed _vid_mapping_file_ and work with many different sets of samples/CallSets by changing the _callset_mapping_file_ in this loader JSON config file.
-* _size_per_column_partition_ (mandatory, type: int): During the loading process, the program reads small chunks from each input VCF file into a buffer in memory. Let's denote this chunk size as _X_. Note that _X_ must be large enough to hold at least 1 VCF line;i.e. _X_ must be bigger than the largest VCF line among all the input VCF files.
+* _max_num_rows_in_array_ (optional, type: int64, default: INT64_MAX): TileDB requires that the dimensions of the array 
+be specified while creating the array. This parameter specifies the maximum number of rows that are to be stored in the 
+TileDB array. Setting this parameter is optional.
+* _size_per_column_partition_ (mandatory, type: int): During the importing process, the program reads small chunks from 
+each input VCF file into a buffer in memory. Let's denote this chunk size as _X_. Note that _X_ must be large enough to 
+hold at least 1 VCF line;i.e. _X_ must be bigger than the largest VCF line among all the input VCF files.
 
     To produce a column major array, the program allocates one buffer for every input sample/CallSet. Hence, the total size of all buffers put together is _\#samples * X_. The parameter _size_per_column_partition_ must be set to this value.
 

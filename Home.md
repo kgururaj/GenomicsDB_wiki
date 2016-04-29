@@ -1,5 +1,7 @@
 # Introduction
-[TileDB](https://github.com/Intel-HLS/TileDB) is a system for efficiently storing, querying and accessing sparse matrix/array data. TileDB is developed by researchers at the [Intel Science and Technology Center for Big Data] (http://istc-bigdata.org/#&panel1-1).
+[TileDB](http://istc-bigdata.org/tiledb/index.html) is a system for efficiently storing, querying and accessing sparse 
+matrix/array data. TileDB is developed by researchers at the [Intel Science and Technology Center for Big Data] 
+(http://istc-bigdata.org/#&panel1-1).
 
 GenomicsDB is built on top of the TileDB system. Variant data is sparse by nature (sparse relative to the whole genome) and hence TileDB is a perfect fit for storing such data.
 

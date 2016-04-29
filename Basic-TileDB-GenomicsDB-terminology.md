@@ -11,3 +11,11 @@ exist, then the programs will initialize a new workspace correctly.
 "retrieve cells for sample _Y_" are relatively slow. For GenomicsDB, we expect the former type of queries to be more 
 frequent and hence, by default all arrays are stored in column major order (even when partitioning by [[rows across TileDB instances|GenomicsDB-setup-in-a-multi-node-cluster]]).
     * Row major ordering implies that cells belonging to the same row are stored contiguously on disk.
+* _Bulk importing and incremental importing_: _Bulk importing_ of data implies that all the data is loaded at once into 
+TileDB/GenomicsDB and the array is never modified later on. _Incremental importing_ implies that the array can be 
+modified by adding new samples/CallSet over time. TileDB/GenomicsDB support both modes of operation - however, repeated 
+incremental updates (for example, incrementally adding one sample/CallSet at a time, ~1000 times) may lead to reduced 
+performance during querying. If you are interested in why this occurs, please read the [section on writing TileDB 
+arrays](http://istc-bigdata.org/tiledb/tutorials/index.html#writing) in the TileDB website to understand the concept of 
+fragments and how TileDB performs updates. Ideally, users should perform incremental imports a few times (~10s of times) 
+per array and each import can contain a large number of samples.
