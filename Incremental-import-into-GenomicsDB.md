@@ -1,5 +1,3 @@
-## Preliminaries
-
 See [[the terminology page|Basic-TileDB-GenomicsDB-terminology]] for definitions of bulk import and incremental import.
 
 The _vcf2tiledb_ program supports incremental imports by appending new rows to an existing TileDB array. By default, the 
