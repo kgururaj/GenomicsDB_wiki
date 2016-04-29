@@ -5,6 +5,7 @@
 * **Importing variant data into GenomicsDB**
     * [[Importing data from VCFs/gVCFs into GenomicsDB| Importing-VCF-data-into-GenomicsDB]]
     * [[Importing data from CSVs into GenomicsDB| Importing-CSVs-into-GenomicsDB]]
+    * [[Incremental import into TileDB/GenomicsDB|Incremental-import-into-GenomicsDB]]
 * **[[Querying GenomicsDB|Querying-GenomicsDB]]**
 * **[[MPI with GenomicsDB|MPI-with-GenomicsDB]]**
 * **[[GenomicsDB utilities|GenomicsDB-utilities]]**
