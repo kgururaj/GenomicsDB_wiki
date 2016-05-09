@@ -18,4 +18,4 @@ incremental updates (for example, incrementally adding one sample/CallSet at a t
 performance during querying. If you are interested in why this occurs, please read the [section on writing TileDB 
 arrays](http://istc-bigdata.org/tiledb/tutorials/index.html#writing) in the TileDB website to understand the concept of 
 fragments and how TileDB performs updates. Ideally, users should perform incremental imports a few times (~10s of times) 
-per array and each import can contain a large number of samples.
+per array and each import should contain a large number of samples.
