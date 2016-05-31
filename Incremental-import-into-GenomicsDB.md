@@ -11,7 +11,7 @@ this does not imply that the old data for the sample/CallSet is completely delet
 column 5 and _vcf2tiledb_ is invoked again for row 0 with data at column 6, the updated array will contain data for both 
 columns 5 and 6 for row 0.
 
-We provide some parameters for convenience - these parameter are not mandatory. Users may prefer to keep one single 
+We provide some parameters in the loader JSON file for convenience - these parameters are not mandatory. Users may prefer to keep one single 
 _callset_mapping_file_ for a given array at all times and append new samples/CallSets to this file. Hence, the 
 _vcf2tiledb_ import program must be notified that only the new samples/CallSets should be imported from this file - this 
 is achieved by the following two parameters that must be added to the 
