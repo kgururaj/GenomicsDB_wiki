@@ -112,7 +112,4 @@ the Java/JNI parts of GenomicsDB. You can download a pre-built
 Caveats:
 * The shared library (libtiledbgenomicsdb.so) that is packaged in the jar depends on GNU libc (glibc). If you 
 compile the library on one system and run it on another system with a newer version of glibc, the library should work 
-since glibc is backward compatible (for example, you can compile the library on CentOS-6 and run it on CentOS-7).  
-However, if you do the reverse, then very likely you will see errors about missing symbols when loading the library. A 
-quick check is to run _ldd bin/libtiledbgenomicsdb.so_ - you should *NOT* see errors about missing symbols in a 
-functioning system.
+since glibc is backward compatible (for example, you can compile the library on CentOS-6 and run it on CentOS-7).  However, if you do the reverse, then very likely you will see errors about missing symbols when loading the library. A quick check is to run _ldd bin/libtiledbgenomicsdb.so_ - you should *NOT* see errors about missing symbols in a correctly functioning system.
