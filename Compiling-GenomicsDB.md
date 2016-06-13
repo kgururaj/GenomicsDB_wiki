@@ -1,4 +1,5 @@
 ## Requirements:
+###Mandatory pre-requisites:
 * GNU/Linux system: we have been testing on CentOS 6 and 7 (almost identical to RHEL 6 and 7) and Ubuntu Trusty (14.04).
 * Dependencies from TileDB
     * Zlib headers and libraries
@@ -9,20 +10,8 @@
 
         #pragma omp parallel for default(shared) num_threads(m_num_parallel_vcf_files) reduction(l0_sum_up : combined_histogram)
 
-    Alternately, you can disable using OpenMP by omitting the flag OPENMP=1 during compilation (see below). You may lose some performance during loading without OpenMP
-* If you wish to run any of the executables provided by GenomicsDB, an MPI compiler, library and runtime (we have tested
-with reasonably new versions of OpenMPI, MPICH and MVAPICH2). If you wish to only build the combined TileDB/GenomicsDB
-library, an MPI compiler is not needed.
-* If you wish to import [[CSV data into TileDB|Importing-CSVs-into-GenomicsDB]], then you need 
-[libcsv](https://sourceforge.net/projects/libcsv/). You also need to pass special flags while invoking make (see below).
-
-    On RedHat based systems, if you have the [EPEL repo](https://fedoraproject.org/wiki/EPEL) installed and enabled, you 
-can install the libcsv packages using yum:
-
-         #As root
-         yum -y install libcsv libcsv-devel
-
-* *NOTE*: We use git submodules to pull in the remaining dependencies - you can skip directly to the [[building|Compiling-GenomicsDB#Building]] section if you do not wish to manually fetch and build the following dependencies.
+    Alternately, you can disable using OpenMP by omitting the flag OPENMP=1 during compilation (see below). You may lose some performance during loading without OpenMP.
+* *NOTE*: We use git submodules to pull in the remaining mandatory dependencies - you can skip directly to the [[building|Compiling-GenomicsDB#Building]] section if you do not wish to manually fetch and build the following dependencies.
 * TileDB
 
         git clone https://github.com/Intel-HLS/TileDB.git
@@ -38,13 +27,26 @@ can install the libcsv packages using yum:
         git checkout intel_mods
         make -j 8
 
+###Optional pre-requisites
+* _For executables_:  If you wish to produce any of the executables provided by GenomicsDB, an MPI compiler, library and runtime (we have tested
+with reasonably new versions of OpenMPI, MPICH and MVAPICH2). If you wish to only build the combined TileDB/GenomicsDB
+library, an MPI compiler is not needed.
+* _For importing CSV files_: If you wish to import [[CSV data into TileDB|Importing-CSVs-into-GenomicsDB]], then you need 
+[libcsv](https://sourceforge.net/projects/libcsv/). You also need to pass special flags while invoking make (see below).
+
+    On RedHat based systems, if you have the [EPEL repo](https://fedoraproject.org/wiki/EPEL) installed and enabled, you 
+can install the libcsv packages using yum:
+
+         #As root
+         yum -y install libcsv libcsv-devel
+
 ## Building
 * Get the right branch based on what you wish to do - see the other pages for which branch to get. If you do not know which branch to use, the *master* branch is your best bet.
 * To get dependencies using git submodule, run:
 
         git clone --recursive https://github.com/Intel-HLS/GenomicsDB.git
 
-* Make sure you have your new gcc version in your PATH.
+* Make sure you have the required gcc version in your PATH.
 * Assuming you want to use the dependencies pulled in by git and you have the MPI compiler (mpicxx) in your PATH
         
         #release mode - O3, NDEBUG - assertions disabled, OpenMP enabled
@@ -55,7 +57,7 @@ can install the libcsv packages using yum:
         #debug mode - assertions enabled, can use gdb for stepping, no OPENMP (can enable with the OPENMP=1 flag)
         make BUILD=debug -j 8
 
-* If you do not have the MPI compiler in your PATH (note that the trailing slash is required):
+* If you do not have the MPI compiler in your PATH (note that the trailing slash is required in the following command):
         
         #release mode - O3, NDEBUG - assertions disabled, OpenMP enabled
         make MPIPATH=<mpi_package_dir>/bin/ BUILD=release OPENMP=1 -j 8
@@ -68,7 +70,6 @@ library (for example under /usr), then enable libcsv usage
 
     If you have downloaded libcsv [from sourceforge](https://sourceforge.net/projects/libcsv/) and compiled it at a 
 custom location, then pass the directory to the make command
-
 
         #release mode - O3, NDEBUG - assertions disabled, OpenMP enabled
         make MPIPATH=<mpi_package_dir>/bin/ BUILD=release LIBCSV_DIR=<libcsv_directory> OPENMP=1 -j 8
