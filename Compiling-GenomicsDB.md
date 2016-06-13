@@ -1,5 +1,8 @@
 ## Requirements:
-* An MPI compiler, library and runtime (we have tested with reasonably new versions of OpenMPI, MPICH and MVAPICH2).
+* GNU/Linux system: we have been testing on CentOS 6 and 7 (almost identical to RHEL 6 and 7) and Ubuntu Trusty (14.04).
+* Dependencies from TileDB
+    * Zlib headers and libraries
+    * OpenSSL headers and libraries
 *  gcc version >= 4.9.0 (C++-11 and OpenMP v4 compatible), we have been testing with gcc-4.9.1.
   
     Note that we use directives from OpenMP specification v4. This is supported on gcc versions >= 4.9.0. Without a new enough compiler, you will see compilation errors around the line listed below:
@@ -7,9 +10,9 @@
         #pragma omp parallel for default(shared) num_threads(m_num_parallel_vcf_files) reduction(l0_sum_up : combined_histogram)
 
     Alternately, you can disable using OpenMP by omitting the flag OPENMP=1 during compilation (see below). You may lose some performance during loading without OpenMP
-* Dependencies from TileDB
-    * Zlib headers and libraries
-    * OpenSSL headers and libraries
+* If you wish to run any of the executables provided by GenomicsDB, an MPI compiler, library and runtime (we have tested
+with reasonably new versions of OpenMPI, MPICH and MVAPICH2). If you wish to only build the combined TileDB/GenomicsDB
+library, an MPI compiler is not needed.
 * If you wish to import [[CSV data into TileDB|Importing-CSVs-into-GenomicsDB]], then you need 
 [libcsv](https://sourceforge.net/projects/libcsv/). You also need to pass special flags while invoking make (see below).
 
@@ -93,3 +96,23 @@ If you have downloaded and compiled the dependencies manually, use the following
 * Compiling with support for parsing/creating a gVCF/VCF/BCF: compile htslib as described above.
 
         make MPIPATH=<mpi_package_dir>/bin/ TILEDB_DIR=<TileDB_dir> HTSDIR=<htslib_directory> RAPIDJSON_INCLUDE_DIR=<rapidjson_dir>/include BUILD=release OPENMP=1 -j 8
+
+## Java interface for TileDB/GenomicsDB
+* Java SDK version 8.
+* [Htsjdk](http://samtools.github.io/htsjdk/) version \>= 2.4.0. The htsjdk jar should be built/obtained before building 
+the Java/JNI parts of GenomicsDB. You can download a pre-built
+[htsjdk jar](http://search.maven.org/remotecontent?filepath=com/github/samtools/htsjdk/2.4.1/htsjdk-2.4.1.jar) from 
+[Maven central](http://search.maven.org/).
+
+        export CLASSPATH=<path_to_htsjdk_jar>:$CLASSPATH
+        make BUILD=release DISABLE_MPI=1 BUILD_JAVA=1 JNI_FLAGS="-I<java_SDK_dir>/include -I<java_SDK_dir>/include/linux"
+
+    This will create the jar file genomicsdb.jar in the bin/ directory. 
+
+Caveats:
+* The shared library (libtiledbgenomicsdb.so) that is packaged in the jar depends on GNU libc (glibc). If you 
+compile the library on one system and run it on another system with a newer version of glibc, the library should work 
+since glibc is backward compatible (for example, you can compile the library on CentOS-6 and run it on CentOS-7).  
+However, if you do the reverse, then very likely you will see errors about missing symbols when loading the library. A 
+quick check is to run _ldd bin/libtiledbgenomicsdb.so_ - you should *NOT* see errors about missing symbols in a 
+functioning system.
