@@ -3,20 +3,24 @@
 * GNU/Linux system: we have been testing on CentOS 6 and 7 (almost identical to RHEL 6 and 7) and Ubuntu Trusty (14.04).
 * Dependencies from TileDB
     * Zlib headers and libraries
-    * OpenSSL headers and libraries
-*  gcc version >= 4.9.0 (C++-11 and OpenMP v4 compatible), we have been testing with gcc-4.9.1.
+    * OpenSSL headers and libraries.
+*  gcc version >= 4.9.0 (C++-11 and OpenMP v4 compatible). We have been testing with gcc-4.9.1.
   
     Note that we use directives from OpenMP specification v4. This is supported on gcc versions >= 4.9.0. Without a new enough compiler, you will see compilation errors around the line listed below:
 
         #pragma omp parallel for default(shared) num_threads(m_num_parallel_vcf_files) reduction(l0_sum_up : combined_histogram)
 
-    Alternately, you can disable using OpenMP by omitting the flag OPENMP=1 during compilation (see below). You may lose some performance during loading without OpenMP.
-* *NOTE*: We use git submodules to pull in the remaining mandatory dependencies - you can skip directly to the [[building|Compiling-GenomicsDB#Building]] section if you do not wish to manually fetch and build the following dependencies.
+    Alternately, you can disable the use of OpenMP by omitting the flag OPENMP=1 during compilation (see below). You may 
+lose some performance during loading without OpenMP.
+* *NOTE*: We use git submodules to pull in the remaining mandatory dependencies - you can skip directly to the 
+[[optional pre-requisites|Compiling-GenomicsDB#optional-pre-requisites]] section if you do not wish to manually fetch 
+and build the following mandatory dependencies.
 * TileDB
 
         git clone https://github.com/Intel-HLS/TileDB.git
 
-* [Rapidjson library](https://github.com/miloyip/rapidjson): Parameters are passed to TileDB tools/examples through a JSON file - Rapidjson is used to parse this JSON file. The library is a header-only library - no compilation needed.
+* [Rapidjson library](https://github.com/miloyip/rapidjson): Parameters are passed to TileDB tools/examples through a 
+* JSON file - Rapidjson is used to parse this JSON file. The library is a header-only library - no compilation needed.
 
         git clone https://github.com/miloyip/rapidjson
 
@@ -39,6 +43,13 @@ can install the libcsv packages using yum:
 
          #As root
          yum -y install libcsv libcsv-devel
+
+* _For the Java/JNI interface_
+    * JavaSDK version 8.
+    * [Htsjdk](http://samtools.github.io/htsjdk/) version \>= 2.4.0. The htsjdk jar should be built/obtained before 
+building the Java/JNI parts of GenomicsDB. You can download a pre-built
+[htsjdk jar](http://search.maven.org/remotecontent?filepath=com/github/samtools/htsjdk/2.4.1/htsjdk-2.4.1.jar) from 
+[Maven central](http://search.maven.org/).
 
 ## Building
 * Get the right branch based on what you wish to do - see the other pages for which branch to get. If you do not know which branch to use, the *master* branch is your best bet.
