@@ -149,3 +149,8 @@ first. Once you setup your JSON configuration files and MPI hostfiles correctly:
 
 To produce a combined GVCF with MPI your TileDB array partitions must be partitioned by column. Each MPI 
 process will produce a separate combined VCF file corresponding to the query column range assigned to it.
+
+##Java/JNI interface
+The Java interface of GenomicsDB implements the [FeatureReader](https://samtools.github.io/htsjdk/javadoc/htsjdk/) 
+interface in htsjdk. Take a look at our [example code](https://github.com/Intel-HLS/GenomicsDB/tree/master/example/java/test_genomicsdb_jar)
+for using this interface.

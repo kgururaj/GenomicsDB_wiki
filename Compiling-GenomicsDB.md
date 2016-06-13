@@ -107,9 +107,16 @@ the Java/JNI parts of GenomicsDB. You can download a pre-built
         export CLASSPATH=<path_to_htsjdk_jar>:$CLASSPATH
         make BUILD=release DISABLE_MPI=1 BUILD_JAVA=1 JNI_FLAGS="-I<java_SDK_dir>/include -I<java_SDK_dir>/include/linux"
 
-    This will create the jar file genomicsdb.jar in the bin/ directory. 
+    This will create the jar file genomicsdb.jar in the bin/ directory. You can 
+[install](https://maven.apache.org/guides/mini/guide-3rd-party-jars-local.html) this jar file into your local Maven 
+repository for use in downstream Maven/Gradle build systems using:
+
+        mvn install:install-file -Dfile=bin/genomicsdb.jar -DpomFile=src/java/genomicsdb/pom.xml
 
 Caveats:
 * The shared library (libtiledbgenomicsdb.so) that is packaged in the jar depends on GNU libc (glibc). If you 
 compile the library on one system and run it on another system with a newer version of glibc, the library should work 
-since glibc is backward compatible (for example, you can compile the library on CentOS-6 and run it on CentOS-7).  However, if you do the reverse, then very likely you will see errors about missing symbols when loading the library. A quick check is to run _ldd bin/libtiledbgenomicsdb.so_ - you should *NOT* see errors about missing symbols in a correctly functioning system.
+since glibc is backward compatible (for example, you can compile the library on CentOS-6 and run it on CentOS-7).
+However, if you do the reverse, then very likely you will see errors about missing symbols when loading the library. A 
+quick check is to run _ldd bin/libtiledbgenomicsdb.so_; you should *NOT* see errors about missing symbols in a 
+correctly functioning configuration.
