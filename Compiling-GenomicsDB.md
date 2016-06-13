@@ -45,7 +45,7 @@ can install the libcsv packages using yum:
          yum -y install libcsv libcsv-devel
 
 * _For the Java/JNI interface_
-    * JavaSDK version 8.
+    * Java SDK version 8.
     * [Htsjdk](http://samtools.github.io/htsjdk/) version \>= 2.4.0. The htsjdk jar should be built/obtained before 
 building the Java/JNI parts of GenomicsDB. You can download a pre-built
 [htsjdk jar](http://search.maven.org/remotecontent?filepath=com/github/samtools/htsjdk/2.4.1/htsjdk-2.4.1.jar) from 
