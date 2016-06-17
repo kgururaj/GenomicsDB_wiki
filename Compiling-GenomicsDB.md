@@ -30,7 +30,7 @@ and build the following mandatory dependencies.
         make -j 8
 
 ###Optional pre-requisites
-* _OpenMPv4_: We use directives from OpenMP specification v4. This is supported on gcc versions >= 4.9.0. If you enable OpenMP by setting OPENMP=1 during the build process, without a new enough compiler, you will see compilation errors around the line listed below
+* _OpenMPv4_: We use directives from OpenMP specification v4. This is supported on gcc versions >= 4.9.0. If you enable OpenMP by setting OPENMP=1 during the build process using an older compiler, you will see compilation errors around the line listed below
 
         #pragma omp parallel for default(shared) num_threads(m_num_parallel_vcf_files) reduction(l0_sum_up : combined_histogram)
 
