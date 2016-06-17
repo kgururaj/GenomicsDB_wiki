@@ -146,7 +146,7 @@ repository for use in downstream Maven/Gradle build systems using:
         make MPIPATH=<mpi_package_dir>/bin/ BUILD=release LIBCSV_DIR=<libcsv_directory> OPENMP=1 BUILD_JAVA=1 JNI_FLAGS="-I<java_SDK_dir>/include -I<java_SDK_dir>/include/linux"
         
         #On MacOSX
-        make MPIPATH=/usr/local/opt/mpich/bin/ LIBCSV_DIR=/usr/local/opt/libcsv/ OPENSSL_PREFIX_DIR=/usr/local/opt/openssl BUILD=release BUILD_JAVA=1 JNI_FLAGS="-I/System/Library/Frameworks/JavaVM.framework/Headers" "
+        make MPIPATH=/usr/local/opt/mpich/bin/ LIBCSV_DIR=/usr/local/opt/libcsv/ OPENSSL_PREFIX_DIR=/usr/local/opt/openssl BUILD=release BUILD_JAVA=1 JNI_FLAGS="-I/System/Library/Frameworks/JavaVM.framework/Headers"
 Caveats:
 * The shared library (libtiledbgenomicsdb.so) that is packaged in the jar depends on GNU libc (glibc). If you 
 compile the library on one system and run it on another system with a newer version of glibc, the library should work 
