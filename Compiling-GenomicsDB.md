@@ -38,9 +38,8 @@ and build the following mandatory dependencies.
     
     On MacOSX systems, OpenMP is disabled by default during compilation.
 
-* _For executables_:  If you wish to produce any of the executables provided by GenomicsDB, an MPI compiler, library and runtime (we have tested
-with reasonably new versions of OpenMPI, MPICH and MVAPICH2). If you wish to only build the combined TileDB/GenomicsDB
-library, an MPI compiler is not needed.
+* _For executables_:  If you wish to produce any of the executables provided by GenomicsDB, an MPI compiler, library and runtime are required. We have tested
+with reasonably new versions of OpenMPI, MPICH and MVAPICH2. If you wish to only build the combined TileDB/GenomicsDB shared library and the Java jar (see below), an MPI compiler is not needed.
 * _For importing CSV files_: If you wish to import [[CSV data into TileDB|Importing-CSVs-into-GenomicsDB]], then you need 
 [libcsv](https://sourceforge.net/projects/libcsv/). You also need to pass special flags while invoking make (see below).
 
