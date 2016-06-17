@@ -57,7 +57,7 @@ building the Java/JNI parts of GenomicsDB. You can download a pre-built
 [htsjdk jar](http://search.maven.org/remotecontent?filepath=com/github/samtools/htsjdk/2.4.1/htsjdk-2.4.1.jar) from 
 [Maven central](http://search.maven.org/).
 
-If you have [Homebrew](http://brew.sh/) installed on your MacOSX system, then you can install the required pre-requisites using the following command:
+If you have [Homebrew](http://brew.sh/) installed on your MacOSX system, then you can install the required packages using the following command:
 
     brew install mpich libcsv openssl
 
