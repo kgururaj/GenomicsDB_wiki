@@ -136,6 +136,7 @@ The import program needs additional parameters that control how the program runs
         "offload_vcf_output_processing" : true,
         "discard_vcf_index": true,
         "compress_tiledb_array" : true,
+        "disable_synced_writes" : true,
         "segment_size" : 1048576,
         "num_cells_per_tile" : 1000
     }
@@ -195,6 +196,9 @@ dealing with a large number of inputs. In our tests, for WES gVCFs, each index s
 For WGS gVCFs, each index consumed around 40 MB of memory. This becomes an issue when dealing with \>= 1000 files.
 * _compress_tiledb_array_ (type: boolean, optional, default: _true_): Determines whether the files storing TileDB data 
 on disk are compressed.
+* _disable_synced_writes_ (type: boolean, optional, default: _false_): Determines whether TileDB uses the O_SYNC flag while writing to disk. Disabling synced writes likely improves performance. The performance improvement is significant when the array is compressed since tiles are written one at a time to disk when compression is enabled. Compressed tiles are relatively small in size (few KBs) and using synced writes slows down the loading process significantly.
+
+    However, bear in mind that disabling synced writes implies that data may not committed to disk till after the end of the import program (the kernel may decide to buffer pages in memory). If you are certain that no concurrent reads will occur during or immediately after the import process, disabling synced writes is likely to give you a performance boost without affecting correctness. Use with care.
 * _segment_size_ (type: int64_t, optional, default: 10MB): Buffer size in bytes allocated for TileDB attributes during 
 the loading process. Should be large enough to hold one cell worth of data. Small buffer sizes (< 4KB) may lead to low
 performance since data is flushed to disk each time the buffer is full.
