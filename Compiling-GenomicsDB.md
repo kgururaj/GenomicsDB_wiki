@@ -55,7 +55,7 @@ and build the following mandatory dependencies.
 with reasonably new versions of OpenMPI, MPICH and MVAPICH2. If you wish to only build the combined TileDB/GenomicsDB shared library and the Java jar (see below), an MPI compiler is not needed.
         * On CentOS/RedHat systems:
 
-                yum -y install mpich-devel
+            yum -y install mpich-devel
 
 * _For importing CSV files_: If you wish to import [[CSV data into TileDB|Importing-CSVs-into-GenomicsDB]], then you need 
 [libcsv](https://sourceforge.net/projects/libcsv/). You also need to pass special flags while invoking make (see below).
