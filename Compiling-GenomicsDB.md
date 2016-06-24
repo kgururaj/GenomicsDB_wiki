@@ -9,6 +9,15 @@
         * On MacOSX, you can use [Homebrew](http://brew.sh/) to obtain the OpenSSL library.
 *  C++ compiler: A C++ 2011 compiler.
     * gcc version >= 4.8. We have been testing with gcc-4.9.1.
+        * We use the option "-static-libstdc++" while building TileDB/GenomicsDB to create portable binaries.Please ensure that your build system has the static version of this library installed.
+
+        * On CentOS/RedHat systems:
+            * Installing static libstdc++
+
+                    yum -y install libstdc++-static
+
+            * Installing a new version of gcc/g++: You can use the [software collections](https://www.softwarecollections.org/en/docs/) repository and install the package [devtoolset-3](https://www.softwarecollections.org/en/scls/rhscl/devtoolset-3/) or [devtoolset-4](https://www.softwarecollections.org/en/scls/rhscl/devtoolset-4/).
+
     * We have tested with clang version >= 7.3.0 on MacOSX. 
     
 * *NOTE*: We use git submodules to pull in the remaining mandatory dependencies - you can skip directly to the 
