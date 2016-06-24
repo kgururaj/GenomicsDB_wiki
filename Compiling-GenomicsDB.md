@@ -53,7 +53,7 @@ and build the following mandatory dependencies.
 
 * _For executables_:  If you wish to produce any of the executables provided by GenomicsDB, an MPI compiler, library and runtime are required. We have tested
 with reasonably new versions of OpenMPI, MPICH and MVAPICH2. If you wish to only build the combined TileDB/GenomicsDB shared library and the Java jar (see below), an MPI compiler is not needed.
-        * On CentOS/RedHat systems:
+    * On CentOS/RedHat systems:
 
             yum -y install mpich-devel
 
