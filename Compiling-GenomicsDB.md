@@ -6,6 +6,10 @@
 * Dependencies from TileDB
     * Zlib headers and libraries
     * OpenSSL headers and libraries
+        * On CentOS/RedHat systems:
+
+                yum -y install openssl-devel zlib-devel
+
         * On MacOSX, you can use [Homebrew](http://brew.sh/) to obtain the OpenSSL library.
 *  C++ compiler: A C++ 2011 compiler.
     * gcc version >= 4.8. We have been testing with gcc-4.9.1.
@@ -49,6 +53,10 @@ and build the following mandatory dependencies.
 
 * _For executables_:  If you wish to produce any of the executables provided by GenomicsDB, an MPI compiler, library and runtime are required. We have tested
 with reasonably new versions of OpenMPI, MPICH and MVAPICH2. If you wish to only build the combined TileDB/GenomicsDB shared library and the Java jar (see below), an MPI compiler is not needed.
+        * On CentOS/RedHat systems:
+
+                yum -y install mpich-devel
+
 * _For importing CSV files_: If you wish to import [[CSV data into TileDB|Importing-CSVs-into-GenomicsDB]], then you need 
 [libcsv](https://sourceforge.net/projects/libcsv/). You also need to pass special flags while invoking make (see below).
 
