@@ -149,7 +149,7 @@ the Java/JNI parts of GenomicsDB. You can download a pre-built
 * You don't need an MPI compiler and library to only build the jar and the shared library (no executables).
 
         export CLASSPATH=<path_to_htsjdk_jar>:$CLASSPATH
-        make BUILD=release DISABLE_MPI=1 BUILD_JAVA=1 JNI_FLAGS="-I<java_SDK_dir>/include -I<java_SDK_dir>/include/linux"
+        make BUILD=release DISABLE_MPI=1 BUILD_JAVA=1 JNI_FLAGS="-I<java_SDK_dir>/include -I<java_SDK_dir>/include/linux" MAXIMIZE_STATIC_LINKING=1
 
     This will create the jar file genomicsdb.jar in the bin/ directory. You can 
 [install](https://maven.apache.org/guides/mini/guide-3rd-party-jars-local.html) this jar file into your local Maven 
