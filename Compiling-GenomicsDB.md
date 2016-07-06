@@ -5,10 +5,10 @@
     * MacOSX: We have tested with version 10.11 (El Capitan).
 * Dependencies from TileDB
     * Zlib headers and libraries
-    * OpenSSL headers and libraries
+    * OpenSSL headers and libraries: We link against the static library
         * On CentOS/RedHat systems:
 
-                yum -y install openssl-devel zlib-devel
+                yum -y install openssl-devel zlib-devel openssl-static
 
         * On MacOSX, you can use [Homebrew](http://brew.sh/) to obtain the OpenSSL library.
 *  C++ compiler: A C++ 2011 compiler.
