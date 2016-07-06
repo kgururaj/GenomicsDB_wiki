@@ -5,3 +5,4 @@ tools such as _json_verify_ before invoking GenomicsDB tools.
 
         cat <json_file> | json_verify
 
+* You cannot move/copy the TileDB workspace/array directory arbitrarily after loading. If you do copy/move files to a different machine, ensure that the absolute path of the workspace/array directory is the same as that on the machine on which data is loaded/imported.
