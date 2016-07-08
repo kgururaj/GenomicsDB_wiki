@@ -24,4 +24,6 @@ If the variant calls in the above sample are stored in an block compressed and i
 * Assume an array/VCF partition begins at 1:1002. This partition will not contain the deletion or the SNV. The first call for this sample in the partition will be the reference block at 1:1003.
 
 ## Summary
-The treatment of overlapping intervals in TileDB/GenomicsDB feels like a hack and too tied to the VCF format and unfortunately, it is. 
+The treatment of overlapping intervals in TileDB/GenomicsDB feels like a hack and too tied to the VCF format and unfortunately, it is. TileDB/GenomicsDB cannot deal with overlapping variant calls within a single sample (as of 7/8/2016). Fixing this is a matter of finding time for the TileDB/GenomicsDB developers since technical solutions exist. The tougher questions that are outside the scope of TileDB/GenomicsDB are the following:
+* How do downstream bioinformatic tools interpret overlapping variant calls?
+* Is the VCF-based strcuture suitable for dealing with such variant calls? Or should a [graph based approach](https://github.com/ga4gh/schemas/wiki/Human-Genome-Variation-Map-%28HGVM%29-Pilot-Project) be the way forward?
