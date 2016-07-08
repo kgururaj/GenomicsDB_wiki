@@ -6,6 +6,7 @@
     * [[Building | Compiling-GenomicsDB#building ]]
 * **Importing variant data into GenomicsDB**
     * [[Importing data from VCFs/gVCFs into GenomicsDB| Importing-VCF-data-into-GenomicsDB]]
+    * [[Overlapping variants in a sample|Overlapping-variants-in-a-sample ]]
     * [[Importing data from CSVs into GenomicsDB| Importing-CSVs-into-GenomicsDB]]
     * [[Incremental import into TileDB/GenomicsDB|Incremental-import-into-GenomicsDB]]
 * **[[Querying GenomicsDB|Querying-GenomicsDB]]**
