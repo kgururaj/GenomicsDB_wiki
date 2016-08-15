@@ -16,6 +16,7 @@ We mimic this functionality in TileDB/GenomicsDB while storing the variant calls
 
 Note that had the variant call at location 1:1001 not existed, the deletion would span location 1:[1000-1002]. Queries for positions 1:1001 and 1:1002 in TileDB/GenomicsDB would have returned the deletion.
 
+Overlapping reference blocks (intervals with \<NON_REF\> as the only alternate allele) are handled in an identical manner.
 ## What would a query on an indexed VCF file corresponding to the above sample return?
 If the variant calls in the above sample are stored in an block compressed and indexed VCF file and [htslib](https://github.com/samtools/htslib)/[bcftools](https://github.com/samtools/bcftools) used to query location 1:1001, then both the deletion and the SNV at position 1:1001 are returned. A query for position 1:1002 would return just the deletion.
 
