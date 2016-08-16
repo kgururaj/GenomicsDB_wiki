@@ -12,7 +12,7 @@ The deletion at position 1:1000 spans positions 1:[1000-1002]; however, another 
 ## Workaround
 Since we are interested in dealing with multiple samples/CallSets in TileDB/GenomicsDB, we determined what the GATK CombineGVCFs tool would do when the above file is passed as input. When dealing with position 1001, the GATK tool ignores the deletion that spans positions 1:[1000-1002] and considers the SNV at position 1001 as the sole variant call at the location for the given sample.
 
-We mimic this functionality in TileDB/GenomicsDB while storing the variant calls in the TileDB array (and while creating a combined gVCF). The deletion at position 1:1000 is truncated to end at 1:1001-1 since a new variant call appears at location 1:1001. This satisfies the requirement that no two variant calls for a given sample overlap. A query for position 1:1001 in TileDB/GenomicsDB will return the SNV and not the deletion. A query for position 1:1002 will return no calls.
+We mimic this functionality in TileDB/GenomicsDB while storing the variant calls in the TileDB array (and while creating a combined gVCF). The deletion at position 1:1000 is truncated to end at 1:1000 since a new variant call appears at location 1:1001. This satisfies the requirement that no two variant calls for a given sample overlap. A query for position 1:1001 in TileDB/GenomicsDB will return the SNV and not the deletion. A query for position 1:1002 will return no calls.
 
 Note that had the variant call at location 1:1001 not existed, the deletion would span location 1:[1000-1002]. Queries for positions 1:1001 and 1:1002 in TileDB/GenomicsDB would have returned the deletion.
 
