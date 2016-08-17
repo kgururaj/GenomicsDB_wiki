@@ -12,7 +12,7 @@ For portability reasons, the native library packaged into the GenomicsDB JAR fil
 * None of the MPI functionality described below will work.
 
 ## Loading data into multiple TileDB partitions using the Java interface
-We use the TestGenomicsDB class as the driver in our examples.G
+We use the TestGenomicsDB class as the driver in our examples.
 ### Using MPI
 For more information on how to use MPI in the context of GenomicsDB, see [[this page|MPI-with-GenomicsDB]] first.
 
