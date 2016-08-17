@@ -10,6 +10,9 @@
     * [[Incremental import into TileDB/GenomicsDB|Incremental-import-into-GenomicsDB]]
     * [[Overlapping variant calls in a sample|Overlapping-variant-calls-in-a-sample ]]
 * **[[Querying GenomicsDB|Querying-GenomicsDB]]**
+    * [[Query result formats|Querying-GenomicsDB#query-result-format]]
+    * [[Combined gVCF|Querying-GenomicsDB#producing-combined-gvcf]]
+    * [[Combined gVCF Java interface|Querying-GenomicsDB#javajni-interface]]
 * **[[MPI with GenomicsDB|MPI-with-GenomicsDB]]**
 * **[[GenomicsDB utilities|GenomicsDB-utilities]]**
     * [[Useful external tools|Useful-external-tools]]
