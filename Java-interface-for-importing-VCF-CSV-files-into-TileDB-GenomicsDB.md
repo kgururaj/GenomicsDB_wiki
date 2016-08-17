@@ -6,10 +6,24 @@ We provide a Java wrapper class called VCF2TileDB for importing data into TileDB
 
 Take a look at our [example code](https://github.com/Intel-HLS/GenomicsDB/tree/java_load_api/example/java/test_genomicsdb_jar) for using this interface.
 
-## Caveat
+## Caveats
 For portability reasons, the native library packaged into the GenomicsDB JAR file distributed on Maven Central is built **WITHOUT** MPI and OpenMP support. Hence, when using the GenomicsDB JAR from Maven Central:
 * The loading process will be slower compared to a JAR built on your cluster/system with MPI and OpenMP enabled.
 * None of the MPI functionality described below will work.
 
 ## Loading data into multiple TileDB partitions using the Java interface
+We use the TestGenomicsDB class as the driver in our examples.
 ### Using MPI
+For more information on how to use MPI in the context of GenomicsDB, see [[this page|MPI-with-GenomicsDB]] first.
+
+    mpirun -n <num_partitions> -hostfile <hostfile> <MPI_args> java TestGenomicsDB -load <loader.json> 0 <lbRowIdx> <ubRowIdx>
+
+The MPI runtime assigns the rank (partition index) for each process - just pass 0 to TestGenomicsDB.
+
+### Manually specifying the rank of each process (without MPI)
+Since the different processes don't communicate in the current setup, you can run them without MPI and specify the rank manually:
+
+    ssh host0 "java TestGenomicsDB -load <loader.json> 0 <lbRowIdx> <ubRowIdx>"
+    ssh host1 "java TestGenomicsDB -load <loader.json> 1 <lbRowIdx> <ubRowIdx>"
+    ...
+
