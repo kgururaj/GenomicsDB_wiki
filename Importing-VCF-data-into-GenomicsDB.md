@@ -217,3 +217,10 @@ use MPI in the context of GenomicsDB, see [[this page|MPI-with-GenomicsDB]].
 
         mpirun -n <num_partitions> [-hostfile <hostfile>] ./bin/vcf2tiledb <loader_json>
 
+* If you do not wish to use MPI, you can specify the rank (partition index) on the command line. For example:
+
+        ssh host0 "vcf2tiledb -r 0 <loader.json>"
+        ssh host1 "vcf2tiledb -r 1 <loader.json>"
+        ....
+
+* Note that if you do not use MPI and you do not specify the rank on the command line, only the first partition data is loaded. This is equivalent to running _vcf2tiledb_ with rank 0.
