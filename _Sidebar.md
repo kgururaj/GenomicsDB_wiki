@@ -5,6 +5,7 @@
     * [[Requirements | Compiling-GenomicsDB#requirements ]]
     * [[Building | Compiling-GenomicsDB#building ]]
 * **Importing variant data into GenomicsDB**
+    * [[Create a TileDB workspace | Create-workspace-first]]
     * [[Importing data from VCFs/gVCFs into TileDB/GenomicsDB| Importing-VCF-data-into-GenomicsDB]]
     * [[Importing data from CSVs into TileDB/GenomicsDB| Importing-CSVs-into-GenomicsDB]]
     * [[Incremental import into TileDB/GenomicsDB|Incremental-import-into-GenomicsDB]]
