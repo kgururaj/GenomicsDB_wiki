@@ -7,6 +7,6 @@ A TileDB workspace must be created before importing any data into a TileDB array
 The above command will create a workspace if the _\<workspace_directory\>_ does not exist. If _\<workspace_directory\>_  
 exists, then the directory is not touched/modified.
 
-We recommend running the above command on each node sequentially _before_ running any MPI processes to import data. This 
+We recommend running the above command on each node sequentially _before_ importing any data. This 
 ensures that the workspace directory gets created in a consistent manner before any data gets imported into TileDB 
 arrays.
