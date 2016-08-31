@@ -61,7 +61,7 @@ A sample _Variant_ formatted as a JSON is shown below:
     }
 
 In the above example, the _Variant_ object corresponds to interval [17384, 17384] with "G" as the reference allele and 
-"A", "<NON_REF>" as the alternate alleles. It consists of two _VariantCalls_ at rows 0 and 2.
+"A", "\<NON_REF\>" as the alternate alleles. It consists of two _VariantCalls_ at rows 0 and 2.
 
 ## JSON configuration file for a query
 A sample JSON query is shown below:
