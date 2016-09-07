@@ -131,6 +131,7 @@ The import program needs additional parameters that control how the program runs
         "num_parallel_vcf_files" : 1,
         "delete_and_create_tiledb_array" : false,
         "vcf_header_filename": "test_inputs/template_vcf_header.vcf",
+        "vcf_output_format": "z"
         "reference_genome" : "/data/broad/samples/joint_variant_calling/broad_reference/Homo_sapiens_assembly19.fasta",
         "do_ping_pong_buffering" : true,
         "offload_vcf_output_processing" : true,
@@ -179,6 +180,7 @@ hold at least 1 VCF line;i.e. _X_ must be bigger than the largest VCF line among
 The following options are required only when producing a combined VCF (not mandatory if combined VCF is not being produced).
 * _reference_genome_ : (type:string, mandatory): Path to reference genome (indexed FASTA file).
 * _vcf_header_filename_ (type:string, optional): Path to a template VCF header file. All lines in this template will be present in the header of the combined VCF(s). This template should **NOT** contain sample/callset names (i.e. the line starting with #CHR). Contigs and fields present in the _vid_mapping_filename_ file will be added to the combined GVCF, if not present in the template header. If this field is omitted, then a simple header will be produced containing the contigs and fields described in the _vid_mapping_filename_ file.
+* _vcf_output_format_ (type:string, optional, default ''): Output format can be one of the following strings: "z[0-9]" (compressed VCF),"b[0-9]" (compressed BCF) or "bu" (uncompressed BCF). If nothing is specified, the default is uncompressed VCF.
 * _max_diploid_alt_alleles_that_can_be_genotyped_ (type: int, optional, default: 50): For certain locations, the number of alternate alleles in the combined VCF record can get very large (we have seen ~700 alternate alleles for some sample sets). For such locations, the large size of the VCF record causes the program to consume a massive amount of memory. Additionally, in some cases, the VCF spec is unable to handle such large records (especially when there are fields such as _PL_ whose length depends on the number of genotypes). The parameter helps keep the size of the combined gVCF records in check. If the number of alternate alleles is greater than the value of _max_diploid_alt_alleles_that_can_be_genotyped_, then fields such as _PL_ are dropped for this VCF record. This fix is identical to the one implemented in GATK CombineGVCFs (including the default value).
 
 The following options are for developers/tuners.
