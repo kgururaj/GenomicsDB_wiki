@@ -17,9 +17,11 @@ The output file name should ideally end with the suffix ".\[vcf\|bcf\].gz".
 
 The above command will create a CSI index. To produce a tabix index:
 
-    bcftools index [-f] -m0 <file>
+    bcftools index [-f] -t <file>
 
 The _-f_ parameter will cause bcftools to overwrite an existing index file.
+
+NOTE: Older versions of bcftools required the user to pass "-m0" instead of "-t" for creating a tabix index.
 
 ## Sorting [[CSV files before an import|Importing-CSVs-into-GenomicsDB]]
 You must have [GNU coreutils](http://www.gnu.org/software/coreutils/coreutils.html) installed in your system.
