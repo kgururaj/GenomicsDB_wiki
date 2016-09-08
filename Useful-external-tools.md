@@ -21,7 +21,7 @@ The above command will create a CSI index. To produce a tabix index:
 
 The _-f_ parameter will cause bcftools to overwrite an existing index file.
 
-**NOTE:** Older versions of bcftools required the user to pass "-m0" instead of "-t" for creating a tabix index.
+**NOTE:** Older versions of bcftools required the user to pass "_-m0_" instead of "_-t_" for creating a tabix index.
 
 ## Sorting [[CSV files before an import|Importing-CSVs-into-GenomicsDB]]
 You must have [GNU coreutils](http://www.gnu.org/software/coreutils/coreutils.html) installed in your system.
