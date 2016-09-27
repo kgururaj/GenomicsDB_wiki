@@ -67,7 +67,20 @@ The three pieces of information listed above are passed to the import tool throu
             * "VAR": The variable length field is terminated by a vector end entry.
             
             **NOTE:** It is important to specify the _length_ field correctly as the decision about which fields need re-ordering based on allele order during query time are determined by the _length_ field. For example, the field "PL" needs to be re-ordered if the allele order changes. The program knows about this because the _length_ field is set to "G".
- 
+        * _VCF_field_combine_operation_ (string, default _unknown_ for most fields): This field is useful when producing [[combined VCF records|Querying-GenomicsDB#producing-combined-gvcf]] - it allows the user to specify how INFO and QUAL field values should be produced in the combined VCF. Valid options for this field are:
+            * "sum": Sum over valid input values
+            * "mean"
+            * "median"
+            * "element_wise_sum": Valid for vector fields
+            * "concatenate": Valid for vector fields
+            * "move_to_FORMAT": Converts the field to a FORMAT field and copies data for each sample/CallSet into the FORMAT field.
+
+            By default, GenomicsDB performs the following operations for certain VCF fields to match the output produced by the [GATK CombineGVCF tool](https://www.broadinstitute.org/gatk/guide/tooldocs/org_broadinstitute_gatk_tools_walkers_variantutils_CombineGVCFs.php).
+            * INFO fields:
+                * BaseQRankSum, ClippingRankSum, MQRankSum, ReadPosRankSum, MQ, MQ0: median
+                * RAW_MQ: sum
+            * QUAL field: set to missing
+
 ### Samples/CallSets
 The value of the field "_callset_mapping_file_" is a string containing the path to a JSON file that maps sample/CallSet names to row ids in the TileDB array. By separating the sample/CallSet mappings into a different JSON file, users can create many different callset mapping files and use them with a single contig mapping and fields information JSON (shown above).
 
