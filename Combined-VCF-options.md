@@ -12,6 +12,10 @@ The options can be specified in the [[loader JSON file|Importing-VCF-data-into-G
 * _vcf_output_filename_ (optional, type:string or list of strings): If producing a combined GVCF, then this parameter specifies the path at which the output VCF will be created. If this parameter is omitted, then the output VCF is printed 
 on stdout.
 * _vcf_output_format_ (type:string, optional, default _\<empty\>_): Output format can be one of the following strings: "z[0-9]" (compressed VCF),"b[0-9]" (compressed BCF) or "bu" (uncompressed BCF). If nothing is specified, the default is uncompressed VCF.
+* _produce_GT_field_ (type: boolean, optional, default _false_): The _GT_ field in the combined VCF records is set to missing to match the output produced by GATK CombineGVCF. By setting _produce_GT_field_ to _true_, the _GT_ field will be retrieved from TileDB/GenomicsDB.
+
+Performance tuning options:
+* _combined_vcf_records_buffer_size_limit_ (type: integer, optional, default 1048576): If the combined VCF records are being produced in the load/import phase and software pipelining is used to run multiple stages of the loader in parallel, this parameter determines the size of the memory buffer to hold the combined VCF records. Records are flushed to disk when this buffer is full.
 
 ### INFO and QUAL field combine operations
 See [[this section|Importing-VCF-data-into-GenomicsDB#fields-information]] to find out how to specify combine operations for INFO and QUAL fields in the [[vid JSON file|Importing-VCF-data-into-GenomicsDB#information-about-vcfs-for-the-import-program]]. In particular, see the subsection labeled _VCF_field_combine_operation_.
