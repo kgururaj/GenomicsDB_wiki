@@ -14,4 +14,4 @@ on stdout.
 * _vcf_output_format_ (type:string, optional, default _\<empty\>_): Output format can be one of the following strings: "z[0-9]" (compressed VCF),"b[0-9]" (compressed BCF) or "bu" (uncompressed BCF). If nothing is specified, the default is uncompressed VCF.
 
 ### INFO and QUAL field combine operations
-See [[this section|Importing-VCF-data-into-GenomicsDB#fields-information]] to find out how to specify the combine operations for INFO and QUAL fields in the [[vid JSON file|Importing-VCF-data-into-GenomicsDB#information-about-vcfs-for-the-import-program]]. In particular, see the subsection labeled _VCF_field_combine_operation_.
+See [[this section|Importing-VCF-data-into-GenomicsDB#fields-information]] to find out how to specify combine operations for INFO and QUAL fields in the [[vid JSON file|Importing-VCF-data-into-GenomicsDB#information-about-vcfs-for-the-import-program]]. In particular, see the subsection labeled _VCF_field_combine_operation_.
