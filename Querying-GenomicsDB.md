@@ -142,4 +142,6 @@ The Java interface of GenomicsDB implements the [FeatureReader](https://samtools
 interface in htsjdk. The interface provides an iterator over [VariantContext](https://samtools.github.io/htsjdk/javadoc/htsjdk/htsjdk/variant/variantcontext/VariantContext.html) objects for the queried interval(s). Each VariantContext object is the combined VCF record for a given location over all samples. The combine operation is performed by the GenomicsDB native library and the results are obtained by the Java interface through JNI calls.
 
 Take a look at our [example code](https://github.com/Intel-HLS/GenomicsDB/tree/master/example/java/test_genomicsdb_jar)
-for using this interface. 
+for using this interface.
+
+Since the Java interface of GenomicsDB exports combined VCF records (VariantContext objects), the options described in [[this wiki page|Combined-VCF-options]] can be specified in the query JSON file.
