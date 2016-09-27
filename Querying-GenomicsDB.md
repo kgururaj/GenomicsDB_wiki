@@ -117,21 +117,9 @@ in which they are printed in the CSV lines are determined by the value of _query
 ## Producing combined gVCF
 We provide a mechanism to export the data in GenomicsDB into a combined VCF/BCF similar to that produced by the [GATK 
 CombineGVCF 
-tool](https://www.broadinstitute.org/gatk/guide/tooldocs/org_broadinstitute_gatk_tools_walkers_variantutils_CombineGVCFs.php).  
-Additional fields are needed in the query JSON file to produce a combined VCF:
+tool](https://www.broadinstitute.org/gatk/guide/tooldocs/org_broadinstitute_gatk_tools_walkers_variantutils_CombineGVCFs.php).
 
-    "vcf_header_filename": "/share/template_vcf_header.vcf",
-    "reference_genome" : "/opt/Homo_sapiens_assembly19.fasta",
-    "vcf_output_filename" : "/share/out.vcf"
-
-* _reference_genome_ : (type:string, mandatory): Path to reference genome (indexed FASTA file).
-* _vcf_header_filename_ (type:string, optional): Path to a template VCF header file. All lines in this template will be 
-present in the header of the combined VCF(s). This template should **NOT** contain sample/callset names (i.e. the line
-starting with #CHR). Contigs and fields present in the _vid_mapping_filename_ (as described in the loader JSON file) will be added 
-to the combined GVCF, if not present in the template header. If this field is omitted, a simple header containing the contigs and fields listed in the _vid_mapping_filename_ file will be created.
-* _vcf_output_filename_ (optional, type:string or list of strings): If producing a combined GVCF, then this parameter 
-specifies the path at which the output VCF will be created. If this parameter is omitted, then the output VCF is printed 
-on stdout.
+When producing a combined VCF, the options described in [[this wiki page|Combined-VCF-options]] can be specified in the query JSON file.
 
 Command:
 
