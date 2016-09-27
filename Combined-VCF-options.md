@@ -1,10 +1,10 @@
-The following options are useful when producing a combined VCF (either during the loading phase or during querying) similar to the one produced by the [GATK 
+The following options are useful when producing a combined VCF (during the loading/importing or querying phase) similar to the one produced by the [GATK 
 CombineGVCF 
 tool](https://www.broadinstitute.org/gatk/guide/tooldocs/org_broadinstitute_gatk_tools_walkers_variantutils_CombineGVCFs.php).
 
 Note that the Java interface produces combined VCF records ([VariantContext](https://samtools.github.io/htsjdk/javadoc/htsjdk/htsjdk/variant/variantcontext/VariantContext.html) objects) and hence, the following options are applicable when using the Java interface.
 
-The options can be specified in the loader JSON file if the combined VCF is being produced during the load/import phase. Otherwise, these options must be specified in the query JSON file.
+The options can be specified in the [[loader JSON file|Importing-VCF-data-into-GenomicsDB#execution-parameters-for-the-import-program]] if the combined VCF is being produced during the load/import phase. Otherwise, these options must be specified in the [[query JSON file|Querying-GenomicsDB#json-configuration-file-for-a-query]].
 
 * _reference_genome_ : (type:string or list of strings, mandatory): Path to reference genome (indexed FASTA file).
 * _vcf_header_filename_ (type:string or list of strings, optional): Path to a template VCF header file. All lines in this template will be present in the header of the combined VCF(s). This template should **NOT** contain sample/callset names (i.e. the line starting with #CHR). Contigs and fields present in the _vid_mapping_filename_ file will be added to the combined GVCF, if not present in the template header. If this field is omitted, then a simple header will be produced containing the contigs and fields described in the _vid_mapping_filename_ file.
@@ -13,3 +13,5 @@ The options can be specified in the loader JSON file if the combined VCF is bein
 on stdout.
 * _vcf_output_format_ (type:string, optional, default _\<empty\>_): Output format can be one of the following strings: "z[0-9]" (compressed VCF),"b[0-9]" (compressed BCF) or "bu" (uncompressed BCF). If nothing is specified, the default is uncompressed VCF.
 
+### INFO and QUAL field combine operations
+See [[this section|Importing-VCF-data-into-GenomicsDB#fields-information]] to find out how to specify the combine operations for INFO and QUAL fields in the [[vid JSON file|Importing-VCF-data-into-GenomicsDB#information-about-vcfs-for-the-import-program]]. In particular, see the subsection labeled _VCF_field_combine_operation_.
