@@ -15,6 +15,7 @@
     * [[Query result formats|Querying-GenomicsDB#query-result-format]]
     * [[Combined gVCF|Querying-GenomicsDB#producing-combined-gvcf]]
     * [[Combined gVCF Java interface|Querying-GenomicsDB#javajni-interface]]
+    * [[Combined gVCF options|Combined-VCF-options]]
 * **[[MPI with GenomicsDB|MPI-with-GenomicsDB]]**
 * **[[GenomicsDB utilities|GenomicsDB-utilities]]**
     * [[Useful external tools|Useful-external-tools]]
