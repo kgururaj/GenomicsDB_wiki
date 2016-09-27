@@ -73,7 +73,7 @@ The three pieces of information listed above are passed to the import tool throu
             * "median"
             * "element_wise_sum": Valid for vector fields
             * "concatenate": Valid for vector fields
-            * "move_to_FORMAT": Converts the field to a FORMAT field and copies data for each sample/CallSet into the FORMAT field.
+            * "move_to_FORMAT": Converts the field to a FORMAT field and copies data for each sample/CallSet into the FORMAT section of the VCF.
 
             By default, GenomicsDB performs the following operations for certain VCF fields to match the output produced by the [GATK CombineGVCF tool](https://www.broadinstitute.org/gatk/guide/tooldocs/org_broadinstitute_gatk_tools_walkers_variantutils_CombineGVCFs.php).
             * INFO fields:
