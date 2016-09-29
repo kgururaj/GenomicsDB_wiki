@@ -3,7 +3,7 @@ Since GenomicsDB is a project under development, we do expect bugs to show up fr
 Please do go through the [[common issues wiki page|Common-issues]] before filing a bug report. 
 
 ### Build TileDB/GenomicsDB in debug mode
-See the [[build wiki|Compiling-GenomicsDB#building]] page for details on building TileDB/GenomicsDB. Omit the _OPENMP=1_ and _BUILD=release_ parameters - instead add the parameter BUILD=debug. Typically, the following commands should be adequate
+See the [[build wiki|Compiling-GenomicsDB#building]] page for details on building TileDB/GenomicsDB. Omit the _OPENMP=1_ and _BUILD=release_ parameters - instead add the parameter _BUILD=debug_. Typically, the following commands should be adequate
 
     make clean-all
     make BUILD=debug <other build options - Java, libcsv etc>
@@ -11,7 +11,7 @@ See the [[build wiki|Compiling-GenomicsDB#building]] page for details on buildin
 ### Enable core dumps
 A core dump file contains the state of the program at the time of the crash and can be used to debug the program offline, even on a different machine, without any input data.
 
-However, on most systems, core dump generation is disabled by default. You can find out how to enable generation of core dump files by a web search; for example, ["Enable Linux Core Dump"](http://www.idimmu.net/2013/06/21/enable-linux-core-dump/) and ["HOWTO enable core-dumps"](http://en.linuxreviews.org/HOWTO_enable_core-dumps) for GNU/Linux and [" Generating core dumps in el capitan "](https://forums.developer.apple.com/thread/43006) for MacOSX.
+However, on most systems, core dump generation is disabled by default. You can find out how to enable generation of core dump files on the web; for example, ["Enable Linux Core Dump"](http://www.idimmu.net/2013/06/21/enable-linux-core-dump/) and ["HOWTO enable core-dumps"](http://en.linuxreviews.org/HOWTO_enable_core-dumps) for GNU/Linux and [" Generating core dumps in el capitan "](https://forums.developer.apple.com/thread/43006) for MacOSX.
 
 Ultimately, if you run _ulimit -c_, you should see a non-zero value (or the string _unlimited_).
 
