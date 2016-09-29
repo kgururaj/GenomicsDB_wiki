@@ -20,4 +20,5 @@
 * **[[GenomicsDB utilities|GenomicsDB-utilities]]**
     * [[Useful external tools|Useful-external-tools]]
 * **[[Common issues|Common-issues]]**
+* **[[Bug report|Bug-report]]**
 * **[[External Contributions]]**
