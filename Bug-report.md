@@ -18,6 +18,8 @@ Ultimately, if you run _ulimit -c_, you should see a non-zero value (or the stri
 ### Producing core dump files
 Run your program; when it crashes/aborts, the system will produce a core dump file. Generally, the core dump file is created in the program working directory and is named _core.\<pid\>_
 
+Compress the core dump file with gzip.
+
 ### Create an issue on Github
 **WARNING**: the core dump contains program state at the time of the crash - this means that it will contain a small amount of the original data (from the TileDB/GenomicsDB array or VCF files). It is **YOUR RESPONSIBILITY** to ascertain that uploading core dump files to the public GenomicsDB Github repo isn't a violation of your institute policies and regulations.
 
@@ -28,7 +30,7 @@ Create an [issue on Github](https://github.com/Intel-HLS/GenomicsDB/issues) and 
 * The git commit id of the GenomicsDB source used
 
 Attach the following to the Github issue:
-* The exact executable/library binary used to produce the core dump file
-* The core dump file
+* The exact executable/library binary used to produce the core dump file (compress with gzip)
+* The compressed core dump file
 
 **WARNING**: the core dump contains program state at the time of the crash - this means that it will contain a small amount of the original data (from the TileDB/GenomicsDB array or VCF files). It is **YOUR RESPONSIBILITY** to ascertain that uploading core dump files to the public GenomicsDB Github repo isn't a violation of your institute policies and regulations.
