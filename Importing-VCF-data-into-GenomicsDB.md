@@ -167,7 +167,7 @@ The import program needs additional parameters that control how the program runs
     The program sorts column partitions (in increasing order) and determines the end values (if not specified). For the last partition, if the end is not specified, then it's assumed to be INT64_MAX. In the above example, the column partitions are [0:999] and [1000:INT64_MAX] respectively.
 * _row_partitions_ (mandatory if _row_based_partitioning_=_true_, else optional): This field is similar to _column_partitions_ but for rows. The field _vcf_output_filename_ is not meaningful for row partitioned arrays.
 
-    You should not have _row_partitions_ and _column_partitions_ simultaneously in one loader JSON config file.
+***YOU SHOULD NOT HAVE _row_partitions_ and _column_partitions_ SIMULTANEOUSLY IN ONE LOADER JSON CONFIGURATION FILE.***
 * _vid_mapping_file_ (mandatory, type:string): The vid mapping file [[described above|Importing-VCF-data-into-GenomicsDB#information-about-vcfs-for-the-import-program]].
 * _callset_mapping_file_ (optional, type:string): Same as the callset mapping file [[described above|Importing-VCF-data-into-GenomicsDB#samplescallsets]]. This field value gets higher preference if the _vid_mapping_file_ also contains a field called _callset_mapping_file_. The idea is that the user can use a fixed _vid_mapping_file_ and work with many different sets of samples/CallSets by changing the _callset_mapping_file_ in this loader JSON config file.
 * _max_num_rows_in_array_ (optional, type: int64, default: INT64_MAX): TileDB requires that the dimensions of the array 
