@@ -132,10 +132,6 @@ The import program needs additional parameters that control how the program runs
             {"begin": 0, "workspace":"/tmp/ws", "array": "test0", "vcf_output_filename":"/tmp/test0.vcf.gz" }
             {"begin": 1000, "workspace":"/tmp/ws", "array": "test1", "vcf_output_filename":"/tmp/test1.vcf.gz" }
         ],
-        "row_partitions" : [
-            {"begin": 0, "workspace":"/tmp/ws", "array": "test0" },
-            {"begin": 200, "workspace":"/tmp/ws", "array": "test1" }
-        ],
         "vid_mapping_file" : "test_inputs/broad_vid.json",
         "callset_mapping_file" : "test_inputs/callsets/t6_7_8.json",
         "max_num_rows_in_array" : 100,
@@ -144,7 +140,7 @@ The import program needs additional parameters that control how the program runs
         "num_parallel_vcf_files" : 1,
         "delete_and_create_tiledb_array" : false,
         "vcf_header_filename": "test_inputs/template_vcf_header.vcf",
-        "vcf_output_format": "z"
+        "vcf_output_format": "z",
         "reference_genome" : "/data/broad/samples/joint_variant_calling/broad_reference/Homo_sapiens_assembly19.fasta",
         "do_ping_pong_buffering" : true,
         "offload_vcf_output_processing" : true,
@@ -165,7 +161,12 @@ The import program needs additional parameters that control how the program runs
     * _vcf_output_filename_ (optional, type:string): If producing a combined GVCF, then this parameter specifies the path at which the output VCF will be created. If this parameter is omitted but _produce_combined_vcf_ is _true_, then the output VCF is printed on stdout.
 
     The program sorts column partitions (in increasing order) and determines the end values (if not specified). For the last partition, if the end is not specified, then it's assumed to be INT64_MAX. In the above example, the column partitions are [0:999] and [1000:INT64_MAX] respectively.
-* _row_partitions_ (mandatory if _row_based_partitioning_=_true_, else optional): This field is similar to _column_partitions_ but for rows. The field _vcf_output_filename_ is not meaningful for row partitioned arrays.
+* _row_partitions_ (mandatory if _row_based_partitioning_=_true_, else optional): This field is similar to _column_partitions_ but for rows. The field _vcf_output_filename_ is not meaningful for row partitioned arrays. Example:
+
+        "row_partitions" : [
+            {"begin": 0, "workspace":"/tmp/ws", "array": "test0" },
+            {"begin": 200, "workspace":"/tmp/ws", "array": "test1" }
+        ],
 
 ***YOU SHOULD NOT HAVE _row_partitions_ and _column_partitions_ SIMULTANEOUSLY IN ONE LOADER JSON CONFIGURATION FILE.***
 * _vid_mapping_file_ (mandatory, type:string): The vid mapping file [[described above|Importing-VCF-data-into-GenomicsDB#information-about-vcfs-for-the-import-program]].
