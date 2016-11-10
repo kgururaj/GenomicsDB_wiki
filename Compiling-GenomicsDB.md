@@ -1,7 +1,9 @@
 ## Requirements:
 ###Mandatory pre-requisites:
-* We have tested TileDB/GenomicsDB on the following two platforms:
-    * GNU/Linux system: we have been testing on CentOS 6 and 7 (almost identical to RHEL 6 and 7) and Ubuntu Trusty (14.04). Most of our heavy testing is performed on CentOS-7 systems.
+* We have tested TileDB/GenomicsDB on the following platforms:
+    * GNU/Linux:
+        * CentOS 6 and 7 (almost identical to RHEL 6 and 7). Most of our heavy testing is performed on CentOS-7 systems.
+        * Ubuntu Trusty (14.04)
     * MacOSX: We have tested with version 10.11 (El Capitan).
 * Dependencies from TileDB
     * Zlib headers and libraries
