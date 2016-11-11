@@ -7,24 +7,36 @@
     * MacOSX: We have tested with version 10.11 (El Capitan).
 * Dependencies from TileDB
     * Zlib headers and libraries
-    * OpenSSL headers and libraries: We link against the static library
+    * OpenSSL headers and libraries
+    * Example installation commands:
         * On CentOS/RedHat systems:
 
-                yum -y install openssl-devel zlib-devel openssl-static
+                sudo yum -y install openssl-devel zlib-devel openssl-static
+
+        * On Ubuntu systems:
+
+                sudo apt-get install zlib1g-dev libssl-dev
 
         * On MacOSX, you can use [Homebrew](http://brew.sh/) to obtain the OpenSSL library.
+
+                brew install openssl
+
 *  C++ compiler: A C++ 2011 compiler.
     * gcc version >= 4.8. We have been testing with gcc-4.9.1.
-        * We use the option "-static-libstdc++" while building TileDB/GenomicsDB to create portable binaries.Please ensure that your build system has the static version of this library installed.
-
-        * On CentOS/RedHat systems:
-            * Installing static libstdc++
-
-                    yum -y install libstdc++-static
-
-            * Installing a new version of gcc/g++: You can use the [software collections](https://www.softwarecollections.org/en/docs/) repository and install the package [devtoolset-3](https://www.softwarecollections.org/en/scls/rhscl/devtoolset-3/) or [devtoolset-4](https://www.softwarecollections.org/en/scls/rhscl/devtoolset-4/).
-
     * We have tested with clang version >= 7.3.0 on MacOSX. 
+    * Installing a new version of gcc/g++
+        * CentOS/RedHat systems: You can use the [software collections](https://www.softwarecollections.org/en/docs/) repository and install the package [devtoolset-3](https://www.softwarecollections.org/en/scls/rhscl/devtoolset-3/) or [devtoolset-4](https://www.softwarecollections.org/en/scls/rhscl/devtoolset-4/).
+
+            sudo yum install centos-release-scl
+            sudo yum install devtoolset-3
+            scl enable devtoolset-3 bash
+
+        * Ubuntu: We use the Ubuntu Toolchain PPA to obtain new versions of gcc
+
+            sudo add-apt-repository ppa:ubuntu-toolchain-r/test
+            sudo apt-get update
+            sudo apt-get install g++-4.9
+            sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-4.9 60 
     
 * *NOTE*: We use git submodules to pull in the remaining mandatory dependencies - you can skip directly to the 
 [[optional pre-requisites|Compiling-GenomicsDB#optional-pre-requisites]] section if you do not wish to manually fetch 
@@ -54,19 +66,41 @@ and build the following mandatory dependencies.
     On MacOSX systems, OpenMP is disabled by default during compilation.
 
 * _For executables_:  If you wish to produce any of the executables provided by GenomicsDB, an MPI compiler, library and runtime are required. We have tested
-with reasonably new versions of OpenMPI, MPICH and MVAPICH2. If you wish to only build the combined TileDB/GenomicsDB shared library and the Java jar (see below), an MPI compiler is not needed.
+with reasonably new versions of OpenMPI, MPICH and MVAPICH2.
+    If you wish to only build the combined TileDB/GenomicsDB shared library and the Java jar (see below), an MPI compiler is not needed.
     * On CentOS/RedHat systems:
 
-            yum -y install mpich-devel
+            sudo yum install mpich-devel
+
+    * On Ubuntu systems:
+
+            sudo apt-get install mpich 
+
+    * On MacOSX:
+
+            brew install mpich
 
 * _For importing CSV files_: If you wish to import [[CSV data into TileDB|Importing-CSVs-into-GenomicsDB]], then you need 
 [libcsv](https://sourceforge.net/projects/libcsv/). You also need to pass special flags while invoking make (see below).
 
-    On RedHat based systems, if you have the [EPEL repo](https://fedoraproject.org/wiki/EPEL) installed and enabled, you 
+    * On CentOS/RedHat systems: if you have the [EPEL repo](https://fedoraproject.org/wiki/EPEL) installed and enabled, you 
 can install the libcsv packages using yum:
 
-         #As root
-         yum -y install libcsv libcsv-devel
+            sudo yum install libcsv libcsv-devel
+
+    * Ubuntu systems: on systems with Vivid(15.04) or newer:
+
+            sudo apt-get install libcsv3 libcsv-dev
+    
+    * Build from source for older Ubuntu systems:
+
+            wget -O libcsv.tar.gz http://downloads.sourceforge.net/project/libcsv/libcsv/libcsv-3.0.3/libcsv-3.0.3.tar.gz
+            tar xzf libcsv.tar.gz
+            cd libcsv-<version> && ./configure && make
+
+    * MacOSX:
+
+            brew install libcsv
 
 * _For the Java/JNI interface_
     * Java SDK version 8.
@@ -74,10 +108,6 @@ can install the libcsv packages using yum:
 building the Java/JNI parts of GenomicsDB. You can download a pre-built
 [htsjdk jar](http://search.maven.org/remotecontent?filepath=com/github/samtools/htsjdk/2.4.1/htsjdk-2.4.1.jar) from 
 [Maven central](http://search.maven.org/).
-
-If you have [Homebrew](http://brew.sh/) installed on your MacOSX system, then you can install the required packages using the following command:
-
-    brew install mpich libcsv openssl
 
 ## Building
 * Get the right branch based on what you wish to do - see the other pages for which branch to get. If you do not know which branch to use, the *master* branch is your best bet.
@@ -148,24 +178,27 @@ the Java/JNI parts of GenomicsDB. You can download a pre-built
 [htsjdk jar](http://search.maven.org/remotecontent?filepath=com/github/samtools/htsjdk/2.4.1/htsjdk-2.4.1.jar) from 
 [Maven central](http://search.maven.org/).
 
-* You don't need an MPI compiler and library to only build the jar and the shared library (no executables).
-
+* To build the the jar:
+        
         export CLASSPATH=<path_to_htsjdk_jar>:$CLASSPATH
-        make BUILD=release DISABLE_MPI=1 BUILD_JAVA=1 JNI_FLAGS="-I<java_SDK_dir>/include -I<java_SDK_dir>/include/linux" MAXIMIZE_STATIC_LINKING=1
-
-    This will create the jar file genomicsdb.jar in the bin/ directory. You can 
-[install](https://maven.apache.org/guides/mini/guide-3rd-party-jars-local.html) this jar file into your local Maven 
-repository for use in downstream Maven/Gradle build systems using:
-
-        mvn install:install-file -Dfile=bin/genomicsdb.jar -DpomFile=src/java/genomicsdb/pom.xml
-
-    To build the executables as well as the jar, drop the DISABLE_MPI flag (you need an MPI compiler and runtime).
 
         #On GNU/Linux        
         make MPIPATH=<mpi_package_dir>/bin/ BUILD=release LIBCSV_DIR=<libcsv_directory> OPENMP=1 BUILD_JAVA=1 JNI_FLAGS="-I<java_SDK_dir>/include -I<java_SDK_dir>/include/linux"
         
         #On MacOSX
         make MPIPATH=/usr/local/opt/mpich/bin/ LIBCSV_DIR=/usr/local/opt/libcsv/ OPENSSL_PREFIX_DIR=/usr/local/opt/openssl BUILD=release BUILD_JAVA=1 JNI_FLAGS="-I/System/Library/Frameworks/JavaVM.framework/Headers"
+
+    You don't need an MPI compiler and library to only build the jar and the shared TileDB/GenomicsDB library (no executables will be built).
+
+        export CLASSPATH=<path_to_htsjdk_jar>:$CLASSPATH
+        make BUILD=release DISABLE_MPI=1 BUILD_JAVA=1 JNI_FLAGS="-I<java_SDK_dir>/include -I<java_SDK_dir>/include/linux"
+
+    The jar file genomicsdb.jar will be created in the bin/ directory. You can 
+[install](https://maven.apache.org/guides/mini/guide-3rd-party-jars-local.html) this jar file into your local Maven 
+repository for use in downstream Maven/Gradle build systems using:
+
+        mvn install:install-file -Dfile=bin/genomicsdb.jar -DpomFile=src/java/genomicsdb/pom.xml
+
 Caveats:
 * The shared library (libtiledbgenomicsdb.so) that is packaged in the jar depends on GNU libc (glibc). If you 
 compile the library on one system and run it on another system with a newer version of glibc, the library should work 
@@ -173,3 +206,29 @@ since glibc is backward compatible (for example, you can compile the library on 
 However, if you do the reverse, then very likely you will see errors about missing symbols when loading the library. A 
 quick check is to run _ldd bin/libtiledbgenomicsdb.so_; you should *NOT* see errors about missing symbols in a 
 correctly functioning configuration.
+
+## Building a distributable jar
+
+Note: For most users this section is not applicable. If you are interested in packaging and distributing a jar file that 
+must not contain any distribution specific dependencies (MPI shared libraries for example), follow the steps in this 
+section:
+
+* The following libraries should be statically linked in:
+    * libgcc: We use the option "-static-libgcc"
+    * stdc++: We use the option "-static-libstdc++" while building TileDB/GenomicsDB to create portable binaries. Please 
+ensure that your build system has the static version of this library installed.
+        * On CentOS/RedHat systems:
+
+            sudo yum -y install libstdc++-static
+
+    * OpenSSL
+
+* The following libraries are dynamically linked - however, they are backward compatible. Hence, you should build your 
+jar on an 'older' system (I build on CentOS-6).
+    * zlib
+    * glibc
+
+* Command
+
+        make BUILD_JAVA=1 JNI_FLAGS="-I<java_SDK_dir>/include -I<java_SDK_dir>/include/linux" BUILD=release DISABLE_MPI=1 DISABLE_OPENMP=1 MAXIMIZE_STATIC_LINKING=1
+
