@@ -27,16 +27,16 @@
     * Installing a new version of gcc/g++
         * CentOS/RedHat systems: You can use the [software collections](https://www.softwarecollections.org/en/docs/) repository and install the package [devtoolset-3](https://www.softwarecollections.org/en/scls/rhscl/devtoolset-3/) or [devtoolset-4](https://www.softwarecollections.org/en/scls/rhscl/devtoolset-4/).
 
-            sudo yum install centos-release-scl
-            sudo yum install devtoolset-3
-            scl enable devtoolset-3 bash
+                sudo yum install centos-release-scl
+                sudo yum install devtoolset-3
+                scl enable devtoolset-3 bash
 
         * Ubuntu: We use the Ubuntu Toolchain PPA to obtain new versions of gcc
 
-            sudo add-apt-repository ppa:ubuntu-toolchain-r/test
-            sudo apt-get update
-            sudo apt-get install g++-4.9
-            sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-4.9 60 
+                sudo add-apt-repository ppa:ubuntu-toolchain-r/test
+                sudo apt-get update
+                sudo apt-get install g++-4.9
+                sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-4.9 60 
     
 * *NOTE*: We use git submodules to pull in the remaining mandatory dependencies - you can skip directly to the 
 [[optional pre-requisites|Compiling-GenomicsDB#optional-pre-requisites]] section if you do not wish to manually fetch 
@@ -104,9 +104,9 @@ can install the libcsv packages using yum:
 
 * _For the Java/JNI interface_
     * Java SDK version 8.
-    * [Htsjdk](http://samtools.github.io/htsjdk/) version \>= 2.4.0. The htsjdk jar should be built/obtained before 
+    * [Htsjdk](http://samtools.github.io/htsjdk/) version \>= 2.5.0. The htsjdk jar should be built/obtained before 
 building the Java/JNI parts of GenomicsDB. You can download a pre-built
-[htsjdk jar](http://search.maven.org/remotecontent?filepath=com/github/samtools/htsjdk/2.4.1/htsjdk-2.4.1.jar) from 
+[htsjdk jar](http://search.maven.org/remotecontent?filepath=com/github/samtools/htsjdk/2.5.0/htsjdk-2.5.0.jar) from 
 [Maven central](http://search.maven.org/).
 
 ## Building
@@ -167,15 +167,15 @@ If you have downloaded and compiled the dependencies manually, use the following
         #debug mode - assertions enabled, can use gdb for stepping, no OPENMP (can enable with the OPENMP=1 flag)
         make MPIPATH=<mpi_package_dir>/bin/ TILEDB_DIR=<TileDB_dir> RAPIDJSON_INCLUDE_DIR=<rapidjson_dir>/include BUILD=debug -j 8
 
-* Compiling with support for parsing/creating a gVCF/VCF/BCF: compile htslib as described above.
+* Compiling with a custom htslib source directory:
 
         make MPIPATH=<mpi_package_dir>/bin/ TILEDB_DIR=<TileDB_dir> HTSDIR=<htslib_directory> RAPIDJSON_INCLUDE_DIR=<rapidjson_dir>/include BUILD=release OPENMP=1 -j 8
 
 ## Java interface for TileDB/GenomicsDB
 * Java SDK version 8.
-* [Htsjdk](http://samtools.github.io/htsjdk/) version \>= 2.4.0. The htsjdk jar should be built/obtained before building 
+* [Htsjdk](http://samtools.github.io/htsjdk/) version \>= 2.5.0. The htsjdk jar should be built/obtained before building 
 the Java/JNI parts of GenomicsDB. You can download a pre-built
-[htsjdk jar](http://search.maven.org/remotecontent?filepath=com/github/samtools/htsjdk/2.4.1/htsjdk-2.4.1.jar) from 
+[htsjdk jar](http://search.maven.org/remotecontent?filepath=com/github/samtools/htsjdk/2.5.0/htsjdk-2.5.0.jar) from 
 [Maven central](http://search.maven.org/).
 
 * To build the the jar:
@@ -219,7 +219,7 @@ section:
 ensure that your build system has the static version of this library installed.
         * On CentOS/RedHat systems:
 
-            sudo yum -y install libstdc++-static
+                sudo yum -y install libstdc++-static
 
     * OpenSSL
 
