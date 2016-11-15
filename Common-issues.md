@@ -6,6 +6,18 @@ tools such as _json_verify_ before invoking GenomicsDB tools.
         cat <json_file> | json_verify
 
 * You cannot move/copy the TileDB workspace/array directory arbitrarily after loading. If you do copy/move files to a different machine, ensure that the absolute path of the workspace/array directory is the same as that on the machine on which data is loaded/imported.
+* I have prepared my JSON files correctly, yet I get an exception with the following message:
+
+        Could not open vid mapping file "~/<directory>/vid_mapping_file.json OR
+        Could not open callsets file "~/<directory>/callset_mapping_file.json
+
+  The character '~' is interpreted by shells (bash, tcsh) as the home directory of the user - it is NOT interpreted by file I/O system calls invoked by the TileDB/GenomicsDB executables/libraries. Hence, you must specify the path of the file without special characters that are interpreted by shells.
+  
+  Correct examples:
+
+        /home/<user>/<directory>/vid_mapping_file.json OR
+        ../../<directory>/vid_mapping_file.json      
+
 * I get an exception with the following message:
 
         Unhandled overlapping variants at columns <col1> and <col2> for row <row>
