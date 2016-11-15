@@ -129,7 +129,7 @@ The import program needs additional parameters that control how the program runs
         "produce_combined_vcf": true,
         "produce_tiledb_array" : true,
         "column_partitions" : [
-            {"begin": 0, "workspace":"/tmp/ws", "array": "test0", "vcf_output_filename":"/tmp/test0.vcf.gz" }
+            {"begin": 0, "workspace":"/tmp/ws", "array": "test0", "vcf_output_filename":"/tmp/test0.vcf.gz" },
             {"begin": 1000, "workspace":"/tmp/ws", "array": "test1", "vcf_output_filename":"/tmp/test1.vcf.gz" }
         ],
         "vid_mapping_file" : "test_inputs/broad_vid.json",
