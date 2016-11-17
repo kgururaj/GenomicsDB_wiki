@@ -36,5 +36,5 @@ tools such as _json_verify_ before invoking GenomicsDB tools.
 1. I have setup all my JSON files correctly, but the import program doesn't load data for some of the samples:
   
   There could be many reasons, but here are the common issues we have seen users running into:
-  * _Incorrect value(s) of _idx_in_file_ _in the callset_mapping_file_: Note that _row_idx_ is the globally unique value of the TileDB row index corresponding to a given sample/CallSet. _idx_in_file_ is useful mostly for multi-sample VCFs and specifies the index of the sample in a given VCF. For single sample VCFs, this field should be 0 (or omitted altogether).
+  * _Incorrect value(s) of idx_in_file in the callset_mapping_file_: Note that _row_idx_ is the globally unique value of the TileDB row index corresponding to a given sample/CallSet. _idx_in_file_ is useful mostly for multi-sample VCFs and specifies the index of the sample in a given VCF. For single sample VCFs, this field should be 0 (or omitted altogether).
   * _Incorrect partition bounds in the loader JSON or incorrectly specified partition index in the command line_: Read the section on [[running the program|Importing-VCF-data-into-GenomicsDB#running-the-program]] in the [[import data|Importing-VCF-data-into-GenomicsDB]] wiki section. Also, please re-check your partition bounds in the loader JSON.
