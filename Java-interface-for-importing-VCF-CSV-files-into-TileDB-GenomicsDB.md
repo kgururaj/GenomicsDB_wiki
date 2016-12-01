@@ -35,9 +35,25 @@ Note that if you do not use MPI and you do not specify the rank on the command l
 # Mode 2: Java API for importing [VariantContext](https://samtools.github.io/htsjdk/javadoc/htsjdk/htsjdk/variant/variantcontext/VariantContext.html) objects
 This mode allows developers to import data into GenomicsDB by using the VCF2TileDB class functions without having to write intermediate files - for example, a variant annotation tool written in Java can use this API to directly write results to a GenomicsDB instance.
 
-A VCF2TileDB object can be constructed using the same parameters described in the previous section. The primary function call is _addSortedVariantContextIterator_. This functions provides an iterator over VariantContext objects that occur in column-major order (see the [[terminology section|Basic-TileDB-GenomicsDB-terminology]]). Multiple such iterators can be provided to the VCF2TileDB object. The VCF2TileDB class uses each iterator to serialize VariantContext objects into a byte buffer which is passed to the C++ modules of GenomicsDB. Internally, GenomicsDB will 'merge' the buffers ensuring that data is loaded in column-major order.
+A VCF2TileDB object can be constructed using the same parameters described in the previous section. The primary function call is _addSortedVariantContextIterator_. This functions provides an iterator over VariantContext objects that occur in column-major order (see the [[terminology section|Basic-TileDB-GenomicsDB-terminology]]). Multiple such iterators can be provided to the VCF2TileDB object. The VCF2TileDB class uses each iterator and serializes VariantContext objects into a byte buffer - the buffer is passed to the C++ modules of GenomicsDB. Internally, GenomicsDB will 'merge' the buffers ensuring that data is loaded in column-major order.
+
+The user still needs to provide [[information about callsets | Importing-VCF-data-into-GenomicsDB#samplescallsets]] while using the API. Each VariantContext object has a corresponding VCF header. The header may contain multiple samples/CallSets. The user must provide a unique name, a unique row index and the index in the header for each sample/CallSet. There are two ways of providing this information which are described later in the section.
 
 Typically, the caller code will look something similar to:
 
     VCF2TileDB loader(loaderJSONFile, rank, lbRowIdx, ubRowIdx);
-    loader.addSorted
+    loader.addSortedVariantConextIterator(streamName1, vcfHeader1, iterator1, bufferCapacity, streamFormat, sampleIndexToInfo1);
+    loader.addSortedVariantConextIterator(streamName2, vcfHeader2, iterator, bufferCapacity, streamFormat, sampleIndexToInfo2);
+    loader.importBatch();
+    assert loader.isDone();
+
+* _streamName_ (type: _String_): Arbitrary string - must be unique for each invocation of addSortedVariantConextIterator(). For a given VCF2TileDB object, identifies each stream uniquely.
+* _vcfHeader_ (type: _VCFHeader_): [htsjdk VCF header object](https://samtools.github.io/htsjdk/javadoc/htsjdk/htsjdk/variant/vcf/VCFHeader.html) for this stream.
+* _iterator_ (type: _Iterator\<VariantContext\>_)
+* _bufferCapacity_ (type: _long_): Size (in bytes) of the byte buffer used to pass data to the C++ modules of GenomicsDB. Larger values can possibly improve performance at the expense of memory consumed. Recommended value - around 10KiB. Note that internally the class may increase the buffer size if needed - thus it's functionally safe to assign small values (including 0).
+* _streamFormat_ (type: _VariantContextWriterBuilder.OutputType_): Format in which VariantContext objects are serialized in the byte buffer when passed to the GenomicsDB C++ modules. This parameter can take one of two values:
+  * [VariantContextWriterBuilder.OutputType](https://samtools.github.io/htsjdk/javadoc/htsjdk/htsjdk/variant/variantcontext/writer/VariantContextWriterBuilder.OutputType.html).BCF_STREAM: Objects are serialized in the BCF2 format - recommended for performance.
+  * [VariantContextWriterBuilder.OutputType](https://samtools.github.io/htsjdk/javadoc/htsjdk/htsjdk/variant/variantcontext/writer/VariantContextWriterBuilder.OutputType.html).VCF_STREAM: Objects are serialized in the VCF format.
+* _sampleIndexToInfo_ (type: _Map\<Integer, VCF2TileDB.SampleInfo\>_):   Holds callset mapping mapping information
+  * Map key (type _Integer_): Index of the sample/CallSet in the VCF header. This is similar to the parameter [[_idx_in_file_ explained previously | Importing-VCF-data-into-GenomicsDB#samplescallsets]].
+* Use the callset_mapping_file as before - instead of file names you can pass a parameter called _stream_name_. Stream name is an arbitrary string; each invocation of _addSortedVariantContextIterator_ must provide a unique stream name.
