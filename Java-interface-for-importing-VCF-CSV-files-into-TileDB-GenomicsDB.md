@@ -66,7 +66,21 @@ Typically, the caller code will look something similar to:
 
         rowIdx = VCF2TileDB.initializeSampleInfoMapFromHeader(sampleIndexToInfo, vcfHeader, rowIdx);
 
-   * _rowIdx_ (type: _long_): the argument passed to the function must contain the value from which row indexes are assigned to the samples/CallSets in the header. So, if the header has 3 samples and the argument value is 100, then the 3 samples will be assigned row indexes 100, 101 and 102.
-   * _return value_ (type: _long_): Next available row index - in the above example, the returned value will be 103.
+    * _rowIdx_ (type: _long_): the argument passed to the function must contain the value from which row indexes are assigned to the samples/CallSets in the header. So, if the header has 3 samples and the argument value is 100, then the 3 samples will be assigned row indexes 100, 101 and 102.
+    * _return value_ (type: _long_): Next available row index - in the above example, the returned value will be 103.
 
-* Use the callset_mapping_file as before - instead of file names you can pass a parameter called _stream_name_. Stream name is an arbitrary string; each invocation of _addSortedVariantContextIterator_ must provide a unique stream name.
+If the method described above is too cumbersome to use for providing sample/CallSet mapping, you can use the _callset_mapping_file_ [[as described previously | Importing-VCF-data-into-GenomicsDB#samplescallsets ]] to specify the same information. Instead of file names you can pass a parameter called _stream_name_. For example:
+
+    {
+        "callsets" : { 
+            "HG00141" : {
+                "row_idx" : 0,
+                "idx_in_file": 0,
+                "stream_name": "HG00141_stream"
+            }
+        }
+    }
+
+You must use the same value of _stream_name_ while calling _addSortedVariantContextIterator_. Since the sample/CallSet mapping information is specified in the JSON file, you can set the parameter _sampleIndexToInfo_ to null while invoking _addSortedVariantContextIterator_.
+
+The recommended way is to use the JSON file for specifying CallSet/sample mapping, since the JSON file can be re-used for queries after the data is loaded. The Java API provides a way to specify this mapping purely for completeness.
