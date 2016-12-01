@@ -148,55 +148,62 @@ The import program needs additional parameters that control how the program runs
         "compress_tiledb_array" : true,
         "disable_synced_writes" : true,
         "segment_size" : 1048576,
-        "num_cells_per_tile" : 1000
+        "num_cells_per_tile" : 1000,
+        "ignore_cells_not_in_partition": false
     }
 
-* _row_based_partitioning_ (optional, type: boolean, default value: _false_): Controls how your variant data is partitioned across multiple nodes/TileDB instances - see [[this wiki page for more information first|GenomicsDB-setup-in-a-multi-node-cluster]]. The default value is _false_, which implies your data is partitioned by columns.
-* _produce_combined_vcf_ (optional, type: boolean, default value: _false_): The import program can produced a combined VCF identical to that produced by the [GATK CombineGVCF tool](https://www.broadinstitute.org/gatk/guide/tooldocs/org_broadinstitute_gatk_tools_walkers_variantutils_CombineGVCFs.php) if this parameter is set to _true_. Note that if you partition your array by rows, then you cannot produce a combined GVCF - it works only when the array is partitioned by columns.
-* _produce_tiledb_array_ (optional, type: boolean,, default value _false_): The import program will produce the TileDB array if this parameter is set to _true_.
-* _column_partitions_ (mandatory if _row_based_partitioning_=_false_, else optional): This field is a list/array of dictionaries. Each dictionary describes the column partition.
-    * _begin_ (mandatory, type: integer): Describes the column id at which the current partition begins
-    * _end_ (optional, type: integer): Describes the column id at which the current partition ends (inclusive)
-    * _workspace, array_ (optional, type: strings): If creating a TileDB array, these parameters [[specify the directories where the TileDB array data will be stored|Basic-TileDB-GenomicsDB-terminology]].
-    * _vcf_output_filename_ (optional, type:string): If producing a combined GVCF, then this parameter specifies the path at which the output VCF will be created. If this parameter is omitted but _produce_combined_vcf_ is _true_, then the output VCF is printed on stdout.
+* General parameters
+  * _row_based_partitioning_ (optional, type: boolean, default value: _false_): Controls how your variant data is partitioned across multiple nodes/TileDB instances - see [[this wiki page for more information first|GenomicsDB-setup-in-a-multi-node-cluster]]. The default value is _false_, which implies your data is partitioned by columns.
+  * _produce_combined_vcf_ (optional, type: boolean, default value: _false_): The import program can produced a combined VCF identical to that produced by the [GATK CombineGVCF tool](https://www.broadinstitute.org/gatk/guide/tooldocs/org_broadinstitute_gatk_tools_walkers_variantutils_CombineGVCFs.php) if this parameter is set to _true_. Note that if you partition your array by rows, then you cannot produce a combined GVCF - it works only when the array is partitioned by columns.
+  * _produce_tiledb_array_ (optional, type: boolean,, default value _false_): The import program will produce the TileDB array if this parameter is set to _true_.
+  * _column_partitions_ (mandatory if _row_based_partitioning_=_false_, else optional): This field is a list/array of dictionaries. Each dictionary describes the column partition.
+      * _begin_ (mandatory, type: integer): Describes the column id at which the current partition begins
+      * _end_ (optional, type: integer): Describes the column id at which the current partition ends (inclusive)
+      * _workspace, array_ (optional, type: strings): If creating a TileDB array, these parameters [[specify the directories where the TileDB array data will be stored|Basic-TileDB-GenomicsDB-terminology]].
+      * _vcf_output_filename_ (optional, type:string): If producing a combined GVCF, then this parameter specifies the path at which the output VCF will be created. If this parameter is omitted but _produce_combined_vcf_ is _true_, then the output VCF is printed on stdout.
 
     The program sorts column partitions (in increasing order) and determines the end values (if not specified). For the last partition, if the end is not specified, then it's assumed to be INT64_MAX. In the above example, the column partitions are [0:999] and [1000:INT64_MAX] respectively.
-* _row_partitions_ (mandatory if _row_based_partitioning_=_true_, else optional): This field is similar to _column_partitions_ but for rows. The field _vcf_output_filename_ is not meaningful for row partitioned arrays. Example:
+  * _row_partitions_ (mandatory if _row_based_partitioning_=_true_, else optional): This field is similar to _column_partitions_ but for rows. The field _vcf_output_filename_ is not meaningful for row partitioned arrays.   Example:
 
-        "row_partitions" : [
-            {"begin": 0, "workspace":"/tmp/ws", "array": "test0" },
-            {"begin": 200, "workspace":"/tmp/ws", "array": "test1" }
-        ],
+            "row_partitions" : [
+                {"begin": 0, "workspace":"/tmp/ws", "array": "test0" },
+                {"begin": 200, "workspace":"/tmp/ws", "array": "test1" }
+            ],
 
-***YOU SHOULD NOT HAVE _row_partitions_ and _column_partitions_ SIMULTANEOUSLY IN ONE LOADER JSON CONFIGURATION FILE.***
-* _vid_mapping_file_ (mandatory, type:string): The vid mapping file [[described above|Importing-VCF-data-into-GenomicsDB#information-about-vcfs-for-the-import-program]].
-* _callset_mapping_file_ (optional, type:string): Same as the callset mapping file [[described above|Importing-VCF-data-into-GenomicsDB#samplescallsets]]. This field value gets higher preference if the _vid_mapping_file_ also contains a field called _callset_mapping_file_. The idea is that the user can use a fixed _vid_mapping_file_ and work with many different sets of samples/CallSets by changing the _callset_mapping_file_ in this loader JSON config file.
-* _max_num_rows_in_array_ (optional, type: int64, default: INT64_MAX): TileDB requires that the dimensions of the array 
+    ***YOU SHOULD NOT HAVE _row_partitions_ and _column_partitions_ SIMULTANEOUSLY IN ONE LOADER JSON CONFIGURATION FILE.***
+  * _vid_mapping_file_ (mandatory, type:string): The vid mapping file [[described above|Importing-VCF-data-into-GenomicsDB#information-about-vcfs-for-the-import-program]].
+  * _callset_mapping_file_ (optional, type:string): Same as the callset mapping file [[described above|Importing-VCF-data-into-GenomicsDB#samplescallsets]]. This field value gets higher preference if the _vid_mapping_file_ also contains a field called _callset_mapping_file_. The idea is that the user can use a fixed _vid_mapping_file_ and work with many different sets of samples/CallSets by changing the _callset_mapping_file_ in this loader JSON config file.
+  * _max_num_rows_in_array_ (optional, type: int64, default: INT64_MAX): TileDB requires that the dimensions of the array 
 be specified while creating the array. This parameter specifies the maximum number of rows that are to be stored in the 
 TileDB array. Setting this parameter is optional.
-* _size_per_column_partition_ (mandatory, type: int): During the importing process, the program reads small chunks from 
+  * _size_per_column_partition_ (mandatory, type: int): During the importing process, the program reads small chunks from 
 each input VCF file into a buffer in memory. Let's denote this chunk size as _X_. Note that _X_ must be large enough to 
 hold at least 1 VCF line;i.e. _X_ must be bigger than the largest VCF line among all the input VCF files.
 
-    To produce a column major array, the program allocates one buffer for every input sample/CallSet. Hence, the total size of all buffers put together is _\#samples * X_. The parameter _size_per_column_partition_ must be set to this value.
+      To produce a column major array, the program allocates one buffer for every input sample/CallSet. Hence, the total size of all buffers put together is _\#samples * X_. The parameter _size_per_column_partition_ must be set to this value.
 
-    Unfortunately, there is no good way to figure out what this parameter value should be. In our tests with the WGS gVCFs accessible to us, a value of 10KB for _X_ seemed to be sufficient (but a value of 1KB wasn't adequate). The program will fail with an exception if it encounters a line whose length is \> _X_; however, this could be deep into the program's execution. Setting large values would increase memory consumption, but if your sample count is 'small' enough (and your machine memory large enough), setting larger values should not be an issue.
-* _treat_deletions_as_intervals_ (type: boolean, optional, default: _false_): Consider the following lines in a VCF:
+      Unfortunately, there is no good way to figure out what this parameter value should be. In our tests with the WGS gVCFs accessible to us, a value of 10KB for _X_ seemed to be sufficient (but a value of 1KB wasn't adequate). The program will fail with an exception if it encounters a line whose length is \> _X_; however, this could be deep into the program's execution. Setting large values would increase memory consumption, but if your sample count is 'small' enough (and your machine memory large enough), setting larger values should not be an issue.
+  * _treat_deletions_as_intervals_ (type: boolean, optional, default: _false_): Consider the following lines in a VCF:
 
-        #CHR	POS	REF	ALT
-        1	100	GATC	GC
-        1	500	T	C
+            #CHR	POS	REF	ALT
+            1	100	GATC	GC
+            1	500	T	C
 
     In an indexed VCF, querying for position 101 would return the deletion allele since it overlaps the queried position (even though, by the VCF convention, it begins at location 100). Hence, we can think of a deletion as an interval and any query within that interval should return the deletion. By setting this flag to _true_, all deletions are treated as intervals. Without this flag, a GenomicsDB query for position 101 would *NOT* return the deletion.
-* _num_parallel_vcf_files_ (type:integer, optional, default: 1): This parameter controls the number of VCF files that are opened and read in parallel by the loader program. Increasing this number could improve (decrease) loading time.
-* _delete_and_create_tiledb_array_ (type: boolean, optional, default: _false_): If set to _true_, the program will delete existing data in the array referred to by the _workspace_ and _array_ fields. By default, the loader program will only update/add to the existing array and not delete previous data.
+  * _num_parallel_vcf_files_ (type:integer, optional, default: 1): This parameter controls the number of VCF files that are opened and read in parallel by the loader program. Increasing this number could improve (decrease) loading time.
+  * _delete_and_create_tiledb_array_ (type: boolean, optional, default: _false_): If set to _true_, the program will delete existing data in the array referred to by the _workspace_ and _array_ fields. By default, the loader program will only update/add to the existing array and not delete previous data.
 
-When producing a combined VCF, the options described in [[this wiki page|Combined-VCF-options]] can be specified in the loader JSON file.
+* Parameters for producing a combined VCF file during the loading phase
+  
+  When producing a combined VCF, the options described in [[this wiki page|Combined-VCF-options]] can be specified in the loader JSON file.
 
-The following options are for developers/tuners.
-* _do_ping_pong_buffering_ (type: boolean, optional, default: _false_): Enabling this option runs the multiple stages in the loader in parallel using [OpenMP's sections directive](https://computing.llnl.gov/tutorials/openMP/#SECTIONS) (software pipelining).
-* _offload_vcf_output_processing_ (type: boolean, optional, default: _false_): When producing a combined gVCF, enabling this option offloads the processing associated with serializing the VCF record into  a character buffer, compression and writing to disk to another thread. This reduces the burden on the critical thread in the combine GVCF process.
-* _discard_vcf_index_ (type: boolean, optional, default: _true_): The loader program traverses each VCF in column order. 
+* Parameters relevant when using the write API:
+  * _ignore_cells_not_in_partition_ (type: boolean, optional, default: _false_): When using the write API (for example, the [[ Java write API | Java-interface-for-importing-VCF-CSV-files-into-TileDB-GenomicsDB#mode-2-java-api-for-importing-variantcontext-objects ]]). 
+
+* Parameters for developers/tuners.
+  * _do_ping_pong_buffering_ (type: boolean, optional, default: _false_): Enabling this option runs the multiple stages in the loader in parallel using [OpenMP's sections directive](https://computing.llnl.gov/tutorials/openMP/#SECTIONS) (software pipelining).
+  * _offload_vcf_output_processing_ (type: boolean, optional, default: _false_): When producing a combined gVCF, enabling this option offloads the processing associated with serializing the VCF record into  a character buffer, compression and writing to disk to another thread. This reduces the burden on the critical thread in the combine GVCF process.
+  * _discard_vcf_index_ (type: boolean, optional, default: _true_): The loader program traverses each VCF in column order. 
 This is done by sorting contigs in increasing order of their offsets (as described in the _vid_mapping_file_) and then 
 using the indexed VCF reader from [htslib](https://github.com/samtools/htslib) to traverse the VCF in the sorted contig 
 order. The program by default uses the input VCF's index only when switching from one contig to another since records 
@@ -204,18 +211,18 @@ belonging to a single contig are contiguous and in non-decreasing order in the V
 is re-loaded into memory (from disk) and the program moves to the next contig (in the sorted contig order). Once the 
 file pointer moves to the next contig, the index structures are dropped from memory.
 
-    Indexes are not stored in memory for the duration of the program to ensure that the loader program is tractable when 
+      Indexes are not stored in memory for the duration of the program to ensure that the loader program is tractable when 
 dealing with a large number of inputs. In our tests, for WES gVCFs, each index structure consumed about 6 MB of memory. 
 For WGS gVCFs, each index consumed around 40 MB of memory. This becomes an issue when dealing with \>= 1000 files.
-* _compress_tiledb_array_ (type: boolean, optional, default: _true_): Determines whether the files storing TileDB data 
+  * _compress_tiledb_array_ (type: boolean, optional, default: _true_): Determines whether the files storing TileDB data 
 on disk are compressed.
-* _disable_synced_writes_ (type: boolean, optional, default: _false_): Determines whether TileDB uses the O_SYNC flag while writing to disk. Disabling synced writes likely improves performance. The performance improvement is significant when the array is compressed since tiles are written one at a time to disk when compression is enabled. Compressed tiles are relatively small in size (few KBs) and using synced writes slows down the loading process significantly.
+  * _disable_synced_writes_ (type: boolean, optional, default: _false_): Determines whether TileDB uses the O_SYNC flag while writing to disk. Disabling synced writes likely improves performance. The performance improvement is significant when the array is compressed since tiles are written one at a time to disk when compression is enabled. Compressed tiles are relatively small in size (few KBs) and using synced writes slows down the loading process significantly.
 
-    However, bear in mind that disabling synced writes implies that data may not committed to disk till after the end of the import program (the kernel may decide to buffer pages in memory). If you are certain that no concurrent reads will occur during or immediately after the import process, disabling synced writes is likely to give you a performance boost without affecting correctness. Use with care.
-* _segment_size_ (type: int64_t, optional, default: 10MB): Buffer size in bytes allocated for TileDB attributes during 
+      However, bear in mind that disabling synced writes implies that data may not committed to disk till after the end of the import program (the kernel may decide to buffer pages in memory). If you are certain that no concurrent reads will occur during or immediately after the import process, disabling synced writes is likely to give you a performance boost without affecting correctness. Use with care.
+  * _segment_size_ (type: int64_t, optional, default: 10MB): Buffer size in bytes allocated for TileDB attributes during 
 the loading process. Should be large enough to hold one cell worth of data. Small buffer sizes (< 4KB) may lead to low
 performance since data is flushed to disk each time the buffer is full.
-* _num_cells_per_tile_ (type: int64_t, optional, default: 1000): Controls number of cells per tile. Very small values 
+  * _num_cells_per_tile_ (type: int64_t, optional, default: 1000): Controls number of cells per tile. Very small values 
 can lead to low performance during loading and querying (since a tile is a unit of indexing in TileDB)
 
 ## Running the program
