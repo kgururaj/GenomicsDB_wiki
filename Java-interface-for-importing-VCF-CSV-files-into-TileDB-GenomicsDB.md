@@ -86,7 +86,7 @@ You must use the same value of _stream_name_ while calling _addSortedVariantCont
 The recommended way is to use the JSON file for specifying CallSet/sample mapping, since the JSON file can be re-used for queries after the data is loaded. The Java API provides a way to specify this mapping purely for completeness.
 
 ## Example driver program
-See our [example driver program](https://github.com/Intel-HLS/GenomicsDB/blob/master/example/java/TestBufferStreamVCF2TileDB.java) for using the interface. The driver program takes as input the following command line parameters:
+See our [example driver program](https://github.com/Intel-HLS/GenomicsDB/blob/master/example/java/TestBufferStreamVCF2TileDB.java) that demonstrates the API. The driver program takes as input the following command line parameters:
 
     -iterators loader.json stream_name_to_filename.json [bufferCapacity rank lbRowIdx ubRowIdx]
 
