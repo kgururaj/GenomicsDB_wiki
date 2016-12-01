@@ -112,7 +112,7 @@ can install the libcsv packages using yum:
 
   Your CLASSPATH environment variable should look like:
 
-        export CLASSPATH=<directory>/htsjdk-<version>.jar:<directory>/json-simple-1.1.1.jar:.:$CLASSPATH
+        export CLASSPATH=<directory>/htsjdk-<version>.jar:<directory>/json-simple-<version>.jar:.:$CLASSPATH
 
 
 ## Building
