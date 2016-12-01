@@ -103,11 +103,17 @@ can install the libcsv packages using yum:
             brew install libcsv
 
 * _For the Java/JNI interface_
-    * Java SDK version 8.
-    * [Htsjdk](http://samtools.github.io/htsjdk/) version \>= 2.5.0. The htsjdk jar should be built/obtained before 
-building the Java/JNI parts of GenomicsDB. You can download a pre-built
-[htsjdk jar](http://search.maven.org/remotecontent?filepath=com/github/samtools/htsjdk/2.5.0/htsjdk-2.5.0.jar) from 
-[Maven central](http://search.maven.org/).
+  * Java SDK version 8.
+
+  The following jar files should be built/obtained before building the Java/JNI parts of GenomicsDB. They should be part of your CLASSPATH.
+  * [Htsjdk](http://samtools.github.io/htsjdk/) version \>= 2.5.0. You can download a pre-built
+[htsjdk jar](http://search.maven.org/remotecontent?filepath=com/github/samtools/htsjdk/2.5.0/htsjdk-2.5.0.jar) from [Maven central](http://search.maven.org/).
+  * [json-simple](https://github.com/fangyidong/json-simple) version \>=1.1.1. You can download a [pre-built jar](http://central.maven.org/maven2/com/googlecode/json-simple/json-simple/1.1.1/json-simple-1.1.1.jar) from [Maven central](http://search.maven.org/).
+
+  Your CLASSPATH environment variable should look like:
+
+        export CLASSPATH=<directory>/htsjdk-<version>.jar:<directory>/json-simple-1.1.1.jar:.:$CLASSPATH
+
 
 ## Building
 * Get the right branch based on what you wish to do - see the other pages for which branch to get. If you do not know which branch to use, the *master* branch is your best bet.
@@ -173,14 +179,15 @@ If you have downloaded and compiled the dependencies manually, use the following
 
 ## Java interface for TileDB/GenomicsDB
 * Java SDK version 8.
-* [Htsjdk](http://samtools.github.io/htsjdk/) version \>= 2.5.0. The htsjdk jar should be built/obtained before building 
-the Java/JNI parts of GenomicsDB. You can download a pre-built
-[htsjdk jar](http://search.maven.org/remotecontent?filepath=com/github/samtools/htsjdk/2.5.0/htsjdk-2.5.0.jar) from 
-[Maven central](http://search.maven.org/).
+
+The following jar files should be built/obtained before building the Java/JNI parts of GenomicsDB. They should be part of your CLASSPATH.
+* [Htsjdk](http://samtools.github.io/htsjdk/) version \>= 2.5.0. You can download a pre-built
+[htsjdk jar](http://search.maven.org/remotecontent?filepath=com/github/samtools/htsjdk/2.5.0/htsjdk-2.5.0.jar) from [Maven central](http://search.maven.org/).
+* [json-simple](https://github.com/fangyidong/json-simple) version \>=1.1.1. You can download a [pre-built jar](http://central.maven.org/maven2/com/googlecode/json-simple/json-simple/1.1.1/json-simple-1.1.1.jar) from [Maven central](http://search.maven.org/).
 
 * To build the the jar:
         
-        export CLASSPATH=<path_to_htsjdk_jar>:$CLASSPATH
+        export CLASSPATH=<directory>/htsjdk-<version>.jar:<directory>/json-simple-<version>.jar:.:$CLASSPATH
 
         #On GNU/Linux        
         make MPIPATH=<mpi_package_dir>/bin/ BUILD=release LIBCSV_DIR=<libcsv_directory> OPENMP=1 BUILD_JAVA=1 JNI_FLAGS="-I<java_SDK_dir>/include -I<java_SDK_dir>/include/linux"
