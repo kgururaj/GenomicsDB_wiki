@@ -85,7 +85,24 @@ You must use the same value of _stream_name_ while calling _addSortedVariantCont
 
 The recommended way is to use the JSON file for specifying CallSet/sample mapping, since the JSON file can be re-used for queries after the data is loaded. The Java API provides a way to specify this mapping purely for completeness.
 
-Possible sources of error (specific to the Java API):
+## Example driver program
+See our [example driver program](https://github.com/Intel-HLS/GenomicsDB/blob/master/example/java/TestBufferStreamVCF2TileDB.java) for using the interface. The driver program takes as input the following command line parameters:
+
+    -iterators loader.json stream_name_to_filename.json [bufferCapacity rank lbRowIdx ubRowIdx]
+
+The JSON file _stream_name_to_filename.json_ contains entries of the form _\<stream_name\>: \<filename\>_. For example:
+
+    {
+        "HG00141_stream": "/data/HG00141.vcf.gz",
+        "HG01598_stream": "/data/HG001598.vcf.gz"
+    }
+
+Note that the above file is only needed by our example driver program and not required in general. The driver opens the VCF files, creates iterators and uses the VCF2TileDB API to load data into the TileDB/GenomicsDB array.
+
+
+## Possible sources of error (specific to the Java API):
 * You cannot use a VCF2TileDB object for anything once the _importBatch()_ function has been called. If you do,  the program will fail with an exception.
 * Each iterator provided must traverse VariantContext objects in column major order. So, if chromosomes "1", "2" and "3" are laid out in that order in the TileDB column space and an iterator provides VariantContext objects from chromosomes "1", "3" and "2" (in that order), then the column major order is violated and the program will fail with an exception.
 * When loading data into multiple [[TileDB/GenomicsDB partitions | GenomicsDB-setup-in-a-multi-node-cluster]], a VCF2TileDB object loads data into a single partition (as specified by the _rank_ parameter). If a VariantContext object that does not belong to the current partition is encountered, the program will fail with an exception.
+
+  The parameter _ignore_cells_not_in_partition_ can be set to true in the [[ loader JSON file | Importing-VCF-data-into-GenomicsDB#execution-parameters-for-the-import-program ]] - this will cause the import program to silently ignore VariantContext objects that do not belong to the current partition.
