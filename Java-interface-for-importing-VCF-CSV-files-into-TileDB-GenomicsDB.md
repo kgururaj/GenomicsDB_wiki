@@ -55,5 +55,18 @@ Typically, the caller code will look something similar to:
   * [VariantContextWriterBuilder.OutputType](https://samtools.github.io/htsjdk/javadoc/htsjdk/htsjdk/variant/variantcontext/writer/VariantContextWriterBuilder.OutputType.html).BCF_STREAM: Objects are serialized in the BCF2 format - recommended for performance.
   * [VariantContextWriterBuilder.OutputType](https://samtools.github.io/htsjdk/javadoc/htsjdk/htsjdk/variant/variantcontext/writer/VariantContextWriterBuilder.OutputType.html).VCF_STREAM: Objects are serialized in the VCF format.
 * _sampleIndexToInfo_ (type: _Map\<Integer, VCF2TileDB.SampleInfo\>_):   Holds callset mapping mapping information
-  * Map key (type _Integer_): Index of the sample/CallSet in the VCF header. This is similar to the parameter [[_idx_in_file_ explained previously | Importing-VCF-data-into-GenomicsDB#samplescallsets]].
+  * Map key (type: _Integer_): Index of the sample/CallSet in the VCF header. This is identical to the parameter [[ idx_in_file explained previously | Importing-VCF-data-into-GenomicsDB#samplescallsets]]. If the header has _N_ samples, but the map has _M_ entries, _M_ \< _N_, then only the samples present in the Map will be imported into GenomicsDB.
+  * Map value (type: _VCF2TileDB.SampleInfo_): Contains two pieces of information
+    * name (type: _String_): Name of the sample/CallSet - must be unique across all samples in the TileDB/GenomicsDB array.
+    * rowIdx (type: _long_): Index of the sample/CallSets in the TileDB array - must be unique across all samples/CallSets.
+
+  Sample information objects can be constructed by directly invoking the constructor `VCF2TileDB.SampleInfo sampleInfo(name, rowIdx);`.
+
+  If you are absolutely sure that the sample names in your VCF header file are globally unique and you wish to import data from all the samples in the header, you can use a utility function provided by GenomicsDB to create/update the map.
+
+        rowIdx = VCF2TileDB.initializeSampleInfoMapFromHeader(sampleIndexToInfo, vcfHeader, rowIdx);
+
+   * _rowIdx_ (type: _long_): the argument passed to the function must contain the value from which row indexes are assigned to the samples/CallSets in the header. So, if the header has 3 samples and the argument value is 100, then the 3 samples will be assigned row indexes 100, 101 and 102.
+   * _return value_ (type: _long_): Next available row index - in the above example, the returned value will be 103.
+
 * Use the callset_mapping_file as before - instead of file names you can pass a parameter called _stream_name_. Stream name is an arbitrary string; each invocation of _addSortedVariantContextIterator_ must provide a unique stream name.
