@@ -198,7 +198,7 @@ hold at least 1 VCF line;i.e. _X_ must be bigger than the largest VCF line among
   When producing a combined VCF, the options described in [[this wiki page|Combined-VCF-options]] can be specified in the loader JSON file.
 
 * Parameters relevant when using the write API (for example the Java write API):
-  * _ignore_cells_not_in_partition_ (type: boolean, optional, default: _false_): When using the write API (for example, the [[ Java write API | Java-interface-for-importing-VCF-CSV-files-into-TileDB-GenomicsDB#mode-2-java-api-for-importing-variantcontext-objects ]]) for importing data into a [[ multi-partition TileDB/GenomicsDB array  | GenomicsDB-setup-in-a-multi-node-cluster ]], if records NOT belonging to the current partition are encountered, an exception will be thrown. Setting this parameter to true will cause the program to ignore such records and not raise an exception.
+  * _ignore_cells_not_in_partition_ (type: boolean, optional, default: _false_): When using the write API (for example, the [[ Java write API | Java-interface-for-importing-VCF-CSV-files-into-TileDB-GenomicsDB#mode-2-java-api-for-importing-variantcontext-objects ]]) for importing data into a [[ multi-partition TileDB/GenomicsDB array  | GenomicsDB-setup-in-a-multi-node-cluster ]], if records NOT belonging to the current partition are encountered, an exception will be thrown. Setting this parameter to _true_ will cause the program to silently ignore such records.
 
     If you are not using the write API, this parameter is not useful.
 
