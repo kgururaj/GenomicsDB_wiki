@@ -197,7 +197,8 @@ The following jar files should be built/obtained before building the Java/JNI pa
 
     You don't need an MPI compiler and library to only build the jar and the shared TileDB/GenomicsDB library (no executables will be built).
 
-        export CLASSPATH=<path_to_htsjdk_jar>:$CLASSPATH
+        export CLASSPATH=<directory>/htsjdk-<version>.jar:<directory>/json-simple-<version>.jar:.:$CLASSPATH
+
         make BUILD=release DISABLE_MPI=1 BUILD_JAVA=1 JNI_FLAGS="-I<java_SDK_dir>/include -I<java_SDK_dir>/include/linux"
 
     The jar file genomicsdb.jar will be created in the bin/ directory. You can 
