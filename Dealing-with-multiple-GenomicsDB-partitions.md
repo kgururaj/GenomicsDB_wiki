@@ -32,4 +32,11 @@ you can simply use:
 ### Scenario 2: Partitions are located on a shared filesystem (such as NFS, Lustre etc) or multiple partitions may be hosted on a single filesystem
 In this case, each partition must be located on a separate directory. Hence, fields such _workspace_, _array_, _vcf_output_filename_ etc should be unique for each partition. This information can be specified in the loader and query JSON files as lists (either as list of strings or as a list of dictionaries with the parameter specified in each dictionary).
 
-Many users wish to partition their GenomicsDB instances by column (or genomic position) since it provides higher performance for downstream queries and analysis. 
+## My input data is in multiple files, one file per sample/CallSet (or row) but I wish to import data into GenomicsDB  partitions that are divided by genomic position (or column)
+Generally, input data, such as variants produced by variant calling pipelines, is located in multiple files (VCF), one file per sample/CallSet (or a small set of samples/CallSets per file). Each file contains data from all genomic positions for the sample/CallSet. Many users wish to partition their GenomicsDB instances by column (or genomic position) since it provides higher performance for certain downstream queries and analysis. In many cases, the goal is to distribute the partitions among multiple machines for scalability and performance.
+
+If you are using a shared filesystem such as NFS, Lustre etc to host your input variant files (example VCF files), there is no blocker since every machine has access to all the files. You should be able to create the loader JSON and execute _vcf2tiledb_ to import data into different partitions.
+
+If you do not have a shared filesystem, then you might run into issues. Copying all the input files to every machine on which a GenomicsDB partition will be hosted may not be a feasible solution since a machine may not have enough disk space to store all the data from all the samples (note that the machine must have enough space to store data from all the samples for the specific column partition).
+
+Our current recommended solution is to split the each input file a. For example
