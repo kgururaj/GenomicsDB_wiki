@@ -2,7 +2,7 @@ Please read [[ the wiki page | GenomicsDB-setup-in-a-multi-node-cluster ]] descr
 
 Each import process (whether you are running _vcf2tiledb_ or using a _VCF2TileDB_ object in the Java write API) writes data to a single partition in column-major order (the order is independent of the partitioning scheme). You can use MPI to spawn multiple processes to write to multiple partitions in parallel or use a parallel shell (such as [GNU parallel] (https://www.gnu.org/software/parallel/man.html) for a single node, multi-partition setup or [pdsh] (https://linux.die.net/man/1/pdsh) for a multi-node setup) and pass the rank/partition index argument value for each process explicitly.
 
-## What directory/name should I use for my workspaces/arrays when dealing with multiple partitions?
+## What directory/array/output name should I use for my workspaces/arrays when dealing with multiple partitions?
 Each partition must be located on a separate physical directory on disk to avoid clobbering another partition's data. This can be achieved in multiple ways depending on how you organize your data in your cluster:
 
 ### Scenario 1: Partitions are located on the the local disks of a different machines.
