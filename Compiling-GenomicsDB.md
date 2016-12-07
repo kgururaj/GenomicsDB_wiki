@@ -177,7 +177,7 @@ If you have downloaded and compiled the dependencies manually, use the following
 
         make MPIPATH=<mpi_package_dir>/bin/ TILEDB_DIR=<TileDB_dir> HTSDIR=<htslib_directory> RAPIDJSON_INCLUDE_DIR=<rapidjson_dir>/include BUILD=release OPENMP=1 -j 8
 
-## Java and Apache Spark(TM) interface for TileDB/GenomicsDB
+## Java and Apache Spark interface for TileDB/GenomicsDB
 * With the BUILD_JAVA flag enabled, the build environment compiles both Java and Apache Spark interfaces of GenomicsDB.
 * Remember to use Java SDK version 8.
 * For GenomicsDB versions >0.4.0, use the following steps. Otherwise use the steps described in [[Building GenomicsDB Version 0.3.0]].
