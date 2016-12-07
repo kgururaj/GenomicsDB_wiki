@@ -177,15 +177,17 @@ If you have downloaded and compiled the dependencies manually, use the following
 
         make MPIPATH=<mpi_package_dir>/bin/ TILEDB_DIR=<TileDB_dir> HTSDIR=<htslib_directory> RAPIDJSON_INCLUDE_DIR=<rapidjson_dir>/include BUILD=release OPENMP=1 -j 8
 
-## Java interface for TileDB/GenomicsDB
-* Java SDK version 8.
+## Java and Apache Spark(TM) interface for TileDB/GenomicsDB
+* With the BUILD_JAVA flag enabled, the build environment compiles both Java and Apache Spark interfaces of GenomicsDB.
+* Remember to use Java SDK version 8.
+* For GenomicsDB versions >0.4.0, use the following steps. Otherwise use the steps described in [[Building GenomicsDB Version 0.3.0]].
 
 The following jar files should be built/obtained before building the Java/JNI parts of GenomicsDB. They should be part of your CLASSPATH.
 * [Htsjdk](http://samtools.github.io/htsjdk/) version \>= 2.5.0. You can download a pre-built
 [htsjdk jar](http://search.maven.org/remotecontent?filepath=com/github/samtools/htsjdk/2.5.0/htsjdk-2.5.0.jar) from [Maven central](http://search.maven.org/).
 * [json-simple](https://github.com/fangyidong/json-simple) version \>=1.1.1. You can download a [pre-built jar](http://central.maven.org/maven2/com/googlecode/json-simple/json-simple/1.1.1/json-simple-1.1.1.jar) from [Maven central](http://search.maven.org/).
 
-* To build the the jar:
+* To build the jar:
         
         export CLASSPATH=<directory>/htsjdk-<version>.jar:<directory>/json-simple-<version>.jar:.:$CLASSPATH
 
@@ -201,11 +203,11 @@ The following jar files should be built/obtained before building the Java/JNI pa
 
         make BUILD=release DISABLE_MPI=1 BUILD_JAVA=1 JNI_FLAGS="-I<java_SDK_dir>/include -I<java_SDK_dir>/include/linux"
 
-    The jar file genomicsdb.jar will be created in the bin/ directory. You can 
+    The jar file genomicsdb-<version>.jar will be created in the bin/ directory. You can 
 [install](https://maven.apache.org/guides/mini/guide-3rd-party-jars-local.html) this jar file into your local Maven 
 repository for use in downstream Maven/Gradle build systems using:
 
-        mvn install:install-file -Dfile=bin/genomicsdb.jar -DpomFile=src/java/genomicsdb/pom.xml
+        mvn install:install-file -Dfile=bin/genomicsdb-<version>.jar -DpomFile=pom.xml
 
 Caveats:
 * The shared library (libtiledbgenomicsdb.so) that is packaged in the jar depends on GNU libc (glibc). If you 
