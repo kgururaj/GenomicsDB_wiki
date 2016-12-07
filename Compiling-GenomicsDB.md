@@ -121,6 +121,11 @@ can install the libcsv packages using yum:
 
         git clone --recursive https://github.com/Intel-HLS/GenomicsDB.git
 
+* If you have an existing git repository and wish to pull in the latest changes:
+
+        git pull origin master
+        git submodule update --recursive --init
+
 * Make sure you have the required gcc version in your PATH.
 * Assuming you want to use the dependencies pulled in by git and you have the MPI compiler (mpicxx) in your PATH
         
