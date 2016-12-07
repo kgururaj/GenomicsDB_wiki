@@ -4,6 +4,7 @@
 * **[[Compiling GenomicsDB|Compiling-GenomicsDB]]**
     * [[Requirements | Compiling-GenomicsDB#requirements ]]
     * [[Building | Compiling-GenomicsDB#building ]]
+	  * [[Building GenomicsDB Version 0.3.0]]
 * **Importing variant data into GenomicsDB**
     * [[Create a TileDB workspace | Create-a-TileDB-workspace]]
     * [[Importing data from VCFs/gVCFs into TileDB/GenomicsDB| Importing-VCF-data-into-GenomicsDB]]
