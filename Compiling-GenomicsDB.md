@@ -179,7 +179,7 @@ If you have downloaded and compiled the dependencies manually, use the following
 ## Java and Apache Spark interface for TileDB/GenomicsDB
 * With the BUILD_JAVA flag enabled, the build environment compiles both Java and Apache Spark interfaces of GenomicsDB.
 * Remember to use Java SDK version 8.
-* For GenomicsDB versions >= 0.4.0 (commit id [860400623ed44a15](https://github.com/Intel-HLS/GenomicsDB/commit/860400623ed44a155018d691c3427352b166701d) or newer, use the following steps. Otherwise use the steps described in [[Building GenomicsDB Version 0.3.0]].
+* For GenomicsDB versions >= 0.4.0 (commit id [860400623ed44a15](https://github.com/Intel-HLS/GenomicsDB/commit/860400623ed44a155018d691c3427352b166701d) or newer), use the following steps. Otherwise use the steps described in [[Building GenomicsDB Version 0.3.0]].
 
 * To build the jar:
         
