@@ -1,3 +1,5 @@
+If your git commit id is [e10bf412ddd35](https://github.com/Intel-HLS/GenomicsDB/commit/e10bf412ddd35c5aa2c4739aea266d9e5a460acd) or older, then follow the instructions on this page. If you commit id is [860400623ed4](https://github.com/Intel-HLS/GenomicsDB/commit/860400623ed44a155018d691c3427352b166701d) or newer, follow the instructions from the [[current build page|Compiling-GenomicsDB]].
+
 ## Requirements:
 ###Mandatory pre-requisites:
 * We have tested TileDB/GenomicsDB on the following platforms:
