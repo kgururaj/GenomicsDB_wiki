@@ -106,16 +106,8 @@ can install the libcsv packages using yum:
 
 * _For the Java/JNI interface_
   * Java SDK version 8.
-
-  The following jar files should be built/obtained before building the Java/JNI parts of GenomicsDB. They should be part of your CLASSPATH.
-  * [Htsjdk](http://samtools.github.io/htsjdk/) version \>= 2.5.0. You can download a pre-built
-[htsjdk jar](http://search.maven.org/remotecontent?filepath=com/github/samtools/htsjdk/2.5.0/htsjdk-2.5.0.jar) from [Maven central](http://search.maven.org/).
-  * [json-simple](https://github.com/fangyidong/json-simple) version \>=1.1.1. You can download a [pre-built jar](http://central.maven.org/maven2/com/googlecode/json-simple/json-simple/1.1.1/json-simple-1.1.1.jar) from [Maven central](http://search.maven.org/).
-
-  Your CLASSPATH environment variable should look like:
-
-        export CLASSPATH=<directory>/htsjdk-<version>.jar:<directory>/json-simple-<version>.jar:.:$CLASSPATH
-
+  * Apache Maven 3
+    * The other Java dependencies are pulled in by Maven as needed. 
 
 ## Building
 * Get the right branch based on what you wish to do - see the other pages for which branch to get. If you do not know which branch to use, the *master* branch is your best bet.
@@ -187,26 +179,17 @@ If you have downloaded and compiled the dependencies manually, use the following
 ## Java and Apache Spark interface for TileDB/GenomicsDB
 * With the BUILD_JAVA flag enabled, the build environment compiles both Java and Apache Spark interfaces of GenomicsDB.
 * Remember to use Java SDK version 8.
-* For GenomicsDB versions >0.4.0, use the following steps. Otherwise use the steps described in [[Building GenomicsDB Version 0.3.0]].
-
-The following jar files should be built/obtained before building the Java/JNI parts of GenomicsDB. They should be part of your CLASSPATH.
-* [Htsjdk](http://samtools.github.io/htsjdk/) version \>= 2.5.0. You can download a pre-built
-[htsjdk jar](http://search.maven.org/remotecontent?filepath=com/github/samtools/htsjdk/2.5.0/htsjdk-2.5.0.jar) from [Maven central](http://search.maven.org/).
-* [json-simple](https://github.com/fangyidong/json-simple) version \>=1.1.1. You can download a [pre-built jar](http://central.maven.org/maven2/com/googlecode/json-simple/json-simple/1.1.1/json-simple-1.1.1.jar) from [Maven central](http://search.maven.org/).
+* For GenomicsDB versions >= 0.4.0 (commit id [860400623ed44a15](https://github.com/Intel-HLS/GenomicsDB/commit/860400623ed44a155018d691c3427352b166701d) or newer, use the following steps. Otherwise use the steps described in [[Building GenomicsDB Version 0.3.0]].
 
 * To build the jar:
         
-        export CLASSPATH=<directory>/htsjdk-<version>.jar:<directory>/json-simple-<version>.jar:.:$CLASSPATH
-
-        #On GNU/Linux        
+         #On GNU/Linux        
         make MPIPATH=<mpi_package_dir>/bin/ BUILD=release LIBCSV_DIR=<libcsv_directory> OPENMP=1 BUILD_JAVA=1 JNI_FLAGS="-I<java_SDK_dir>/include -I<java_SDK_dir>/include/linux"
         
         #On MacOSX
         make MPIPATH=/usr/local/opt/mpich/bin/ LIBCSV_DIR=/usr/local/opt/libcsv/ OPENSSL_PREFIX_DIR=/usr/local/opt/openssl BUILD=release BUILD_JAVA=1 JNI_FLAGS="-I/System/Library/Frameworks/JavaVM.framework/Headers"
 
     You don't need an MPI compiler and library to only build the jar and the shared TileDB/GenomicsDB library (no executables will be built).
-
-        export CLASSPATH=<directory>/htsjdk-<version>.jar:<directory>/json-simple-<version>.jar:.:$CLASSPATH
 
         make BUILD=release DISABLE_MPI=1 BUILD_JAVA=1 JNI_FLAGS="-I<java_SDK_dir>/include -I<java_SDK_dir>/include/linux"
 
