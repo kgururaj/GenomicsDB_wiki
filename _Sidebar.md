@@ -16,7 +16,7 @@
     * [[Query result formats|Querying-GenomicsDB#query-result-format]]
     * [[Combined gVCF|Querying-GenomicsDB#producing-combined-gvcf]]
     * [[Combined gVCF Java interface|Querying-GenomicsDB#javajni-interface]]
-    * [[Combined gVCF Spark interface|Querying-GenomicsDB#spark-interface]]
+    * [[Combined gVCF Spark interface|Querying-GenomicsDB#Using-Spark(TM)-for-multi-node-querying]]
     * [[Combined gVCF options|Combined-VCF-options]]
 * **[[MPI with GenomicsDB|MPI-with-GenomicsDB]]**
 * **[[GenomicsDB utilities|GenomicsDB-utilities]]**
