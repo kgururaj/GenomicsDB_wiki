@@ -128,7 +128,7 @@ Command:
 Output format can be one of the following strings: "z[0-9]" (compressed VCF),"b[0-9]" (compressed BCF) or "bu" (uncompressed BCF).
 If nothing is specified, the default is uncompressed VCF.
 
-##Using MPI for parallel querying
+## Using MPI for parallel querying
 Please take a look at the [[wiki page explaining how we use MPI in the context of GenomicsDB|MPI-with-GenomicsDB]] 
 first. Once you setup your JSON configuration files and MPI hostfiles correctly:
     
@@ -137,7 +137,7 @@ first. Once you setup your JSON configuration files and MPI hostfiles correctly:
 To produce a combined GVCF with MPI your TileDB array partitions must be partitioned by column. Each MPI 
 process will produce a separate combined VCF file corresponding to the query column range assigned to it.
 
-##Java/JNI interface
+## Java/JNI interface
 The Java interface of GenomicsDB implements the [FeatureReader](https://samtools.github.io/htsjdk/javadoc/htsjdk/htsjdk/tribble/FeatureReader.html) 
 interface in htsjdk. The interface provides an iterator over [VariantContext](https://samtools.github.io/htsjdk/javadoc/htsjdk/htsjdk/variant/variantcontext/VariantContext.html) objects for the queried interval(s). Each VariantContext object is the combined VCF record for a given location over all samples. The combine operation is performed by the GenomicsDB native library and the results are obtained by the Java interface through JNI calls.
 
@@ -145,3 +145,24 @@ Take a look at our [example code](https://github.com/Intel-HLS/GenomicsDB/tree/m
 for using this interface.
 
 Since the Java interface of GenomicsDB exports combined VCF records (VariantContext objects), the options described in [[this wiki page|Combined-VCF-options]] can be specified in the query JSON file.
+
+## Using Spark(TM) for multi-node querying
+In addition to MPI, GenomicsDB includes a Spark interface for parallel queries. Spark is a generalized in-memory distributed map-reduce runtime developed by University of California, Berkeley. Various distributions of Spark are available from Apache, Cloudera(R), Hortonworks(R) and Databricks. The idea is that users will be able to run libraries such as Spark SQL, MLLib, Spark.ML or other Spark-based genomics tools such as GATK (4.0) Hellbender to analyze variants from GenomicsDB. For more detailed information on Spark please visit the [Apache Spark homepage](spark.apache.org).
+
+The use of Spark interface mandates that variants be first loaded to GenomicsDB using the MPI-based loader. The variants are partitioned or sharded across multiple machines either by samples or genomic positions in a shared-nothing manner. This means that individual partitions are agnostic of the data residing in other partitions. Resilient Distributed Datasets or RDDs are the unit of data in memory in Spark. RDDs can be viewed as partitioned collection of objects. The objective of this interface is to provide RDDs of multi-sample variant contexts. In the first version, a RDD parititon in a machine contains data from the local GenomicsDB instance. Therefore, if GenomicsDB was partitioned by columns or genomics positions across multiple nodes, RDD partition will contain data by positions.
+
+Please take a look at our example codes in [Java](https://github.com/Intel-HLS/GenomicsDB/blob/master/src/main/java/com/intel/genomicsdb/GenomicsDBJavaSparkFactory.java) or [Scala](https://github.com/Intel-HLS/GenomicsDB/blob/master/src/main/scala/com/intel/genomicsdb/GenomicsDBScalaSparkFactory.scala). The interface provides two APIs - 1) GenomicsDBRDD.getVariantContexts() where a new type of RDDs containing variant contexts (derived from Spark RDD base class) are returned and 2) sparkContext.newAPIHadoopRDD() which also returns RDD objects of variant contexts, but lets the user continue to use standard HadoopRDD interfaces from Spark.
+
+To run the interface, first start a Spark instance. For example a simple local instance of Apache Spark can be started using:
+
+    $ $SPARK_HOME/sbin/start-all.sh
+    
+Then, run the provided submit script as:
+
+    $ ./bin/genomicsdb-spark-submit.sh spark://localhost:7077 /path/to/loaderjson /path/to/queryjson /path/to/hostfile
+    
+The loader and query JSON files are explained in detail in [Querying GenomicsDB](https://github.com/Intel-HLS/GenomicsDB/wiki/Querying-GenomicsDB) page. The hostfile is a text file containing list of hostnames or IPs of host machines containing GenomicsDB partitions. For example, a simple hostfile for local instance looks like:
+
+    $ more hostfile
+    localhost
+    $
