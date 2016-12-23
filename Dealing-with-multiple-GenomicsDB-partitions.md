@@ -91,3 +91,10 @@ For each column partition, the import process needs to access data from all samp
         ./bin/vcf2tiledb <loader.json> --rank=<rank> --split-files --split-output-filename=<output_path> <input.vcf.gz>
 
   If the `--rank` argument is omitted, the default rank is 0, so the split file will contain data corresponding to partition index 0.
+
+## How do I determine what bounds to use for column partitions?
+Ideally, we want to have balanced partitions - i.e., all partitions should have approximately the same amount of data. If partitions are not balanced, downstream queries and tools will overload certain machines and will lead to increased execution times (and poor resource utilization). In TileDB/GenomicsDB, it is preferable to have partitions with approximately equal number of cells.
+
+We recommend users create a fine grained histogram over a subset of samples to determine the column partition bounds. For example, if you have 50K WGS samples, pick 1K samples at random and create a histogram over columns (genomic position) with 100K bins. The value of each histogram bin corresponds to the number of cells in that bin. To determine the 'best' partition bounds, divide the histogram bins into the desired number of partitions such that the number of cells is balanced across all partitions.
+
+We provide a utility tool to create such a histogram given a set of files. Details are described on [[ this wiki page | GenomicsDB-utilities#creating-a-histogram ]].
