@@ -36,27 +36,27 @@ In this case, each partition must be located on a separate directory. Hence, fie
 Generally, input data, such as variants produced by variant calling pipelines, is located in multiple files (VCF), one file per sample/CallSet (or a small set of samples/CallSets per file). Each file contains data from all genomic positions for the sample/CallSet. Users may wish to import data from a set of such files into multiple TileDB/GenomicsDB partitions which may be located on different machines.
 
 * If you are using a shared filesystem such as NFS, Lustre etc to host your input variant files (example VCF files), there is no blocker since every machine has access to all the files.
-* If you do not have a shared filesystem, then you might run into issues. Copying all the input files to every machine on which a GenomicsDB partition will be hosted may not be a feasible solution since a machine may not have enough disk space to store all the data from all the samples (note that the machine must have enough space to store data from all the samples for the specific partition).
+* If you do not have a shared filesystem, then you might run into issues. Copying all the input files to every machine on which a GenomicsDB partition will be hosted may not be a feasible solution since a machine may not have enough disk space to store all the data from all the samples.
 
 ### Partitioned by row (or sample/CallSet)
-Importing data into a TileDB/GenomicsDB array partitioned by row is relatively easy. Each import process for each partition needs to access only the files which contain the samples/CallSets assigned to the partition. Thus, if there is no shared filesystem, then only a subset of input files, corresponding to the samples/CallSets assigned to the partition(s) on a machine, needs to be copied to the machine. Once each machine can access the files assigned to the partitions on the machine, _vcf2tiledb_ can be run to import data (using MPI or by specifying the rank on the command line).
+Importing data into a TileDB/GenomicsDB array partitioned by row is relatively easy. Each import process for each partition needs to access only the files which contain the samples/CallSets assigned to the partition. Thus, even if there is no shared filesystem, then only a subset of input files, corresponding to the samples/CallSets assigned to the partition(s) on a machine, needs to be copied to the machine. Once each machine can access the files assigned to the partitions on the machine, _vcf2tiledb_ can be run to import data.
 
 ### Partitioned by column (or genomic position)
-Certain tools (for example, GATK GenotypeGVCFs) require data from all samples for each genomic position on why they operate. When running such an analysis on a large number of genomic positions, it might be beneficial to partition the data by columns. The reason is that all the data is local to a single machine which minimizes inter-machine network traffic.
+Certain tools (for example, GATK GenotypeGVCFs) require data from all samples for each genomic position on which they operate. When running such an analysis on a large number (or range) of genomic positions, it might be beneficial to partition the data by columns. The reason is that all the data is local to a single machine which minimizes inter-machine network traffic.
 
 For each column partition, the import process needs to access data from all samples. We describe some common scenarios:
 
-* If you have all your input files (such as VCFs) on a shared filesystem (such as NFS, Lustre etc), there are no significant changes to the import process. You should be able to create the loader JSON and execute _vcf2tiledb_ to import data into different partitions since every machine can access all the files.
+* If you have all your input files (such as VCFs) on a shared filesystem (such as NFS, Lustre etc), there are no significant changes to the import process. You should be able to create the loader JSON and execute _vcf2tiledb_ to import data into different partitions. Since every machine can access all the files, all the _vcf2tiledb_ processes can access and load data from different regions of the files.
 
-* If there is no shared filesystem, then copying all the input files to every machine that hosts a partition may not be feasible. Our current recommended solution is to split the each input file that contains data for all genomic positions into multiple files, one file per partition, with each split file containing data only for the specific partition. This way only the split files can be copied to a particular machine.
+* If there is no shared filesystem, then copying all the input files to every machine that hosts a partition may not be feasible. Our current recommended solution is to split each input file into multiple files, one file per partition. Each split file contains data only for one partition. This way only the split files can be copied to a particular machine. Split files can be significantly smaller than the original input files.
 
-  The _vcf2tiledb_ executable can be used to split the input files as per the column partitions specified in the loader JSON file. Prepare the loader and callset mapping files as [[described previously | Importing-VCF-data-into-GenomicsDB ]] with the original input VCF files.
+  The _vcf2tiledb_ executable can be used to split the input files as per the column partitions specified in the loader JSON file. Prepare the loader and callset mapping files as [[described previously | Importing-VCF-data-into-GenomicsDB ]] with the original input VCF files. Then:
 
         ./bin/vcf2tiledb <loader.json> --split-files --split-all-partitions
 
   The argument `--split-files` causes _vcf2tiledb_ to only split the files in the callset mapping JSON file as per the column partitions specified in the loader JSON configuration file. The split files are created in the same directory as the original files. For example, if one of the input files is `/data/HG01958.vcf.gz`, then the split files are `/data/partition_0_HG01958.vcf.gz, /data/partition_1_HG01958.vcf.gz, ...`.
 
-  The argument `--split-all-partitions` causes the program to create the split files for all the column partitions. If the argument is omitted, then a single split file for the column partition corresponding to the rank of the _vcf2tiledb_ process is created.
+  The argument `--split-all-partitions` causes the program to create the split files for all the column partitions. If the argument is omitted, then split files for only the column partition corresponding to the rank of the _vcf2tiledb_ process are created.
 
   Other arguments:
   
@@ -84,9 +84,9 @@ For each column partition, the import process needs to access data from all samp
             ]
         }
     The produced loader and callset JSON files can then be used directly to import data into TileDB/GenomcisDB.
-  * _--split-files-results-directory=\<directory\>_ (optional, type: string): Specifies the path to a directory in which the split files will be created (split files are not created in the same directory as the input file). This also applies to newly created callset and loader JSON files.
+  * _--split-files-results-directory=\<directory\>_ (optional, type: string): Specifies the path to a directory in which the split files will be created - split files are not created in the same directory as the input file. This also applies to newly created callset and loader JSON files.
 
-  Creating a split file for one column partition for a single input VCF file: Utility option in case the user wishes to explicitly control the naming through a script.
+  _Creating a split file for one column partition for a single input VCF file_: Utility option in case the user wishes to explicitly control the naming of files through a script.
 
         ./bin/vcf2tiledb <loader.json> --rank=<rank> --split-files --split-output-filename=<output_path> <input.vcf.gz>
 
