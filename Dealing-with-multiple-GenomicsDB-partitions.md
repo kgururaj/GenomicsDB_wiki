@@ -32,16 +32,21 @@ you can simply use:
 ### Scenario 2: Partitions are located on a shared filesystem (such as NFS, Lustre etc) or multiple partitions may be hosted on a single filesystem
 In this case, each partition must be located on a separate directory. Hence, fields such _workspace_, _array_, _vcf_output_filename_ etc should be unique for each partition. This information can be specified in the loader and query JSON files as lists (either as list of strings or as a list of dictionaries with the parameter specified in each dictionary).
 
-## My input data is in multiple files, one file per sample/CallSet (or row) but I wish to import data into GenomicsDB  partition
+## My input data is in multiple files, one file per sample/CallSet (or row) and I wish to import data into TileDB/GenomicsDB  partition(s)
 Generally, input data, such as variants produced by variant calling pipelines, is located in multiple files (VCF), one file per sample/CallSet (or a small set of samples/CallSets per file). Each file contains data from all genomic positions for the sample/CallSet. Users may wish to import data from a set of such files into multiple TileDB/GenomicsDB partitions which may be located on different machines.
 
 * If you are using a shared filesystem such as NFS, Lustre etc to host your input variant files (example VCF files), there is no blocker since every machine has access to all the files.
 * If you do not have a shared filesystem, then you might run into issues. Copying all the input files to every machine on which a GenomicsDB partition will be hosted may not be a feasible solution since a machine may not have enough disk space to store all the data from all the samples (note that the machine must have enough space to store data from all the samples for the specific partition).
 
 ### Partitioned by row (or sample/CallSet)
-Loading data into a TileDB/GenomicsDB array partitioned by row is relatively easy. Each import process for each partition needs to access only the files which contain the samples/CallSets assigned to the partition. Thus, if there is no shared filesystem, then only a subset of files, corresponding to the samples/CallSets assigned to the partition(s) on a machine, needs to be copied to the machine.
- 
- You should be able to create the loader JSON and execute _vcf2tiledb_ to import data into different partitions.
+Importing data into a TileDB/GenomicsDB array partitioned by row is relatively easy. Each import process for each partition needs to access only the files which contain the samples/CallSets assigned to the partition. Thus, if there is no shared filesystem, then only a subset of input files, corresponding to the samples/CallSets assigned to the partition(s) on a machine, needs to be copied to the machine. Once each machine can access the files assigned to the partitions on the machine, _vcf2tiledb_ can be run to import data (using MPI or by specifying the rank on the command line).
 
+### Partitioned by column (or genomic position)
+Certain tools (for example, GATK GenotypeGVCFs) require data from all samples for each genomic position on why they operate. When running such an analysis on a large number of genomic positions, it might be beneficial to partition the data by columns. The reason is that all the data is local to a single machine which minimizes inter-machine network traffic.
 
-Our current recommended solution is to split the each input file a. For example
+For each column partition, the import process needs to access data from all samples. We describe some common scenarios:
+
+* If you have all your input files (such as VCFs) on a shared filesystem (such as NFS, Lustre etc), there are no significant changes to the import process. You should be able to create the loader JSON and execute _vcf2tiledb_ to import data into different partitions since every machine can access all the files.
+
+* If there is no shared filesystem, then copying all the input files to every machine that hosts a partition may not be feasible. Our current recommended solution is to split the each input file that contains data for all genomic positions into multiple files, one file per partition, with each split file containing data only for the specific partition. This way only the split files can be copied to a particular machine.
+
