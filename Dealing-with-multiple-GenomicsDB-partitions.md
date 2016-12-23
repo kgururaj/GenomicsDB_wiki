@@ -50,3 +50,44 @@ For each column partition, the import process needs to access data from all samp
 
 * If there is no shared filesystem, then copying all the input files to every machine that hosts a partition may not be feasible. Our current recommended solution is to split the each input file that contains data for all genomic positions into multiple files, one file per partition, with each split file containing data only for the specific partition. This way only the split files can be copied to a particular machine.
 
+  The _vcf2tiledb_ executable can be used to split the input files as per the column partitions specified in the loader JSON file. Prepare the loader and callset mapping files as [[described previously | Importing-VCF-data-into-GenomicsDB ]] with the original input VCF files.
+
+        ./bin/vcf2tiledb <loader.json> --split-files --split-all-partitions
+
+  The argument `--split-files` causes _vcf2tiledb_ to only split the files in the callset mapping JSON file as per the column partitions specified in the loader JSON configuration file. The split files are created in the same directory as the original files. For example, if one of the input files is `/data/HG01958.vcf.gz`, then the split files are `/data/partition_0_HG01958.vcf.gz, /data/partition_1_HG01958.vcf.gz, ...`.
+
+  The argument `--split-all-partitions` causes the program to create the split files for all the column partitions. If the argument is omitted, then a single split file for the column partition corresponding to the rank of the _vcf2tiledb_ process is created.
+
+  Other arguments:
+  
+  * _--split-callset-mapping-file_ (optional): By specifying this argument, the program will create callset mapping files which contain paths to the split files. The newly created callset mapping files are identical to the original callset mapping file except that the input file paths are set to the split files. Thus, if there are _N_ partitions, _N_ callset mapping JSON files are created, one for each partition.
+
+    The program will also create a loader JSON identical to the original loader JSON except that the _callset_mapping_file_ field will be replaced by a list of paths to the newly created callset mapping files. For example, if the loader is located at `/configs/loader.json`
+
+        {
+            "column_partitions": [
+                { "begin": 0 },
+                { "begin": 1000000 }
+            ],
+            "callset_mapping_file": "/configs/callset_mapping.json"
+        }
+    The loader produced by the program will be at `/configs/partition_0_loader.json` (irrespective of the number of partitions) and will look like:
+
+        {
+            "column_partitions": [
+                { "begin": 0 },
+                { "begin": 1000000 }
+            ],
+            "callset_mapping_file": [
+                "/configs/partition_0_callset_mapping.json",
+                "/configs/partition_1_callset_mapping.json"
+            ]
+        }
+    The produced loader and callset JSON files can then be used directly to import data into TileDB/GenomcisDB.
+  * _--split-files-results-directory=\<directory\>_ (optional, type: string): Specifies the path to a directory in which the split files will be created (split files are not created in the same directory as the input file). This also applies to newly created callset and loader JSON files.
+
+  Creating a split file for one column partition for a single input VCF file: Utility option in case the user wishes to explicitly control the naming through a script.
+
+        ./bin/vcf2tiledb <loader.json> --rank=<rank> --split-files --split-output-filename=<output_path> <input.vcf.gz>
+
+  If the `--rank` argument is omitted, the default rank is 0, so the split file will contain data corresponding to partition index 0.
