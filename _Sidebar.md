@@ -12,6 +12,7 @@
     * [[Incremental import into TileDB/GenomicsDB|Incremental-import-into-GenomicsDB]]
     * [[Overlapping variant calls in a sample|Overlapping-variant-calls-in-a-sample ]]
     * [[Java interface for importing VCF/CSV files into TileDB/GenomicsDB|Java-interface-for-importing-VCF-CSV-files-into-TileDB-GenomicsDB]]
+    * [[Dealing with multiple GenomicsDB partitions | Dealing-with-multiple-GenomicsDB-partitions ]]
 * **[[Querying GenomicsDB|Querying-GenomicsDB]]**
     * [[Query result formats|Querying-GenomicsDB#query-result-format]]
     * [[Combined gVCF|Querying-GenomicsDB#producing-combined-gvcf]]
