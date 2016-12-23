@@ -32,11 +32,16 @@ you can simply use:
 ### Scenario 2: Partitions are located on a shared filesystem (such as NFS, Lustre etc) or multiple partitions may be hosted on a single filesystem
 In this case, each partition must be located on a separate directory. Hence, fields such _workspace_, _array_, _vcf_output_filename_ etc should be unique for each partition. This information can be specified in the loader and query JSON files as lists (either as list of strings or as a list of dictionaries with the parameter specified in each dictionary).
 
-## My input data is in multiple files, one file per sample/CallSet (or row) but I wish to import data into GenomicsDB  partitions that are divided by genomic position (or column)
-Generally, input data, such as variants produced by variant calling pipelines, is located in multiple files (VCF), one file per sample/CallSet (or a small set of samples/CallSets per file). Each file contains data from all genomic positions for the sample/CallSet. Many users wish to partition their GenomicsDB instances by column (or genomic position) since it provides higher performance for certain downstream queries and analysis. In many cases, the goal is to distribute the partitions among multiple machines for scalability and performance.
+## My input data is in multiple files, one file per sample/CallSet (or row) but I wish to import data into GenomicsDB  partition
+Generally, input data, such as variants produced by variant calling pipelines, is located in multiple files (VCF), one file per sample/CallSet (or a small set of samples/CallSets per file). Each file contains data from all genomic positions for the sample/CallSet. Users may wish to import data from a set of such files into multiple TileDB/GenomicsDB partitions which may be located on different machines.
 
-If you are using a shared filesystem such as NFS, Lustre etc to host your input variant files (example VCF files), there is no blocker since every machine has access to all the files. You should be able to create the loader JSON and execute _vcf2tiledb_ to import data into different partitions.
+* If you are using a shared filesystem such as NFS, Lustre etc to host your input variant files (example VCF files), there is no blocker since every machine has access to all the files.
+* If you do not have a shared filesystem, then you might run into issues. Copying all the input files to every machine on which a GenomicsDB partition will be hosted may not be a feasible solution since a machine may not have enough disk space to store all the data from all the samples (note that the machine must have enough space to store data from all the samples for the specific partition).
 
-If you do not have a shared filesystem, then you might run into issues. Copying all the input files to every machine on which a GenomicsDB partition will be hosted may not be a feasible solution since a machine may not have enough disk space to store all the data from all the samples (note that the machine must have enough space to store data from all the samples for the specific column partition).
+### Partitioned by row (or sample/CallSet)
+Loading data into a TileDB/GenomicsDB array partitioned by row is relatively easy. Each import process for each partition needs to access only the files which contain the samples/CallSets assigned to the partition. Thus, if there is no shared filesystem, then only a subset of files, corresponding to the samples/CallSets assigned to the partition(s) on a machine, needs to be copied to the machine.
+ 
+ You should be able to create the loader JSON and execute _vcf2tiledb_ to import data into different partitions.
+
 
 Our current recommended solution is to split the each input file a. For example
