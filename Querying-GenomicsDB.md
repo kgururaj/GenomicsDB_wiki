@@ -99,6 +99,8 @@ to be included in the query.
 
   These two fields are optional because a user might specify them in the loader JSON while creating an array and pass the loader JSON to the query tool(s) (see below). This allows the user to write many different query JSON files without repeating the information.
 
+  If the _vid_mapping_file_ and/or _callset_mapping_file_ parameters are specified in both the loader and query JSON files and passed to the query tool(s), then the parameter value in the query JSON gets precedence.
+
 ## Producing _VariantCalls_
 
     ./bin/gt_mpi_gather -j <query.json> -l <loader.json> --print-calls
@@ -107,6 +109,10 @@ The _\<loader.json\>_ file is the
 [[configuration file used to import data into the GenomicsDB array|Importing-VCF-data-into-GenomicsDB]].
 
 Output data is sent to stdout and informational messages are sent to stderr.
+
+The user can specify the _vid_mapping_file_ and _callset_mapping_file_ parameters in the query JSON and drop the loader from the argument list.
+
+    ./bin/gt_mpi_gather -j <query_with_mapping.json> --print-calls
 
 ## Producing CSV
 
@@ -118,6 +124,10 @@ in which they are printed in the CSV lines are determined by the value of _query
 ## Producing _Variants_
 
     ./bin/gt_mpi_gather -j <query.json> -l <loader.json>
+
+The user can specify the _vid_mapping_file_ and _callset_mapping_file_ parameters in the query JSON and drop the loader from the argument list.
+
+    ./bin/gt_mpi_gather -j <query_with_mapping.json>
 
 ## Producing combined gVCF
 We provide a mechanism to export the data in GenomicsDB into a combined VCF/BCF similar to that produced by the [GATK 
@@ -132,6 +142,11 @@ Command:
 
 Output format can be one of the following strings: "z[0-9]" (compressed VCF),"b[0-9]" (compressed BCF) or "bu" (uncompressed BCF).
 If nothing is specified, the default is uncompressed VCF.
+
+The user can specify the _vid_mapping_file_ and _callset_mapping_file_ parameters in the query JSON and drop the loader from the argument list.
+
+    ./bin/gt_mpi_gather -j <query_with_mapping.json> --produce-Broad-GVCF [-O <output_format>]
+
 
 ## Using MPI for parallel querying
 Please take a look at the [[wiki page explaining how we use MPI in the context of GenomicsDB|MPI-with-GenomicsDB]] 
