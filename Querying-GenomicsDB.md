@@ -71,6 +71,8 @@ A sample JSON query is shown below:
         "array" : "t0_1_2",
         "query_column_ranges" : [ [ [0, 100 ], 500 ] ],
         "query_row_ranges" : [ [ [0, 2 ] ] ],
+        "vid_mapping_file": "tests/inputs/vid.json",
+        "callset_mapping_file": "tests/inputs/callset_mapping.json",
         "query_attributes" : [ "REF", "ALT", "BaseQRankSum", "MQ", "MQ0", "ClippingRankSum", "MQRankSum", "ReadPosRankSum", "DP", "GT", "GQ", "SB", "AD", "PL", "DP_FORMAT", "MIN_DP" ]
     }
 
@@ -89,6 +91,7 @@ _VariantCalls_ intersecting with these query ranges/positions.
 For a more detailed explanation as to why this field is a list of lists (and other fields are lists of strings), we 
 refer the reader to the [[wiki page explaining how we use MPI in the context of GenomicsDB|MPI-with-GenomicsDB]].
 * _query_attributes_ : List of strings specifying attributes to be fetched
+* _vid_mapping_file_ and _callset_mapping_file_ (type: string or list of strings): Paths to JSON files specifying the [[vid mapping | Importing-VCF-data-into-GenomicsDB#information-about-vcfs-for-the-import-program]] and [[ callset mapping | Importing-VCF-data-into-GenomicsDB#samplescallsets ]].
 
 Optional field(s):
 * _query_row_ranges_ : Similar to _query_column_ranges_ but for rows. If this field is omitted, all rows are assumed 
