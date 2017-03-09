@@ -66,7 +66,8 @@ and build the following mandatory dependencies.
         ./configure --prefix=/path/to/local/installation
         make -j4
         make install
-        export PROTOCOL_BUFFER=/path/to/local/installation # For our Makefile to work
+        export PROTOBUF_LIBRARY=/path/to/local/installation # For our Makefile to work
+        export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$PROTOBUF_LIBRARY/lib
  
 ###Optional pre-requisites
 * _OpenMPv4_: We use directives from OpenMP specification v4. This is supported on gcc versions >= 4.9.0. If you enable OpenMP by setting OPENMP=1 during the build process using an older compiler, you will see compilation errors around the line listed below
