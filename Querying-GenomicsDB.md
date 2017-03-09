@@ -121,6 +121,10 @@ The user can specify the _vid_mapping_file_ and _callset_mapping_file_ parameter
 The CSV produced is identical to that [[required by the import program|Importing-CSVs-into-GenomicsDB]] - the fields and the order
 in which they are printed in the CSV lines are determined by the value of _query_attributes_ in _\<query.json\>_.
 
+The user can specify the _vid_mapping_file_ and _callset_mapping_file_ parameters in the query JSON and drop the loader from the argument list.
+
+    ./bin/gt_mpi_gather -j <query_with_mapping.json> --print-csv
+
 ## Producing _Variants_
 
     ./bin/gt_mpi_gather -j <query.json> -l <loader.json>
