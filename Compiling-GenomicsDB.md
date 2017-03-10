@@ -39,7 +39,18 @@ If your git commit id is [e10bf412ddd35](https://github.com/Intel-HLS/GenomicsDB
                 sudo apt-get update
                 sudo apt-get install g++-4.9
                 sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-4.9 60 
-    
+
+* [Google Protocol Buffer](https://github.com/google/protobuf) Google protocol buffer is a mandatory pre-requisite version 0.4.0 onward. We use protocol buffers to exchange configuration parameters, headers and callset/sample id to TileDB row index between Java and C++. Note that Ubuntu-14.04 LTS as well as CentOS 6 and 7 releases use protobuf version 2.5.0. However, we specifically depend on protobuf version 3.0.2. We recommend to build it locally and link it using appropriate environment variables and not overwrite existing system protobuf version. To build protobuf from source:
+
+        git clone https://github.com/google/protobuf/tree/3.0.x
+        cd protobuf
+        autogen.sh
+        ./configure --prefix=/path/to/local/installation
+        make -j4
+        make install
+        export PROTOBUF_LIBRARY=/path/to/local/installation # For our Makefile to work
+        export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$PROTOBUF_LIBRARY/lib
+   
 * *NOTE*: We use git submodules to pull in the remaining mandatory dependencies - you can skip directly to the 
 [[optional pre-requisites|Compiling-GenomicsDB#optional-pre-requisites]] section if you do not wish to manually fetch 
 and build the following mandatory dependencies.
@@ -58,17 +69,6 @@ and build the following mandatory dependencies.
         git checkout intel_mods
         make -j 8
 
-* [Google Protocol Buffer](https://github.com/google/protobuf) Google protocol buffer is a mandatory pre-requisite version 0.4.0 onward. We use protocol buffers to exchange configuration parameters, headers and callset/sample id to TileDB row index between Java and C++. Note that Ubuntu-14.04 LTS as well as CentOS 6 and 7 releases use protobuf version 2.5.0. However, we specifically depend on protobuf version 3.0.2. We recommend to build it locally and link it using appropriate environment variables and not overwrite existing system protobuf version. To build protobuf from source:
-
-        git clone https://github.com/google/protobuf/tree/3.0.x
-        cd protobuf
-        autogen.sh
-        ./configure --prefix=/path/to/local/installation
-        make -j4
-        make install
-        export PROTOBUF_LIBRARY=/path/to/local/installation # For our Makefile to work
-        export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$PROTOBUF_LIBRARY/lib
- 
 ###Optional pre-requisites
 * _OpenMPv4_: We use directives from OpenMP specification v4. This is supported on gcc versions >= 4.9.0. If you enable OpenMP by setting OPENMP=1 during the build process using an older compiler, you will see compilation errors around the line listed below
 
