@@ -1,6 +1,3 @@
-1 _Version \> 0.4.0_: If your git commit id is 
-[6bc801d1b1881](https://github.com/Intel-HLS/GenomicsDB/commit/6bc801d1b1881bc5db6829054e7b336936bdc00c) or newer, then
-follow the instructions on this page.
 1 _Version \> 0.3.0 and \<= 0.4.0_: If your git commit id is 
 [6bc801d1b1881](https://github.com/Intel-HLS/GenomicsDB/commit/6bc801d1b1881bc5db6829054e7b336936bdc00c) or older and 
 the commit id is  
@@ -9,6 +6,9 @@ follow the instructions on this page.
 1 _Version 0.3.0 or older_: If your git commit id is 
 [e10bf412ddd35](https://github.com/Intel-HLS/GenomicsDB/commit/e10bf412ddd35c5aa2c4739aea266d9e5a460acd) or older, then 
 follow the instructions on [[the page for building GenomicsDB 0.3 or older|Building-GenomicsDB-Version-0.3.0]].
+1 _Version \> 0.4.0_: If your git commit id is 
+[6bc801d1b1881](https://github.com/Intel-HLS/GenomicsDB/commit/6bc801d1b1881bc5db6829054e7b336936bdc00c) or newer, then
+follow the instructions on the [[ current build page | Compiling-GenomicsDB ]].
 
 ## Requirements:
 ###Mandatory pre-requisites:
@@ -16,28 +16,14 @@ follow the instructions on [[the page for building GenomicsDB 0.3 or older|Build
     * GNU/Linux:
         * CentOS 6 and 7 (almost identical to RHEL 6 and 7). Most of our heavy testing is performed on CentOS-7 systems.
         * Ubuntu Trusty (14.04)
-    * The latest changes have not yet been tested on MacOSX
-* [CMake](https://cmake.org/) build system - version \> 2.8
-    * Example installation commands:
-        * On CentOS/RedHat systems:
-
-                sudo yum -y install cmake
-
-        * On Ubuntu systems:
-
-                sudo apt-get install cmake
-
-       * On MacOSX, you can use [Homebrew](http://brew.sh/) to obtain CMake.
-
-                brew install cmake
-
+    * MacOSX: We have tested with version 10.11 (El Capitan).
 * Dependencies from TileDB
     * Zlib headers and libraries
     * OpenSSL headers and libraries
     * Example installation commands:
         * On CentOS/RedHat systems:
 
-                sudo yum -y install openssl-devel zlib-devel
+                sudo yum -y install openssl-devel zlib-devel openssl-static
 
         * On Ubuntu systems:
 
@@ -54,7 +40,7 @@ follow the instructions on [[the page for building GenomicsDB 0.3 or older|Build
         * CentOS/RedHat systems: You can use the [software collections](https://www.softwarecollections.org/en/docs/) repository and install the package [devtoolset-3](https://www.softwarecollections.org/en/scls/rhscl/devtoolset-3/) or [devtoolset-4](https://www.softwarecollections.org/en/scls/rhscl/devtoolset-4/).
 
                 sudo yum install centos-release-scl
-                sudo yum install devtoolset-3  #or devtoolset-4
+                sudo yum install devtoolset-3
                 scl enable devtoolset-3 bash
 
         * Ubuntu: We use the Ubuntu Toolchain PPA to obtain new versions of gcc
@@ -72,6 +58,8 @@ follow the instructions on [[the page for building GenomicsDB 0.3 or older|Build
         ./configure --prefix=/path/to/local/installation
         make -j4
         make install
+        export PROTOBUF_LIBRARY=/path/to/local/installation # For our Makefile to work
+        export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$PROTOBUF_LIBRARY/lib
    
 * *NOTE*: We use git submodules to pull in the remaining mandatory dependencies - you can skip directly to the 
 [[optional pre-requisites|Compiling-GenomicsDB#optional-pre-requisites]] section if you do not wish to manually fetch 
@@ -92,9 +80,11 @@ and build the following mandatory dependencies.
         make -j 8
 
 ###Optional pre-requisites
-* _OpenMPv4_: We use directives from OpenMP specification v4. This is supported on gcc versions >= 4.9.0. The CMake 
-build system will check whether your C compiler supports OpenMP v4 and will disable OpenMP during the build process if 
-it does not. You may lose some performance during loading without OpenMP.
+* _OpenMPv4_: We use directives from OpenMP specification v4. This is supported on gcc versions >= 4.9.0. If you enable OpenMP by setting OPENMP=1 during the build process using an older compiler, you will see compilation errors around the line listed below
+
+        #pragma omp parallel for default(shared) num_threads(m_num_parallel_vcf_files) reduction(l0_sum_up : combined_histogram)
+
+    You can disable OpenMP by omitting the flag OPENMP=1 during compilation (see below). You may lose some performance during loading without OpenMP.
     
     On MacOSX systems, OpenMP is disabled by default during compilation.
 
@@ -152,103 +142,83 @@ can install the libcsv packages using yum:
         git submodule update --recursive --init
 
 * Make sure you have the required gcc version in your PATH.
-* We strongly recommend creating a build directory where all the binaries get compiled. This build directory can be 
-outside the source directory
-
-        mkdir -p <build_dir>
-        cd <build_dir>
-
-* It is safe to delete the build directory completely to cleanup all the files produced by cmake.
-* The generated Makefile contains a target called _clean-all_ that will clean out the object files, but keep the 
-Makefiles and CMakeCache.txt files.
-
-* Assuming you want to use the dependencies pulled in by git, you have the MPI compiler (mpicxx) in your PATH and all 
-other dependencies are in standard system locations where the compiler can find them (for example, under /usr in 
-GNU/Linux):
+* Assuming you want to use the dependencies pulled in by git and you have the MPI compiler (mpicxx) in your PATH
         
-        #release mode - O3, NDEBUG - assertions disabled
-        cd <build_dir>
-        cmake <source_dir> -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=<install_dir>
-        make -j8 && make install
+        #release mode - O3, NDEBUG - assertions disabled, OpenMP enabled
+        make BUILD=release OPENMP=1 -j 8
 
 * Compiling in debug mode:
 
         #debug mode - assertions enabled, can use gdb for stepping, no OPENMP (can enable with the OPENMP=1 flag)
-        cd <build_dir>
-        cmake <source_dir> -DCMAKE_BUILD_TYPE=Debug -DDISABLE_OPENMP=1 -DCMAKE_INSTALL_PREFIX=<install_dir>
-        make -j8 && make install
+        make BUILD=debug -j 8
 
-* If you do not have the MPI compiler in your PATH:
+* If you do not have the MPI compiler in your PATH (note that the trailing slash is required in the following command):
         
-        #release mode - O3, NDEBUG - assertions disabled
-        cmake <source_dir> -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=<install_dir> \
-          -DMPI_CC_COMPILER=<mpicc_full_path> -DMPI_CXX_COMPILER=<mpicxx_full_path>
+        #release mode - O3, NDEBUG - assertions disabled, OpenMP enabled
+        make MPIPATH=<mpi_package_dir>/bin/ BUILD=release OPENMP=1 -j 8
 
-* If your Protobuf library is located in a custom location:
+* If you wish to import CSV data and libcsv is installed at a location where the compiler can find the header file and 
+library (for example under /usr), then enable libcsv usage
 
-        cmake <source_dir> -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=<install_dir> \
-          -DPROTOBUF_LIBRARY=<directory>
+        #release mode - O3, NDEBUG - assertions disabled, OpenMP enabled
+        make MPIPATH=<mpi_package_dir>/bin/ BUILD=release USE_LIBCSV=1 OPENMP=1 -j 8
 
-  The Protobuf library is statically linked into the executables and the dynamic library - if you wish to link to the 
-dynamic Protobuf library:
+    If you have downloaded libcsv [from sourceforge](https://sourceforge.net/projects/libcsv/) and compiled it at a 
+custom location, then pass the directory to the make command
 
-        cmake <source_dir> -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=<install_dir> \
-          -DPROTOBUF_LIBRARY=<directory> -DPROTOBUF_STATIC_LINKING=False
+        #release mode - O3, NDEBUG - assertions disabled, OpenMP enabled
+        make MPIPATH=<mpi_package_dir>/bin/ BUILD=release LIBCSV_DIR=<libcsv_directory> OPENMP=1 -j 8
 
-  You may need to set the environment variable LD_LIBRARY_PATH while running GenomicsDB code.
-
-* If  header file and library for libcsv are located where the compiler can automatically find them (for example under 
-/usr in GNU/Linux), then CSV support is enabled automatically. If you have downloaded libcsv [from 
-sourceforge](https://sourceforge.net/projects/libcsv/) and compiled and installed it at a custom location, then pass the 
-directory to the cmake command
-
-        #release mode - O3, NDEBUG - assertions disabled
-        cmake <source_dir> -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=<install_dir> -DLIBCSV_DIR=<libcsv_dir>
-
-    The build process assumes that the library file is located in _\<libcsv_directory\>/.libs_ or 
-_\<libcsv_directory\>/lib_  (the default location in the build process of libcsv).
+    The build process assumes that the library file is located in _\<libcsv_directory\>/.libs_ or _\<libcsv_directory\>/lib_  (the default location in the 
+build process of libcsv).
 
 * On a MacOSX system, assuming you installed the pre-requisites using Homebrew under /usr/local/opt, the following command can be used:
 
-        #release mode - O3, NDEBUG - assertions disabled
-        cmake <source_dir> -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=<install_dir> \
-          -DMPI_CC_COMPILER=/usr/local/opt/mpich/bin/mpicc -DMPI_CXX_COMPILER=/usr/local/opt/mpich/bin/mpicxx \
-          -DOPENSSL_PREFIX_DIR=/usr/local/opt/openssl
+        make MPIPATH=/usr/local/opt/mpich/bin/ LIBCSV_DIR=/usr/local/opt/libcsv/ OPENSSL_PREFIX_DIR=/usr/local/opt/openssl BUILD=release
 
 If you have downloaded and compiled the dependencies manually, use the following commands:
 
 * Compiling in release mode
 
-        #release mode - O3, NDEBUG - assertions disabled
-        cmake <source_dir> -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=<install_dir> -DLIBCSV_DIR=<libcsv_dir> \
-          -DTILEDB_SOURCE_DIR=<TileDB_dir>
+        #release mode - O3, NDEBUG - assertions disabled, OpenMP enabled
+        make MPIPATH=<mpi_package_dir>/bin/ TILEDB_DIR=<TileDB_dir> RAPIDJSON_INCLUDE_DIR=<rapidjson_dir>/include BUILD=release OPENMP=1 -j 8
+
+* If you have the MPI compilers (mpicc, mpicxx) in your PATH, you can drop the MPIPATH argument
+
+        #release mode
+        make TILEDB_DIR=<TileDB_dir> RAPIDJSON_INCLUDE_DIR=<rapidjson_dir>/include BUILD=release OPENMP=1 -j 8
+
+* Compiling in debug mode (for developers)
+
+        #debug mode - assertions enabled, can use gdb for stepping, no OPENMP (can enable with the OPENMP=1 flag)
+        make MPIPATH=<mpi_package_dir>/bin/ TILEDB_DIR=<TileDB_dir> RAPIDJSON_INCLUDE_DIR=<rapidjson_dir>/include BUILD=debug -j 8
 
 * Compiling with a custom htslib source directory:
 
-        #release mode - O3, NDEBUG - assertions disabled
-        cmake <source_dir> -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=<install_dir> -DLIBCSV_DIR=<libcsv_dir> \
-          -DHTSLIB_SOURCE_DIR=<TileDB_dir>
+        make MPIPATH=<mpi_package_dir>/bin/ TILEDB_DIR=<TileDB_dir> HTSDIR=<htslib_directory> RAPIDJSON_INCLUDE_DIR=<rapidjson_dir>/include BUILD=release OPENMP=1 -j 8
 
 ## Java and Apache Spark interface for TileDB/GenomicsDB
 * With the BUILD_JAVA flag enabled, the build environment compiles both Java and Apache Spark interfaces of GenomicsDB.
-* Remember to use Java SDK version 8 - you must have the right Java executable in your PATH or must set the JAVA_HOME 
-environment variable correctly.
+* Remember to use Java SDK version 8.
+* For GenomicsDB versions >= 0.4.0 (commit id [860400623ed44a15](https://github.com/Intel-HLS/GenomicsDB/commit/860400623ed44a155018d691c3427352b166701d) or newer), use the following steps. Otherwise use the steps described in [[Building GenomicsDB Version 0.3.0]].
 
 * To build the jar:
         
-        cmake <source_dir> -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=<install_dir> -DBUILD_JAVA=1
+         #On GNU/Linux        
+        make MPIPATH=<mpi_package_dir>/bin/ BUILD=release LIBCSV_DIR=<libcsv_directory> OPENMP=1 BUILD_JAVA=1 JNI_FLAGS="-I<java_SDK_dir>/include -I<java_SDK_dir>/include/linux"
         
-    You don't need an MPI compiler and library to only build the jar and the shared TileDB/GenomicsDB library (no 
-executables will be built).
+        #On MacOSX
+        make MPIPATH=/usr/local/opt/mpich/bin/ LIBCSV_DIR=/usr/local/opt/libcsv/ OPENSSL_PREFIX_DIR=/usr/local/opt/openssl BUILD=release BUILD_JAVA=1 JNI_FLAGS="-I/System/Library/Frameworks/JavaVM.framework/Headers"
 
-        cmake <source_dir> -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=<install_dir> -DBUILD_JAVA=1 \
-          -DDISABLE_MPI=1
+    You don't need an MPI compiler and library to only build the jar and the shared TileDB/GenomicsDB library (no executables will be built).
 
-    The jar file genomicsdb-<version>.jar will be created in the <install_dir>/bin/ directory. You can 
+        make BUILD=release DISABLE_MPI=1 BUILD_JAVA=1 JNI_FLAGS="-I<java_SDK_dir>/include -I<java_SDK_dir>/include/linux"
+
+    The jar file genomicsdb-<version>.jar will be created in the bin/ directory. You can 
 [install](https://maven.apache.org/guides/mini/guide-3rd-party-jars-local.html) this jar file into your local Maven 
 repository for use in downstream Maven/Gradle build systems using:
 
-        mvn install:install-file -Dfile=bin/genomicsdb-<version>.jar -DpomFile=<source_dir>/pom.xml
+        mvn install:install-file -Dfile=bin/genomicsdb-<version>.jar -DpomFile=pom.xml
 
 Caveats:
 * The shared library (libtiledbgenomicsdb.so) that is packaged in the jar depends on GNU libc (glibc). If you 
@@ -281,5 +251,5 @@ jar on an 'older' system (I build on CentOS-6).
 
 * Command
 
-        cmake <source_dir> -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=<install_dir> -DBUILD_JAVA=1 \
-          -DBUILD_DISTRIBUTABLE_LIBRARY=True
+        make BUILD_JAVA=1 JNI_FLAGS="-I<java_SDK_dir>/include -I<java_SDK_dir>/include/linux" BUILD=release DISABLE_MPI=1 DISABLE_OPENMP=1 MAXIMIZE_STATIC_LINKING=1
+
