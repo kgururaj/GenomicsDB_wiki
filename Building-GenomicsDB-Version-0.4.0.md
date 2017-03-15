@@ -55,7 +55,7 @@ follow the instructions on the [[ current build page | Compiling-GenomicsDB ]].
         git clone https://github.com/google/protobuf/tree/3.0.x
         cd protobuf
         autogen.sh
-        ./configure --prefix=/path/to/local/installation
+        ./configure --prefix=/path/to/local/installation --with-pic
         make -j4
         make install
         export PROTOBUF_LIBRARY=/path/to/local/installation # For our Makefile to work

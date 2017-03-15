@@ -69,7 +69,7 @@ follow the instructions on [[the page for building GenomicsDB 0.3 or older|Build
         git clone https://github.com/google/protobuf/tree/3.0.x
         cd protobuf
         autogen.sh
-        ./configure --prefix=/path/to/local/installation
+        ./configure --prefix=/path/to/local/installation --with-pic
         make -j4
         make install
    
