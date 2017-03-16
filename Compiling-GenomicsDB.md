@@ -11,7 +11,7 @@ follow the instructions on this page.
 follow the instructions on [[the page for building GenomicsDB 0.3 or older|Building-GenomicsDB-Version-0.3.0]].
 
 ## Requirements:
-###Mandatory pre-requisites:
+### Mandatory pre-requisites:
 * We have tested TileDB/GenomicsDB on the following platforms:
     * GNU/Linux:
         * CentOS 6 and 7 (almost identical to RHEL 6 and 7). Most of our heavy testing is performed on CentOS-7 systems.
