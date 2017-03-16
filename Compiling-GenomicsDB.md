@@ -1,7 +1,7 @@
 If your git commit id is [e10bf412ddd35](https://github.com/Intel-HLS/GenomicsDB/commit/e10bf412ddd35c5aa2c4739aea266d9e5a460acd) or older, then follow the instructions on [[the page for building GenomicsDB 0.3 or older|Building-GenomicsDB-Version-0.3.0]].
 
 ## Requirements:
-###Mandatory pre-requisites:
+### Mandatory pre-requisites:
 * We have tested TileDB/GenomicsDB on the following platforms:
     * GNU/Linux:
         * CentOS 6 and 7 (almost identical to RHEL 6 and 7). Most of our heavy testing is performed on CentOS-7 systems.
