@@ -91,7 +91,7 @@ and build the following mandatory dependencies.
         git checkout intel_mods
         make -j 8
 
-###Optional pre-requisites
+### Optional pre-requisites
 * _OpenMPv4_: We use directives from OpenMP specification v4. This is supported on gcc versions >= 4.9.0. The CMake 
 build system will check whether your C compiler supports OpenMP v4 and will disable OpenMP during the build process if 
 it does not. You may lose some performance during loading without OpenMP.
