@@ -283,3 +283,14 @@ jar on an 'older' system (I build on CentOS-6).
 
         cmake <source_dir> -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=<install_dir> -DBUILD_JAVA=1 \
           -DBUILD_DISTRIBUTABLE_LIBRARY=True
+
+## To switch to a different Protobuf version
+Note: For most users this section is not applicable.
+
+    cmake <source_dir> -DCMAKE_BUILD_TYPE=Release  -DCMAKE_INSTALL_PREFIX=<install_dir>
+      -DBUILD_JAVA=True \
+      -DPROTOBUF_LIBRARY=<protobuf_directory> -DPROTOBUF_REGENERATE=True
+    make -j 8
+
+When the _make_ command is executed, the C++ and Java files will be regenerated for the Protocol
+buffers in the build directoy and compiled into the library and executables.
