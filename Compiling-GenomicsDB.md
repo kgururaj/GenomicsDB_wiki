@@ -229,6 +229,12 @@ If you have downloaded and compiled the dependencies manually, use the following
         cmake <source_dir> -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=<install_dir> -DLIBCSV_DIR=<libcsv_dir> \
           -DHTSLIB_SOURCE_DIR=<TileDB_dir>
 
+* To enable light-weight profiling
+
+        #release mode - O3, NDEBUG - assertions disabled
+        cmake <source_dir> -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=<install_dir> -DLIBCSV_DIR=<libcsv_dir> \
+          -DDO_PROFILING=True
+
 ## Java and Apache Spark interface for TileDB/GenomicsDB
 * With the BUILD_JAVA flag enabled, the build environment compiles both Java and Apache Spark interfaces of GenomicsDB.
 * Remember to use Java SDK version 8 - you must have the right Java executable in your PATH or must set the JAVA_HOME 
