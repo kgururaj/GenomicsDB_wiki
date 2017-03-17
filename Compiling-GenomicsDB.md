@@ -1,7 +1,7 @@
 1. _Version \> 0.4.0_: If your git commit id is 
 [6bc801d1b1881](https://github.com/Intel-HLS/GenomicsDB/commit/6bc801d1b1881bc5db6829054e7b336936bdc00c) or newer, then follow the instructions on this page.
 1. _Version \> 0.3.0 and \<= 0.4.0_: If your git commit id is 
-[6bc801d1b1881](https://github.com/Intel-HLS/GenomicsDB/commit/6bc801d1b1881bc5db6829054e7b336936bdc00c) or older and the commit id is [860400623ed4](https://github.com/Intel-HLS/GenomicsDB/commit/860400623ed44a155018d691c3427352b166701d) or newer, then follow the instructions on this page.
+[6bc801d1b1881](https://github.com/Intel-HLS/GenomicsDB/commit/6bc801d1b1881bc5db6829054e7b336936bdc00c) or older and the commit id is [860400623ed4](https://github.com/Intel-HLS/GenomicsDB/commit/860400623ed44a155018d691c3427352b166701d) or newer, then follow the instructions on [[ the page for building GenomicsDB 0.4 | Building-GenomicsDB-Version-0.4.0 ]].
 1. _Version 0.3.0 or older_: If your git commit id is [e10bf412ddd35](https://github.com/Intel-HLS/GenomicsDB/commit/e10bf412ddd35c5aa2c4739aea266d9e5a460acd) or older, then follow the instructions on [[the page for building GenomicsDB 0.3 or older|Building-GenomicsDB-Version-0.3.0]].
 
 ## Requirements:
