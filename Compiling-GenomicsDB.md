@@ -284,8 +284,10 @@ jar on an 'older' system (I build on CentOS-6).
         cmake <source_dir> -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=<install_dir> -DBUILD_JAVA=1 \
           -DBUILD_DISTRIBUTABLE_LIBRARY=True
 
-## To switch to a different Protobuf version
-Note: For most users this section is not applicable.
+## Regenerating sources produced by the Protobuf compiler
+Note: For most users this section is not applicable. You will need to regenerate the sources produced by the Protobuf compiler if and only if one of the following conditions is met:
+* You wish to use a different version of Protobuf than the one used to generate the sources distributed as part of the GenomicsDB repo (Protobuf v 3.0.2)
+* You have modified the .proto files
 
     cmake <source_dir> -DCMAKE_BUILD_TYPE=Release  -DCMAKE_INSTALL_PREFIX=<install_dir>
       -DBUILD_JAVA=True \
