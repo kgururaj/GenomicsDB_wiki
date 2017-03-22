@@ -289,10 +289,10 @@ Note: For most users this section is not applicable. You will need to regenerate
 * You wish to use a different version of Protobuf than the one used to generate the sources distributed as part of the GenomicsDB repo (Protobuf v 3.0.2)
 * You have modified the .proto files
 
-    cmake <source_dir> -DCMAKE_BUILD_TYPE=Release  -DCMAKE_INSTALL_PREFIX=<install_dir>
-      -DBUILD_JAVA=True \
-      -DPROTOBUF_LIBRARY=<protobuf_directory> -DPROTOBUF_REGENERATE=True
-    make -j 8
+        cmake <source_dir> -DCMAKE_BUILD_TYPE=Release  -DCMAKE_INSTALL_PREFIX=<install_dir>
+          -DBUILD_JAVA=True \
+          -DPROTOBUF_LIBRARY=<protobuf_directory> -DPROTOBUF_REGENERATE=True
+        make -j 8
 
 When the _make_ command is executed, the C++ and Java files will be regenerated for the Protocol
 buffers in the build directoy and compiled into the library and executables.
