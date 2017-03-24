@@ -56,7 +56,8 @@ The three pieces of information listed above are passed to the import tool throu
 * The "_fields_" field is a dictionary of _\<field_name\> : \<field_info\>_ entries.
 * _\<field_info\>_ is a dictionary with the following elements
     * Mandatory elements
-        * _type_ (string): Supported values are "int", "float", "char"
+        * _type_ (string): Supported values are "int", "float", "char", "flag"
+        * NOTE: the "flag" type was added in [pull request 82](https://github.com/Intel-HLS/GenomicsDB/issues/82)
     * Optional elements
         * _vcf_field_class_ (list of strings, default empty list):  Specifies whether the field is a "FILTER", "INFO" or "FORMAT" field in the VCF terminology. Note that a field in a VCF can belong to multiple classes. See the field "DP" in the above example JSON - it's both an "INFO" and a "FORMAT" field.
         * _length_ (string or integer, default 1): If the value of this field is an integer, the field is assumed to be a fixed length field. In the above example, "SB" is a fixed length field of 4 integers. The default value of 1 indicates that the field contains a single entry. If the value of the field is a string, then the length of the field is variable. Supported string values and their implications on the field length are listed below:
