@@ -140,6 +140,7 @@ The import program needs additional parameters that control how the program runs
         "treat_deletions_as_intervals" : true,
         "num_parallel_vcf_files" : 1,
         "delete_and_create_tiledb_array" : false,
+        "fail_if_updating": true,
         "vcf_header_filename": "test_inputs/template_vcf_header.vcf",
         "vcf_output_format": "z",
         "reference_genome" : "/data/broad/samples/joint_variant_calling/broad_reference/Homo_sapiens_assembly19.fasta",
@@ -193,6 +194,7 @@ hold at least 1 VCF line;i.e. _X_ must be bigger than the largest VCF line among
     In an indexed VCF, querying for position 101 would return the deletion allele since it overlaps the queried position (even though, by the VCF convention, it begins at location 100). Hence, we can think of a deletion as an interval and any query within that interval should return the deletion. By setting this flag to _true_, all deletions are treated as intervals. Without this flag, a GenomicsDB query for position 101 would *NOT* return the deletion.
   * _num_parallel_vcf_files_ (type:integer, optional, default: 1): This parameter controls the number of VCF files that are opened and read in parallel by the loader program. Increasing this number could improve (decrease) loading time.
   * _delete_and_create_tiledb_array_ (type: boolean, optional, default: _false_): If set to _true_, the program will delete existing data in the array referred to by the _workspace_ and _array_ fields. By default, the loader program will only update/add to the existing array and not delete previous data.
+  * _fail_if_updating_ (type: boolean, optional, default: _false_): If set to _true_, the program will fail with an exception if you are trying to update an existing array - creating a fresh array will succeed. This option is useful if you are not sure if your mapping information for samples/CallSets and contigs is consistent with respect to an existing array.
 
 * Parameters for producing a combined VCF file during the loading phase
   
