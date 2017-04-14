@@ -78,9 +78,11 @@ The three pieces of information listed above are passed to the import tool throu
 
             By default, GenomicsDB performs the following operations for certain VCF fields to match the output produced by the [GATK CombineGVCF tool](https://www.broadinstitute.org/gatk/guide/tooldocs/org_broadinstitute_gatk_tools_walkers_variantutils_CombineGVCFs.php).
             * INFO fields:
-                * BaseQRankSum, ClippingRankSum, MQRankSum, ReadPosRankSum, MQ, MQ0: median
+                * BaseQRankSum, ClippingRankSum, MQRankSum, ReadPosRankSum, MQ, MQ0, ExcessHet: median
                 * RAW_MQ: sum
             * QUAL field: set to missing
+
+            An INFO field will be imported into the TileDB/GenomicsDB array irrespective of whether the combine operation is specified (in the JSON or in the source code) or not. However, if an INFO field needs to be produced in the [[ combined VCF | Querying-GenomicsDB#producing-combined-gvcf]] or the [[ combined VariantContext objects in the Java interface | Querying-GenomicsDB#javajni-interface ]], it needs to have a valid combine operation specified (either in the vid JSON or in the source code).
 
 ### Samples/CallSets
 The value of the field "_callset_mapping_file_" is a string containing the path to a JSON file that maps sample/CallSet names to row ids in the TileDB array. By separating the sample/CallSet mappings into a different JSON file, users can create many different callset mapping files and use them with a single contig mapping and fields information JSON (shown above).
