@@ -223,6 +223,7 @@ dealing with a large number of inputs. In our tests, for WES gVCFs, each index s
 For WGS gVCFs, each index consumed around 40 MB of memory. This becomes an issue when dealing with \>= 1000 files.
   * _compress_tiledb_array_ (type: boolean, optional, default: _true_): Determines whether the files storing TileDB data 
 on disk are compressed.
+  * _tiledb_compression_level_ (type: integer, optional, default: 6): Zlib compression level to use.
   * _disable_synced_writes_ (type: boolean, optional, default: _false_): Determines whether TileDB uses the O_SYNC flag while writing to disk. Disabling synced writes likely improves performance. The performance improvement is significant when the array is compressed since tiles are written one at a time to disk when compression is enabled. Compressed tiles are relatively small in size (few KBs) and using synced writes slows down the loading process significantly.
 
       However, bear in mind that disabling synced writes implies that data may not committed to disk till after the end of the import program (the kernel may decide to buffer pages in memory). If you are certain that no concurrent reads will occur during or immediately after the import process, disabling synced writes is likely to give you a performance boost without affecting correctness. Use with care.
