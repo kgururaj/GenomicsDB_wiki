@@ -31,7 +31,7 @@ tools such as _json_verify_ before invoking GenomicsDB tools.
 1. I have setup all my JSON files correctly, but the import program finishes almost immediately without importing any data from my VCFs:
 
     There could be many reasons, but here are the common issues we have seen users running into:
-    * _Contig/chromosome names don't match in the _vid_mapping_file_ _and the input VCFs_: The contig/chromosome names in the VCF and the vid mapping JSON file MUST match EXACTLY. For example, if the vid file has a contig named _"1"_ (as per the 1000 genomes naming convention) while the VCF has a contig named _"chr1"_ (as per the UCSC convention), GenomicsDB will ignore all data corresponding to _"chr1"_.
+    * _Contig/chromosome names don't match in the vid_mapping_file and the input VCFs_: The contig/chromosome names in the VCF and the vid mapping JSON file MUST match EXACTLY. For example, if the vid file has a contig named _"1"_ (as per the 1000 genomes naming convention) while the VCF has a contig named _"chr1"_ (as per the UCSC convention), GenomicsDB will ignore all data corresponding to _"chr1"_.
 
 1. I have setup all my JSON files correctly, but the import program doesn't load data for some of the samples:
   
