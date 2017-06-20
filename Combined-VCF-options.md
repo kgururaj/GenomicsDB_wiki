@@ -13,6 +13,7 @@ The options can be specified in the [[loader JSON file|Importing-VCF-data-into-G
 on stdout.
 * _vcf_output_format_ (type:string, optional, default _\<empty\>_): Output format can be one of the following strings: "z[0-9]" (compressed VCF),"b[0-9]" (compressed BCF) or "bu" (uncompressed BCF). If nothing is specified, the default is uncompressed VCF.
 * _produce_GT_field_ (type: boolean, optional, default _false_): The _GT_ field in the combined VCF records is set to missing to match the output produced by GATK CombineGVCF. By setting _produce_GT_field_ to _true_, the _GT_ field will be retrieved from TileDB/GenomicsDB.
+* _index_output_VCF_ (type: boolean, optional, default _false_): If a compressed combined VCF file is being created (see _vcf_output_filename_ and _vcf_output_format_), setting this parameter to _true_ will create an index for the output file - tabix for compressed VCFs and csi for compressed BCFs.
 
 Performance tuning options:
 * _combined_vcf_records_buffer_size_limit_ (type: integer, optional, default 1048576): This parameter determines the size of the memory buffer (in bytes) to hold the combined VCF records in the following scenarios:
