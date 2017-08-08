@@ -1,5 +1,5 @@
 ## Query result format
-The sample query tools provided with the GenomicsDB repo return data in a JSON format. Query results may be returned as 
+The sample query tools provided with GenomicsDB source code return data in a JSON format. Query results may be returned as 
 _VariantCalls_ or _Variants_ depending on command line parameters passed by the user.
 
 _VariantCall_ is in some ways similar to a [GACall as defined by 
@@ -93,13 +93,12 @@ refer the reader to the [[wiki page explaining how we use MPI in the context of 
 * _query_attributes_ : List of strings specifying attributes to be fetched
 
 Optional field(s):
-* _query_row_ranges_ : Similar to _query_column_ranges_ but for rows. If this field is omitted, all rows are assumed 
-to be included in the query.
+* _query_row_ranges_ : Similar to _query_column_ranges_ but for rows. If this field is omitted, all rows are included in the query.
 * _vid_mapping_file_ and _callset_mapping_file_ (type: string or list of strings): Paths to JSON files specifying the [[vid mapping | Importing-VCF-data-into-GenomicsDB#information-about-vcfs-for-the-import-program]] and [[ callset mapping | Importing-VCF-data-into-GenomicsDB#samplescallsets ]]. Note that this feature is available since commit [f92c02e56](https://github.com/Intel-HLS/GenomicsDB/commit/f92c02e5684b5eb33484eee6aba1a07ca640b4ee).
 
   These two fields are optional because a user might specify them in the loader JSON while creating an array and pass the loader JSON to the query tool(s) (see below). This allows the user to write many different query JSON files without repeating the information.
 
-  If the _vid_mapping_file_ and/or _callset_mapping_file_ parameters are specified in both the loader and query JSON files and passed to the query tool(s), then the parameter value in the query JSON gets precedence.
+  If the _vid_mapping_file_ and/or _callset_mapping_file_ are specified in both the loader and query JSON files and passed to the query tool(s), then the parameter value in the query JSON gets precedence.
 
 ## Producing _VariantCalls_
 
@@ -129,7 +128,7 @@ The user can specify the _vid_mapping_file_ and _callset_mapping_file_ parameter
 
     ./bin/gt_mpi_gather -j <query.json> -l <loader.json>
 
-The user can specify the _vid_mapping_file_ and _callset_mapping_file_ parameters in the query JSON and drop the loader from the argument list.
+The user can also specify the _vid_mapping_file_ and _callset_mapping_file_ in the query JSON and drop the loader from the argument list.
 
     ./bin/gt_mpi_gather -j <query_with_mapping.json>
 
@@ -170,12 +169,12 @@ for using this interface.
 
 Since the Java interface of GenomicsDB exports combined VCF records (VariantContext objects), the options described in [[this wiki page|Combined-VCF-options]] can be specified in the query JSON file.
 
-## Using Spark(TM) for multi-node querying
-In addition to MPI, GenomicsDB includes a Spark interface for parallel queries. Spark is a generalized in-memory distributed map-reduce runtime developed by University of California, Berkeley. Various distributions of Spark are available from Apache, Cloudera(R), Hortonworks(R) and Databricks. The idea is that users will be able to run libraries such as Spark SQL, MLLib, Spark.ML or other Spark-based genomics tools such as GATK (4.0) Hellbender to analyze variants from GenomicsDB. For more detailed information on Spark please visit the [Apache Spark homepage](spark.apache.org).
+## Using Apache(TM) Spark for multi-node querying
+In addition to MPI, GenomicsDB includes a Spark interface for parallel queries. Spark is a generalized in-memory distributed map-reduce runtime developed by University of California, Berkeley. Various distributions of Spark are available from Apache, Cloudera(R), Hortonworks(R) and Databricks. We have tested GenomicsDB with the Apache distribution. The idea is that users will be able to run libraries such as Spark SQL, MLLib, Spark.ML or other Spark-based genomics tools such as GATK (4.0) Hellbender to analyze variants from GenomicsDB. For more detailed information on Spark please visit the [Apache Spark homepage](spark.apache.org).
 
-The use of Spark interface mandates that variants be first loaded to GenomicsDB using the MPI-based loader. The variants are partitioned or sharded across multiple machines either by samples or genomic positions in a shared-nothing manner. This means that individual partitions are agnostic of the data residing in other partitions. Resilient Distributed Datasets or RDDs are the unit of data in memory in Spark. RDDs can be viewed as partitioned collection of objects. The objective of this interface is to provide RDDs of multi-sample variant contexts. In the first version, a RDD parititon in a machine contains data from the local GenomicsDB instance. Therefore, if GenomicsDB was partitioned by columns or genomics positions across multiple nodes, RDD partition will contain data by positions.
+Before using the Spark interface to read variant data, import data first into GenomicsDB as described [here](https://github.com/Intel-HLS/GenomicsDB/wiki/Importing-VCF-data-into-GenomicsDB). The variants are partitioned or sharded across multiple machines either by samples or genomic positions in a shared-nothing manner. This means that individual partitions are agnostic of the data residing in other partitions. Resilient Distributed Datasets or RDDs are the unit of data in memory in Spark. RDDs can be viewed as partitioned collection of objects. The objective of this interface is to provide RDDs of multi-sample variant contexts. In the first version, a RDD parititon in a machine contains data from the local GenomicsDB instance. Therefore, if GenomicsDB was partitioned by columns or genomics positions across multiple nodes, RDD partition will contain data by positions.
 
-Please take a look at our example codes in [Java](https://github.com/Intel-HLS/GenomicsDB/blob/master/src/main/java/com/intel/genomicsdb/GenomicsDBJavaSparkFactory.java) or [Scala](https://github.com/Intel-HLS/GenomicsDB/blob/master/src/main/scala/com/intel/genomicsdb/GenomicsDBScalaSparkFactory.scala). The interface provides two APIs - 1) GenomicsDBRDD.getVariantContexts() where a new type of RDDs containing variant contexts (derived from Spark RDD base class) are returned and 2) sparkContext.newAPIHadoopRDD() which also returns RDD objects of variant contexts, but lets the user continue to use standard HadoopRDD interfaces from Spark.
+Please take a look at the examples in [Java](https://github.com/Intel-HLS/GenomicsDB/blob/master/src/main/java/com/intel/genomicsdb/GenomicsDBJavaSparkFactory.java) or [Scala](https://github.com/Intel-HLS/GenomicsDB/blob/master/src/main/scala/com/intel/genomicsdb/GenomicsDBScalaSparkFactory.scala). The interface provides two APIs - 1) GenomicsDBRDD.getVariantContexts() where a new type of RDDs containing variant contexts (derived from Spark RDD base class) are returned and 2) sparkContext.newAPIHadoopRDD() which also returns RDD objects of variant contexts, but lets the user continue to use standard HadoopRDD interfaces from Spark.
 
 To run the interface, first start a Spark instance. For example a simple local instance of Apache Spark can be started using:
 
