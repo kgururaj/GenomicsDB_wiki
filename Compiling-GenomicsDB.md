@@ -296,3 +296,9 @@ Note: For most users this section is not applicable. You will need to regenerate
 
 When the _make_ command is executed, the C++ and Java files will be regenerated for the Protocol
 buffers in the build directoy and compiled into the library and executables.
+
+## Building with Spark Core 2.10
+The default version of Spark core used in GenomicsDB is 2.11. If you wish to compile with Spark core 2.10, please use the GENOMICSDB_SPARK_PROFILE macro in cmake as:
+```
+cmake <source_dir> -CMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=<install_dir> -DBUILD_JAVA=True -DGENOMICSDB_SPARK_PROFILE=spark_core-2.10
+```
