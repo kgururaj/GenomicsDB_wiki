@@ -38,3 +38,25 @@ tools such as _json_verify_ before invoking GenomicsDB tools.
     There could be many reasons, but here are the common issues we have seen users running into:
     * _Incorrect value(s) of idx_in_file in the callset_mapping_file_: Note that _row_idx_ is the globally unique value of the TileDB row index corresponding to a given sample/CallSet. _idx_in_file_ is useful mostly for multi-sample VCFs and specifies the index of the sample in a given VCF. For single sample VCFs, this field should be 0 (or omitted altogether).
     * _Incorrect partition bounds in the loader JSON or incorrectly specified partition index in the command line_: Read the section on [[running the program|Importing-VCF-data-into-GenomicsDB#running-the-program]] in the [[import data|Importing-VCF-data-into-GenomicsDB]] wiki section. Also, please re-check your partition bounds in the loader JSON.
+
+1. I see an incorrect cell order found error as:
+
+    ```
+    $ vcf2tiledb loader.json 
+    terminate called after throwing an instance of 'VCF2TileDBException'
+      what():  VCF2TileDBException : Incorrect cell order found - cells must be in column major order. Previous cell: [ 0, 114111 ] current cell: [ 0, 114111 ]
+    Aborted
+    ```
+
+    The error occurs if alleles at the same position spans across multiple lines, for example
+
+
+        chrX	114112	.	TCT	T	999	PASS	.	GT:DP:GQ:MIN_DP:PL	0/0:0:0:0:0,0,0
+        chrX	114112	.	TCT	TTT	999	PASS	.	GT:DP:GQ:MIN_DP:PL	0/0:0:0:0:0,0,0
+
+
+    The fix is to run bcftools norm as described [here](https://github.com/Intel-HLS/GenomicsDB/wiki/Useful-external-
+    tools#useful-bcftools-commands) which will merge the alleles as
+
+
+        chrX	114112	.	TCT	T,TTT	999	PASS	.	GT:DP:GQ:MIN_DP:PL	0/2:0:0:0:0,0,0
