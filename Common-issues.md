@@ -60,3 +60,9 @@ tools such as _json_verify_ before invoking GenomicsDB tools.
 
 
         chrX	114112	.	TCT	T,TTT	999	PASS	.	GT:DP:GQ:MIN_DP:PL	0/2:0:0:0:0,0,0,0,0,0
+1. I see an error message:
+
+        Cannot open VCF/BCF file <path.vcf.gz>
+
+    even when the file and its index exist. What's going on?
+    If you are importing data from many files (\>1000), then it's likely that you are hitting the limit on the number of open files set in your machine(s). Find out how to increase the limit.
