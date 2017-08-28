@@ -59,4 +59,4 @@ tools such as _json_verify_ before invoking GenomicsDB tools.
     tools#useful-bcftools-commands) which will merge the alleles as
 
 
-        chrX	114112	.	TCT	T,TTT	999	PASS	.	GT:DP:GQ:MIN_DP:PL	0/2:0:0:0:0,0,0
+        chrX	114112	.	TCT	T,TTT	999	PASS	.	GT:DP:GQ:MIN_DP:PL	0/2:0:0:0:0,0,0,0,0,0
