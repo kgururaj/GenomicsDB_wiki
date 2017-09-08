@@ -39,7 +39,7 @@ The three pieces of information listed above are passed to the import tool throu
             "BaseQRankSum":{ "vcf_field_class" : ["INFO"], "type":"float" },
             "DP": { "vcf_field_class":["INFO","FORMAT"], "type":"int" },
             "SB":{ "vcf_field_class" : ["FORMAT"], "type":"int", "length":4 },
-            "GT": { "vcf_field_class":["FORMAT"], "type":"int", "length":"P" },
+            "GT": { "vcf_field_class":["FORMAT"], "type":"int", "length":"PP" },
             "AD": { "vcf_field_class":["FORMAT"], "type":"int", "length":"R" },
             "PL": { "vcf_field_class":["FORMAT"], "type":"int", "length":"G" }
         }
@@ -65,6 +65,7 @@ The three pieces of information listed above are passed to the import tool throu
             * "R": Number of alleles (including reference allele)
             * "G": Number of possible genotypes
             * "P": Ploidy
+            * "PP" or "Phased_Ploidy": Ploidy with phase information. This is the recommended length descriptor for the GT field.
             * "VAR": The variable length field is terminated by a vector end entry.
             
             **NOTE:** It is important to specify the _length_ field correctly as the decision about which fields need re-ordering based on allele order during query time are determined by the _length_ field. For example, the field "PL" needs to be re-ordered if the allele order changes. The program knows about this because the _length_ field is set to "G".
