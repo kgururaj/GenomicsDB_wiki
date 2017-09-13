@@ -6,7 +6,7 @@ We provide a Java wrapper class called GenomicsDBImporter for importing data int
 # Mode 1: Importing VCF/CSV files
 In this mode, the functionality of the GenomicsDBImporter class is identical to the _vcf2tiledb_ executable described in the previous sections. It provides multiple variants of a function _write()_ that does the actual loading. The parameters for the _write()_ call are the four parameters described above.
 
-Take a look at our [example code](https://github.com/Intel-HLS/GenomicsDB/tree/master/example/java/test_genomicsdb_jar) for using this interface.
+Take a look at our [example code](https://github.com/Intel-HLS/GenomicsDB/blob/master/example/java/TestGenomicsDB.java) for using this interface.
 
 ## Caveats
 For portability reasons, the native library packaged into the GenomicsDB JAR file distributed on Maven Central is built **WITHOUT** MPI and OpenMP support. Hence, when using the GenomicsDB JAR from Maven Central:
