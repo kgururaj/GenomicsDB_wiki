@@ -28,18 +28,20 @@
 * Dependencies from TileDB
     * Zlib headers and libraries
     * OpenSSL headers and libraries
+    * libuuid headers and libraries
     * Example installation commands:
         * On CentOS/RedHat systems:
 
-                sudo yum -y install openssl-devel zlib-devel
+                sudo yum -y install openssl-devel zlib-devel libuuid-devel
 
         * On Ubuntu systems:
 
-                sudo apt-get install zlib1g-dev libssl-dev
+                sudo apt-get install zlib1g-dev libssl-dev uuid-dev
 
         * On MacOSX, you can use [Homebrew](http://brew.sh/) to obtain the OpenSSL library.
 
                 brew install openssl
+                brew install ossp-uuid
 
 *  C++ compiler: A C++ 2011 compiler.
     * gcc version >= 4.8. We have been testing with gcc-4.9.1.
