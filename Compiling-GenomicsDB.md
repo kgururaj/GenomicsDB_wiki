@@ -10,7 +10,7 @@
     * GNU/Linux:
         * CentOS 6 and 7 (almost identical to RHEL 6 and 7). Most of our heavy testing is performed on CentOS-7 systems.
         * Ubuntu Trusty (14.04)
-    * The latest changes have not yet been tested on MacOSX
+    * MacOSX - SDK version 10.9
 * [CMake](https://cmake.org/) build system - version \> 2.8
     * Example installation commands:
         * On CentOS/RedHat systems:
