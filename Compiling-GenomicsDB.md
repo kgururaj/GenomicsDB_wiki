@@ -65,7 +65,7 @@
         git clone https://github.com/google/protobuf
         cd protobuf
         git checkout 3.0.x        
-        autogen.sh
+        sh autogen.sh
         ./configure --prefix=/path/to/local/installation --with-pic
         make -j4
         make install
