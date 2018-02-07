@@ -62,8 +62,9 @@
 
 * [Google Protocol Buffer](https://github.com/google/protobuf) Google protocol buffer is a mandatory pre-requisite version 0.4.0 onward. We use protocol buffers to exchange configuration parameters, headers and callset/sample id to TileDB row index between Java and C++. Note that Ubuntu-14.04 LTS as well as CentOS 6 and 7 releases use protobuf version 2.5.0. However, we specifically depend on protobuf version 3.0.2. We recommend to build it locally and link it using appropriate environment variables and not overwrite existing system protobuf version. To build protobuf from source:
 
-        git clone https://github.com/google/protobuf/tree/3.0.x
+        git clone https://github.com/google/protobuf
         cd protobuf
+        git checkout 3.0.x        
         autogen.sh
         ./configure --prefix=/path/to/local/installation --with-pic
         make -j4
