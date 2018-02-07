@@ -69,6 +69,10 @@
         ./configure --prefix=/path/to/local/installation --with-pic
         make -j4
         make install
+
+On MacOSX:
+
+        brew install protobuf
    
 * *NOTE*: We use git submodules to pull in the remaining mandatory dependencies - you can skip directly to the 
 [[optional pre-requisites|Compiling-GenomicsDB#optional-pre-requisites]] section if you do not wish to manually fetch 
