@@ -72,7 +72,7 @@
 
 On MacOSX:
 
-        brew install protobuf
+        brew install protobuf@3.1
    
 * *NOTE*: We use git submodules to pull in the remaining mandatory dependencies - you can skip directly to the 
 [[optional pre-requisites|Compiling-GenomicsDB#optional-pre-requisites]] section if you do not wish to manually fetch 
