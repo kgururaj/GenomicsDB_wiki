@@ -212,7 +212,7 @@ _\<libcsv_directory\>/lib_  (the default location in the build process of libcsv
 * On a MacOSX system, assuming you installed the pre-requisites using Homebrew under /usr/local/opt, the following command can be used:
 
         #release mode - O3, NDEBUG - assertions disabled
-        cmake <source_dir> -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=<install_dir> \
+        cmake <source_dir> -DCMAKE_FIND_FRAMEWORK=LAST -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=<install_dir> \
           -DMPI_CC_COMPILER=/usr/local/opt/mpich/bin/mpicc -DMPI_CXX_COMPILER=/usr/local/opt/mpich/bin/mpicxx \
           -DOPENSSL_PREFIX_DIR=/usr/local/opt/openssl
 
