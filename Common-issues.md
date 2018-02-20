@@ -48,15 +48,14 @@ tools such as _json_verify_ before invoking GenomicsDB tools.
     Aborted
     ```
 
-    The error occurs if alleles at the same position spans across multiple lines, for example
+    The error occurs if alleles at the same position span across multiple lines, for example
 
 
         chrX	114112	.	TCT	T	999	PASS	.	GT:DP:GQ:MIN_DP:PL	0/0:0:0:0:0,0,0
         chrX	114112	.	TCT	TTT	999	PASS	.	GT:DP:GQ:MIN_DP:PL	0/0:0:0:0:0,0,0
 
 
-    The fix is to run bcftools norm as described [here](https://github.com/Intel-HLS/GenomicsDB/wiki/Useful-external-
-    tools#useful-bcftools-commands) which will merge the alleles as
+    The fix is to run bcftools norm as described [here](https://github.com/Intel-HLS/GenomicsDB/wiki/Useful-external-tools#useful-bcftools-commands) which will merge the alleles as
 
 
         chrX	114112	.	TCT	T,TTT	999	PASS	.	GT:DP:GQ:MIN_DP:PL	0/2:0:0:0:0,0,0,0,0,0
