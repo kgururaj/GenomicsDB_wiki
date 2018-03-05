@@ -13,8 +13,18 @@ The options can be specified in the [[loader JSON file|Importing-VCF-data-into-G
 on stdout.
 * _vcf_output_format_ (type:string, optional, default _\<empty\>_): Output format can be one of the following strings: "z[0-9]" (compressed VCF),"b[0-9]" (compressed BCF) or "bu" (uncompressed BCF). If nothing is specified, the default is uncompressed VCF.
 * _produce_GT_field_ (type: boolean, optional, default _false_): The _GT_ field in the combined VCF records is set to missing to match the output produced by GATK CombineGVCF. By setting _produce_GT_field_ to _true_, the _GT_ field will be retrieved from TileDB/GenomicsDB.
+* _produce_GT_with_min_PL_value_for_spanning_deletions_ (type: boolean, optional, default _false_): This flag is applicable only when _produce_GT_field_ is true and only for [spanning deletions](https://software.broadinstitute.org/gatk/documentation/article.php?id=6926). By default (or when this flag is set to false), the _GT_ field for spanning deletions in the combined VCF records corresponds to the value stored in TileDB/GenomicsDB for the deletion. The allele indexes may get reassigned since the number of alleles in the spanning deletion may be reduced. For example:
+
+                POS	REF	ALT	GT
+      Original: 1000	ATGC	TTGC,A,<NON_REF>	0/2
+      Spanning: 1001	T	*,<NON_REF>	0/1  #gets changed to 0/1 since number of alleles is reduced
+
+  However, when this flag is set to true, the value of the GT field for spanning deletions corresponds to the genotype with the smallest likelihood value (_PL_ field). Thus, the _GT_ value in the spanning deletion could become 1/1.
+
+  See the discussion in https://github.com/Intel-HLS/GenomicsDB/issues/161 for a detailed example, especially the comments by @ldgauthier.
 * _index_output_VCF_ (type: boolean, optional, default _false_): If a compressed combined VCF file is being created (see _vcf_output_filename_ and _vcf_output_format_), setting this parameter to _true_ will create an index for the output file - tabix for compressed VCFs and csi for compressed BCFs.
 * _produce_FILTER_field_ (type: boolean, optional, default _false_): The _FILTER_ field in the combined VCF records is set to missing to match the output produced by GATK CombineGVCF. By including the FILTER field in the list of queried attributes (or setting _scan_full_ to true) and setting _produce_FILTER_field_ to _true_, the _FILTER_ field will be retrieved from TileDB/GenomicsDB.
+* _sites_only_query_ (type: boolean, optional, default _false_): When set to true, GenomicsDB will NOT produce any FORMAT fields in the resulting VCF records (no samples).
 
 Performance tuning options:
 * _combined_vcf_records_buffer_size_limit_ (type: integer, optional, default 1048576): This parameter determines the size of the memory buffer (in bytes) to hold the combined VCF records in the following scenarios:
