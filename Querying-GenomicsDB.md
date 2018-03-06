@@ -169,6 +169,8 @@ for using this interface.
 
 Since the Java interface of GenomicsDB exports combined VCF records (VariantContext objects), the options described in [[this wiki page|Combined-VCF-options]] can be specified in the query JSON file.
 
+Since commit [f3dc0f6ef](https://github.com/Intel-HLS/GenomicsDB/commit/f3dc0f6efdc83e84fde99149b43c37f8c350f092), the GenomicsDBFeatureReader can accept as input a Protobuf object corresponding to the query parameters. See the [protobuf configuration file](https://github.com/Intel-HLS/GenomicsDB/blob/master/src/resources/genomicsdb_export_config.proto) for the list of options.
+
 ## Using Apache(TM) Spark for multi-node querying
 In addition to MPI, GenomicsDB includes a Spark interface for parallel queries. Spark is a generalized in-memory distributed map-reduce runtime developed by University of California, Berkeley. Various distributions of Spark are available from Apache, Cloudera(R), Hortonworks(R) and Databricks. We have tested GenomicsDB with the Apache distribution. The idea is that users will be able to run libraries such as Spark SQL, MLLib, Spark.ML or other Spark-based genomics tools such as GATK (4.0) Hellbender to analyze variants from GenomicsDB. For more detailed information on Spark please visit the [Apache Spark homepage](spark.apache.org).
 
