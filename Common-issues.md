@@ -5,7 +5,7 @@ tools such as _json_verify_ before invoking GenomicsDB tools.
 
             cat <json_file> | json_verify
 
-1. You cannot move/copy the TileDB workspace/array directory arbitrarily after loading. If you do copy/move files to a different machine, ensure that the absolute path of the workspace/array directory is the same as that on the machine on which data is loaded/imported.
+1. If you are using GenomicsDB version < 0.8.0, you cannot move/copy the TileDB workspace/array directory arbitrarily after loading. If you do copy/move files to a different machine, ensure that the absolute path of the workspace/array directory is the same as that on the machine on which data is loaded/imported. This limitation is removed in version 0.8.0.
 1. I have prepared my JSON files correctly, yet I get an exception with the following message:
 
         Could not open vid mapping file "~/<directory>/vid_mapping_file.json OR
