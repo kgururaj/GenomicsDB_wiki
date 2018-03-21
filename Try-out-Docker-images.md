@@ -34,7 +34,7 @@ We explain with an example. On the host machine, the working directory looks lik
 ├── vid_GT_only_Homo_sapiens_assembly19.json
 ```
 
-We are going to import all the VCFs in the directory vcfs/ into a GenomicsDB partition. Note that 
+We are going to import all the VCFs in the directory _vcfs/_ into a GenomicsDB partition. Note that 
 the VCFs must be block compressed and indexed.
 
 The import command:
@@ -56,7 +56,7 @@ docker run -v $PWD:/data \
   -o /data/workspace
 ```
 
-The command imports the data in the VCF files into a GenomicsDB array called TEST0 in the directory 
+The command imports the data in the VCF files into a GenomicsDB array called _TEST0_ in the directory 
 called workspace in the working directory. _vcf_importer_ is a script that reads the VCF headers, 
 creates the callsets json file and invokes the _vcf2tiledb_ executable to import the data into 
 GenomicsDB. Arguments to the script:
@@ -65,13 +65,13 @@ GenomicsDB. Arguments to the script:
 * -i: directory containing the block compressed and indexed VCF files you wish to import
 * --range: contig range for which you wish to import data
 * -C: path to callsets.json. If this is a directory, a _callsets.json_ will be created in this 
-* directory (from the VCF headers).  If this is a file, then the file will be treated as an input 
+directory (from the VCF headers).  If this is a file, then the file will be treated as an input 
 _callsets.json_ file for the import process.
-* -o: directory in which the GenomicsDB array named TEST0 will be created. This directory must exist 
+* -o: directory in which the GenomicsDB array named _TEST0_ will be created. This directory must exist 
 before the import command is invoked (hence, the mkdir command above).
 
 ## Querying the data
-The one extra input to the query command is a file containing the intervals/positions to be quried.  
+The one extra input to the query command is a file containing the intervals/positions to be queried.  
 Here is an example:
 ```
 cat test_query.json
@@ -115,11 +115,10 @@ using the inputs provided. Arguments:
 * -R: path to reference genome
 * -C: path to _callsets.json_. This could be produced by the import command (above) or user defined.
 * -V: path to vid JSON file.
-* -o: path to workspace containing the TEST0 GenomicsDB array
+* -o: path to workspace containing the _TEST0_ GenomicsDB array
 * --positions: path to file containing list of query positions/intervals described above.
 * --print-AC: print allele counts
-* --print-calls: print _VariantCalls_ in the format described [ here | 
-Querying-GenomicsDB#query-result-format ]
+* --print-calls: print _VariantCalls_ in the format described [[ here|Querying-GenomicsDB#query-result-format ]]
 
 ## Common errors
 * Paths to all files/directories must be valid inside the Docker container - ensure that your 
