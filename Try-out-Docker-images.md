@@ -121,7 +121,7 @@ using the inputs provided. Arguments:
 * --print-calls: print _VariantCalls_ in the format described [[ here|Querying-GenomicsDB#query-result-format ]]
 
 ## Notes
-* The data used in the example is in the import container under /test_data (except for the reference genome which is big).
+* The data used in the example is in the import container under _/test_data_ (except for the reference genome which is big).
 * Paths to all files/directories must be valid inside the Docker container - ensure that your 
 volumes are 'mounted' at the correct location.
 * IMPORT_TAG and QUERY_TAG are different.
