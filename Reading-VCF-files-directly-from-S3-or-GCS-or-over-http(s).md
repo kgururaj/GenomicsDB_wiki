@@ -11,6 +11,7 @@ GenomicsDB uses [htslib](https://github.com/samtools/htslib) to read VCF files. 
 
         s3://bucket/file.vcf.gz
         gs://bucket/file.vcf.gz
+   Note: the VCF index file should be at the same place as the VCF file (s3://bucket/file.vcf.gz.tbi in the above example).
 * Credentials: the credentials for accessing restricted data must be available on the host/VM running the import process. There are multiple options for specifying the authentication information.
   * AWS/S3 (in decreasing order of priority)
     * Environment variables
