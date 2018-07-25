@@ -2,7 +2,7 @@
 [TileDB](https://people.csail.mit.edu/stavrosp/papers/vldb2017/VLDB17_TileDB.pdf) is a system for efficiently storing, querying and accessing sparse 
 matrix/array data. TileDB is developed by researchers at the [Intel Science and Technology Center for Big Data](http://istc-bigdata.org/#&panel1-1).
 
-GenomicsDB is built on top of the TileDB system. Variant data is sparse by nature (sparse relative to the whole genome) and hence TileDB is a perfect fit for storing such data.
+GenomicsDB is a C++ library built on top of the TileDB system for importing, querying and transforming variant data. Variant data is sparse by nature (sparse relative to the whole genome) and hence TileDB is a perfect fit for storing such data.
 
 Note: TileDB started as an ISTC project but is now being developed by [TileDB Inc](https://tiledb.io/press-oct-19-2017). There are two repositories of TileDB - the [original hosted in Github](https://github.com/Intel-HLS/TileDB) under the Intel organization and the [fork maintained by TileDB Inc](https://github.com/TileDB-Inc/TileDB). GenomicsDB builds on top of the original Intel repository and is not compatible with TileDB Inc's fork - we would eventually like to support the fork as well (5/3/2018).
 
