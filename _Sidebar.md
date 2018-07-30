@@ -20,6 +20,7 @@
     * [[Combined gVCF Java interface|Querying-GenomicsDB#javajni-interface]]
     * [[Combined gVCF Spark interface|Querying-GenomicsDB#using-sparktm-for-multi-node-querying]]
     * [[Combined gVCF options|Combined-VCF-options]]
+* **[[URI support in GenomicsDB|Cloud-URI-support-in-GenomicsDB]]**
 * **[[MPI with GenomicsDB|MPI-with-GenomicsDB]]**
 * **[[GenomicsDB utilities|GenomicsDB-utilities]]**
     * [[Useful external tools|Useful-external-tools]]
