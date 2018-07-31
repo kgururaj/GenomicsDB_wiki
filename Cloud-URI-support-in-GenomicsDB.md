@@ -1,4 +1,4 @@
-There are two levels of Cloud URI support in GenomicsDB. Using URIs to read in VCF files is covered [here](Reading-VCF-files-directly-from-S3-or-GCS-or-over-http(s).md). 
+There are two levels of Cloud URI support in GenomicsDB. Using URIs to read in VCF files is covered [[here|Reading-VCF-files-directly-from-S3-or-GCS-or-over-http(s)]]. 
 
 Cloud URIs can also be specified to all tools and GenomicsDB classes```(com.intel.genomicsdb.importer.GenomicsDBImporter and com.intel.genomicsdb.reader.GemomicsDBFeatureReader)```  that create workspaces, load data into arrays and query the arrays from the workspaces via the loader and query json files. The following schemes are currently supported -
 
